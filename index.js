@@ -797,7 +797,7 @@ bot.on("messageCreate", (msg) => {
                                 msg.channel.id,
                                 {
                                     embed: {
-                                        description: "`"+spc+"procfile <file> <status>`\nDeveloper Command Only",
+                                        description: "`"+spc+"procfile <file> <serverid> <status>`\nDeveloper Command Only",
                                         author: {
                                             name: msg.author.username+"#"+msg.author.discriminator,
                                             icon_url: msg.author.avatarURL
