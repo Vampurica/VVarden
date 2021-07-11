@@ -934,7 +934,9 @@ bot.on("messageCreate", (msg) => {
                 break;
             case spc+"test":
                 if (msg.author.id == dev) {
-                    logMaster(badservers["756265782110846976"]);
+                    let reason = hay;
+                    reason.splice(0, 3); // !upstatus 000000 bot bot
+                    logMaster(reason.join(" "));
                 }
                 break;
             case spc+"status":
@@ -1428,6 +1430,7 @@ bot.on("messageCreate", (msg) => {
                         }
                     );
                 }
+                break;
             case spc+"adduser":
                 if (admin.includes(msg.author.id)) {
                     if (hay.length >= 8) {
