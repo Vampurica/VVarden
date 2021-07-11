@@ -195,7 +195,8 @@ function addUserToDB(userID, avatar, status, usertype, lastuser, server, roles, 
                 // No real need to update it. Maybe update roles?
             } else {
                 // New Server
-                pool.query('UPDATE users (last_username, servers, roles) VALUES('+pool.escape(lastuser)+','+pool.escape(spServers.join(';'))+','+pool.escape(newRoles)+') WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
+                spServers.push(server);
+                pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
                     if (err) throw err;
                 });
                 return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
@@ -231,7 +232,7 @@ function updateUserStatus(userID, newStatus, newReason, callback) {
             return callback(":x: User not found in database");
         } else {
             // Existing User
-            pool.query('UPDATE users SET status = '+pool.escape(newStatus)+', reason = '+pool.escape(newReason)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
+            pool.query('UPDATE users SET status='+pool.escape(newStatus)+', reason='+pool.escape(newReason)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
                 if (err) throw err;
             });
             return callback("Updated "+oldUser.last_username+" <@"+userID+"> to status `"+newStatus+"` and `"+newReason+"`");
