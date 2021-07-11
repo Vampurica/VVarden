@@ -222,7 +222,7 @@ function addUserToDBMan(userID, status, usertype, lastuser, server, roles, filte
     });
 }
 
-function updateUserStatus(userID, newStatus, newReason, callback) {
+function updateUserStatus(userID, newStatus, newType, newReason, callback) {
     // Update the status of a user in the database
 
     // First check the database for the user
@@ -232,10 +232,10 @@ function updateUserStatus(userID, newStatus, newReason, callback) {
             return callback(":x: User not found in database");
         } else {
             // Existing User
-            pool.query('UPDATE users SET status='+pool.escape(newStatus)+', reason='+pool.escape(newReason)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
+            pool.query('UPDATE users SET status='+pool.escape(newStatus)+', user_type='+pool.escape(newType)+', reason='+pool.escape(newReason)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
                 if (err) throw err;
             });
-            return callback("Updated "+oldUser.last_username+" <@"+userID+"> to status `"+newStatus+"` and `"+newReason+"`");
+            return callback("Updated "+oldUser.last_username+" <@"+userID+"> to status `"+newStatus+"`, type `"+newType+"` and `"+newReason+"`");
         }
     });
 }
@@ -708,7 +708,7 @@ bot.on("messageCreate", (msg) => {
                                 msg.channel.id,
                                 {
                                     embed: {
-                                        description: "`"+spc+"upstatus <USERID OR MENTION> <NEW STATUS>`\nChanges the status of a user in the database.\n**Admin Command Only**",
+                                        description: "`"+spc+"upstatus <USERID OR MENTION> <NEW STATUS> <USER TYPE> <NEW REASON>`\nChanges the status of a user in the database.\n**Admin Command Only**",
                                         author: {
                                             name: msg.author.username+"#"+msg.author.discriminator,
                                             icon_url: msg.author.avatarURL
@@ -880,7 +880,7 @@ bot.on("messageCreate", (msg) => {
                                     inline: false
                                 },
                                 {
-                                    name: spc+"upstatus <userid or mention> <new status>", // Field
+                                    name: spc+"upstatus <userid or mention> <new status> <user type> <new reason>", // Field
                                     value: "Updates a user status in the database\n**Developer Only**",
                                     inline: false // Whether you want multiple fields in same line
                                 },
@@ -1363,9 +1363,11 @@ bot.on("messageCreate", (msg) => {
                                 // Mention
                                 userID = stripID(userID);
                             }
+                            let status = hay[2];
+                            let usertype = hay[3];
                             let reason = hay;
-                            reason.splice(0, 2);
-                            updateUserStatus(userID, hay[2], reason, function (ret) {
+                            let _ = reason.splice(0, 4); // !upstatus 000000 bot bot
+                            updateUserStatus(userID, status, usertype, reason.join(" "), function (ret) {
                                 bot.createMessage(
                                     msg.channel.id,
                                     {
