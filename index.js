@@ -35,7 +35,7 @@ const logger = winston.createLogger({
 
 // DEFINITIONS AND VARIABLES
 global.spc = config.specialChar;
-global.admin = config.admin.push("282199104996507650");
+global.admin = config.admin;
 global.dev = "282199104996507650";
 
 // UTIL FUNCTIONS
