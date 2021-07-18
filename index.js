@@ -1555,6 +1555,127 @@ bot.on("messageCreate", (msg) => {
                     );
                 }
                 break;
+            case spc+"cua":
+                if (admin.includes(msg.author.id)) {
+                    if (hay[1].charAt(1) != "#" && hay[1].charAt(2) != "&") { // Prevent Channel and Role Mentions
+                        let userID = hay[1];
+                        if (userID.charAt(0) == "<" && userID.charAt(userID.length-1) == ">") {
+                            // Mention
+                            userID = stripID(userID);
+                        }
+                        getUserFromDB(userID, function (userInfo) {
+                            if (userInfo == "nores") {
+                                // Not In Database
+                                bot.createMessage(
+                                    msg.channel.id,
+                                    {
+                                        embed: {
+                                            description: ":white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.",
+                                            /*author: {
+                                                name: msg.author.username+"#"+msg.author.discriminator,
+                                                icon_url: msg.author.avatarURL
+                                            },*/
+                                            color: 0x808000,
+                                        }
+                                    }
+                                );
+                            } else {
+                                //if (userInfo.status != "whitelisted" && userInfo.status != "bot") {
+                                    let roles = userInfo.roles.split(";").join(",\n");
+                                    if (roles == "") {
+                                        roles = "None";
+                                    }
+                                    let sids = userInfo.servers.split(";");
+                                    let servers = [];
+                                    sids.forEach(element => {
+                                        if (badservers[element] != null) {
+                                            servers.push(badservers[element]);
+                                        } else {
+                                            servers.push(element);
+                                        }
+                                    });
+                                    // In Database, Show Info
+                                    bot.createMessage(
+                                        msg.channel.id,
+                                        {
+                                            embed: {
+                                                title: ":x: User In Database",
+                                                description: "<@"+userInfo.userid+"> has been in "+userInfo.servers.split(";").length+" bad Discord servers.",
+                                                author: {
+                                                    name: userInfo.last_username,
+                                                    icon_url: userInfo.avatar
+                                                },
+                                                thumbnail: { url: userInfo.avatar },
+                                                color: 0x800000,
+                                                fields: [ // Array of field objects
+                                                    {
+                                                        name: "User Information", // Field
+                                                        value: "**ID**: "+userInfo.userid+" / **Name**: "+userInfo.last_username+"",
+                                                        inline: false // Whether you want multiple fields in same line
+                                                    },
+                                                    {
+                                                        name: "Known Discord Roles",
+                                                        value: roles.substring(0, 1024),
+                                                        inline: false
+                                                    },
+                                                    {
+                                                        name: "Known Servers",
+                                                        value: servers.join(",\n").substring(0, 1024),
+                                                        inline: false
+                                                    },
+                                                    {
+                                                        name: "Blacklist Reason",
+                                                        value: "**User Type**: "+userInfo.user_type+"\n**Details**: "+userInfo.reason,
+                                                        inline: false
+                                                    },
+                                                    {
+                                                        name: "Added Type: "+userInfo.filter_type,
+                                                        value: "**Date Added**: "+userInfo.added_date,
+                                                        inline: false
+                                                    },
+                                                ],
+                                                footer: { // Footer text
+                                                    text: "VVarden by Vampire#8144"
+                                                }
+                                            }
+                                        }
+                                    );
+                                //}
+                            }
+                        });
+                    } else {
+                        // Show Help
+                        bot.createMessage(
+                            msg.channel.id,
+                            {
+                                embed: {
+                                    description: ":x: Error with command.\nPlease use a valid User ID or Mention.\n`"+spc+"checkuser <userid>`",
+                                    author: {
+                                        name: msg.author.username+"#"+msg.author.discriminator,
+                                        icon_url: msg.author.avatarURL
+                                    },
+                                    color: 0x800000,
+                                }
+                            }
+                        );
+                    }
+                } else {
+                    logMaster(":x: User tried Admin Command\n"+msg.author.id+" <@"+msg.author.id+"> tried to use an admin command in "+msg.guildID+"")
+                    bot.createMessage(
+                        msg.channel.id,
+                        {
+                            embed: {
+                                description: ":x: Admin Command Only\nContinued abuse will result in punishment.",
+                                author: {
+                                    name: msg.author.username+"#"+msg.author.discriminator,
+                                    icon_url: msg.author.avatarURL
+                                },
+                                color: 0x800000,
+                            }
+                        }
+                    );
+                }
+                break;
             case spc+"checkuser":
                 if (hay[1].charAt(1) != "#" && hay[1].charAt(2) != "&") { // Prevent Channel and Role Mentions
                     let userID = hay[1];
