@@ -617,7 +617,7 @@ bot.on("guildMemberAdd", (guild, member) => {
                                             embed: {
                                                 description: ":warning: User <@"+member.id+"> joined and has been in "+oldUser.servers.split(";").length+" leaking discords!",
                                                 author: {
-                                                    name: member.username+"#"+member.discriminator,
+                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
                                                     icon_url: member.avatarURL
                                                 },
                                                 color: 0x800000,
@@ -707,7 +707,7 @@ bot.on("guildMemberAdd", (guild, member) => {
                                             embed: {
                                                 description: ":warning: User <@"+member.id+"> joined and has been in "+oldUser.servers.split(";").length+" cheating discords!",
                                                 author: {
-                                                    name: member.username+"#"+member.discriminator,
+                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
                                                     icon_url: member.avatarURL
                                                 },
                                                 color: 0x800000,
@@ -1370,7 +1370,7 @@ bot.on("messageCreate", (msg) => {
                                                                     embed: {
                                                                         description: ":warning: User <@"+member.id+"> has been in "+oldUser.servers.split(";").length+" leaking discords!",
                                                                         author: {
-                                                                            name: member.username+"#"+member.discriminator,
+                                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
                                                                             icon_url: member.avatarURL
                                                                         },
                                                                         color: 0x800000,
@@ -1460,7 +1460,7 @@ bot.on("messageCreate", (msg) => {
                                                                     embed: {
                                                                         description: ":warning: User <@"+member.id+"> has been in "+oldUser.servers.split(";").length+" cheating discords!",
                                                                         author: {
-                                                                            name: member.username+"#"+member.discriminator,
+                                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
                                                                             icon_url: member.avatarURL
                                                                         },
                                                                         color: 0x800000,
