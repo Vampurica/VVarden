@@ -226,16 +226,16 @@ function addUserToDB(userID, avatar, status, usertype, lastuser, server, roles, 
     });
 }
 
-function addUserToDBMan(userID, status, usertype, lastuser, server, roles, filtertype, callback) {
+function addUserToDBMan(userID, status, usertype, server, reason, callback) {
     // Function for an admin to manually add a user to the database
 
     getUserFromDB(userID, function (oldUser) {
         if (oldUser == "nores") {
             // User Does not exist, so add user
-            pool.query('INSERT INTO users (userid, status, user_type, last_username, servers, roles, added_date) VALUES('+pool.escape(userID)+','+pool.escape(status)+','+pool.escape(usertype)+','+pool.escape(lastuser)+','+pool.escape(server)+','+pool.escape(roles)+',"'+(new Date())+'")', function(err, results, fields) {
+            pool.query('INSERT INTO users (userid, status, user_type, servers, reason, filter_type, added_date) VALUES('+pool.escape(userID)+','+pool.escape(status)+','+pool.escape(usertype)+','+pool.escape(server)+','+pool.escape(reason)+','+pool.escape("Manual")+',"'+(new Date())+'")', function(err, results, fields) {
                 if (err) throw err;
             });
-            return callback("Added "+lastuser+" <@"+userID+"> to database as "+status+"");
+            return callback("Added <@"+userID+"> / "+userID+" to database as "+status+"");
         } else {
             // User Already in Database
             return callback(":x: User is already in database.\nChange status if necessary using "+spc+"upstatus");
@@ -748,7 +748,7 @@ bot.on("messageCreate", (msg) => {
                                 msg.channel.id,
                                 {
                                     embed: {
-                                        description: "`"+spc+"adduser <USERID OR MENTION> <Status> <UserType> <USER#0000> <KnownServer> <KnownRoles> <ShortReason>`\nAdds a user to the database.\n**Admin Command Only**",
+                                        description: "`"+spc+"adduser <USERID OR MENTION> <Status> <UserType> <KnownServer> <ShortReason>`\nAdds a user to the database.\n**Bot Admin Command Only**",
                                         author: {
                                             name: msg.author.username+"#"+msg.author.discriminator,
                                             icon_url: msg.author.avatarURL
@@ -910,8 +910,8 @@ bot.on("messageCreate", (msg) => {
                                     inline: false // Whether you want multiple fields in same line
                                 },
                                 {
-                                    name: spc+"adduser <USERID OR MENTION> <Status> <UserType> <USER#0000> <KnownServer> <KnownRoles> <ShortReason>", // Field
-                                    value: "Manually adds a user to the database\n**Developer Only**",
+                                    name: spc+"adduser <USERID OR MENTION> <Status> <UserType> <KnownServer> <ShortReason>", // Field
+                                    value: "Manually adds a user to the database\n**Bot Admin Only**",
                                     inline: false // Whether you want multiple fields in same line
                                 },
                                 {
@@ -1462,20 +1462,19 @@ bot.on("messageCreate", (msg) => {
                 break;
             case spc+"adduser":
                 if (admin.includes(msg.author.id)) {
-                    if (hay.length >= 8) {
+                    if (hay.length >= 5) {
                         if (hay[1].charAt(1) != "#" && hay[1].charAt(2) != "&") { // Prevent Channel and Role Mentions
                             let userID = hay[1];
                             let status = hay[2];
                             let usertype = hay[3];
-                            let lastuser = hay[4];
-                            let server = hay[5];
-                            let roles = hay[6];
-                            let filtertype = hay[7];
+                            let server = hay[4];
+                            let reason = hay;
+                            reason.splice(0,5);
                             if (userID.charAt(0) == "<" && userID.charAt(userID.length-1) == ">") {
                                 // Mention
                                 userID = stripID(userID);
                             }
-                            addUserToDBMan(userID, status, usertype, lastuser, server, roles, filtertype, function (ret) {
+                            addUserToDBMan(userID, status, usertype, server, reason.join(" "), function (ret) {
                                 bot.createMessage(
                                     msg.channel.id,
                                     {
