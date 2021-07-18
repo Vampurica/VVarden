@@ -1260,6 +1260,10 @@ bot.on("messageCreate", (msg) => {
                             );
                         } else {
                             if (userInfo.status != "whitelisted" && userInfo.status != "bot") {
+                                let roles = userInfo.roles.split(";").join(",\n");
+                                if (roles == "") {
+                                    roles = "None";
+                                }
                                 // In Database, Show Info
                                 bot.createMessage(
                                     msg.channel.id,
@@ -1281,7 +1285,7 @@ bot.on("messageCreate", (msg) => {
                                                 },
                                                 {
                                                     name: "Known Discord Roles",
-                                                    value: userInfo.roles.split(";").join(",\n"),
+                                                    value: roles.substring(0, 1024),
                                                     inline: false
                                                 },
                                                 {
