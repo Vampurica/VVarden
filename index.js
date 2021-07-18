@@ -908,7 +908,7 @@ bot.on("messageCreate", (msg) => {
                                 msg.channel.id,
                                 {
                                     embed: {
-                                        description: "`"+spc+"upstatus <USERID OR MENTION> <NEW STATUS> <USER TYPE> <NEW REASON>`\nChanges the status of a user in the database.\n**Admin Command Only**",
+                                        description: "`"+spc+"upstatus <USERID OR MENTION> <NEW STATUS> <USER TYPE> <NEW REASON>`\nChanges the status of a user in the database.\n**Bot Admin Command Only**",
                                         author: {
                                             name: msg.author.username+"#"+msg.author.discriminator,
                                             icon_url: msg.author.avatarURL
@@ -1046,7 +1046,7 @@ bot.on("messageCreate", (msg) => {
                                 },
                                 {
                                     name: spc+"config <option> <true/false>", // Field
-                                    value: "Allows a Discord Server Admin to configure bot options.\n**Admin Only**",
+                                    value: "Allows a Discord Server Admin to configure bot options.\n**Discord Admin Only**",
                                     inline: false // Whether you want multiple fields in same line
                                 },
                                 {
@@ -1056,7 +1056,7 @@ bot.on("messageCreate", (msg) => {
                                 },
                                 {
                                     name: spc+"scanusers", // Field
-                                    value: "Scans and automods all your members\n**Admin Only**",
+                                    value: "Scans and automods all your members\n**Discord Admin Only**",
                                     inline: false // Whether you want multiple fields in same line
                                 },
                                 {
@@ -1081,7 +1081,7 @@ bot.on("messageCreate", (msg) => {
                                 },
                                 {
                                     name: spc+"upstatus <userid or mention> <new status> <user type> <new reason>", // Field
-                                    value: "Updates a user status in the database\n**Developer Only**",
+                                    value: "Updates a user status in the database\n**Bot Admin Only**",
                                     inline: false // Whether you want multiple fields in same line
                                 },
                                 {
@@ -1368,7 +1368,7 @@ bot.on("messageCreate", (msg) => {
                                                                 guildInfo.logchan,
                                                                 {
                                                                     embed: {
-                                                                        description: ":warning: User <@"+member.id+"> has been in "+oldUser.servers.split(";").length+" leaking discords!",
+                                                                        description: ":warning: User <@"+member.id+"> joined and has been in "+oldUser.servers.split(";").length+" leaking discords!",
                                                                         author: {
                                                                             name: member.username+"#"+member.discriminator+" / "+member.id,
                                                                             icon_url: member.avatarURL
@@ -1458,7 +1458,7 @@ bot.on("messageCreate", (msg) => {
                                                                 guildInfo.logchan,
                                                                 {
                                                                     embed: {
-                                                                        description: ":warning: User <@"+member.id+"> has been in "+oldUser.servers.split(";").length+" cheating discords!",
+                                                                        description: ":warning: User <@"+member.id+"> joined and has been in "+oldUser.servers.split(";").length+" cheating discords!",
                                                                         author: {
                                                                             name: member.username+"#"+member.discriminator+" / "+member.id,
                                                                             icon_url: member.avatarURL
