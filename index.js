@@ -15,7 +15,8 @@ let pool  = mysql.createPool({
   host            : 'localhost',
   user            : 'root',
   password        : '',
-  database        : 'vvarden'
+  database        : 'vvarden',
+  charset         : "utf8_general_ci"
 });
 
 const logger = winston.createLogger({
