@@ -446,71 +446,151 @@ bot.on("guildMemberAdd", (guild, member) => {
                             case "owner":
                                 if (guildInfo.punown == "kick") {
                                     // Kick
-                                    member.kick("VVarden - Leaking or Cheating Discord Staff");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Owner.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being an Owner or Staff of a leaking or cheating discord.\nThere is no appeal for this."))
+                                        .then(message => {
+                                            member.kick("VVarden - Leaking or Cheating Discord Staff");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Owner.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.kick("VVarden - Leaking or Cheating Discord Staff");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Owner.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 } else {
                                     // Ban
-                                    member.ban(0, "VVarden - Leaking or Cheating Discord Staff");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Owner.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being an Owner or Staff of a leaking or cheating discord.\nThere is no appeal for this."))
+                                        .then(message => {
+                                            member.ban(0, "VVarden - Leaking or Cheating Discord Staff");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Owner.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.ban(0, "VVarden - Leaking or Cheating Discord Staff");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Owner.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 }
                                 break;
                             case "supporter":
                                 if (guildInfo.punsupp == "kick") {
                                     // Kick
-                                    member.kick("VVarden - Leaking or Cheating Discord Supporter");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Supporter.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being a supporter of a leaking or cheating discord, via donation, purchases, or nitro boosting.\nThere is no appeal for this."))
+                                        .then(message => {
+                                            member.kick("VVarden - Leaking or Cheating Discord Supporter");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Supporter.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.kick("VVarden - Leaking or Cheating Discord Supporter");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Supporter.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 } else {
                                     // Ban
-                                    member.ban(0, "VVarden - Leaking or Cheating Discord Supporter");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Supporter.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being a supporter of a leaking or cheating discord, via donation, purchases, or nitro boosting.\nThere is no appeal for this."))
+                                        .then(message => {
+                                            member.ban(0, "VVarden - Leaking or Cheating Discord Supporter");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Supporter.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.ban(0, "VVarden - Leaking or Cheating Discord Supporter");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Supporter.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 }
                                 break;
                             case "leaker":
@@ -531,36 +611,76 @@ bot.on("guildMemberAdd", (guild, member) => {
                                     );
                                 } else if (guildInfo.punleak == "kick") {
                                     // Kick
-                                    member.kick("VVarden - Leaking Discord Member");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking Discord Member.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being a member of a leaking discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                        .then(message => {
+                                            member.kick("VVarden - Leaking Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking Discord Member.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.kick("VVarden - Leaking Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking Discord Member.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 } else {
                                     // Ban
-                                    member.ban(0, "VVarden - Leaking Discord Member");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking Discord Member.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being a member of a leaking discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                        .then(message => {
+                                            member.ban(0, "VVarden - Leaking Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking Discord Member.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.ban(0, "VVarden - Leaking Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking Discord Member.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 }
                                 break;
                             case "cheater":
@@ -581,36 +701,76 @@ bot.on("guildMemberAdd", (guild, member) => {
                                     );
                                 } else if (guildInfo.puncheat == "kick") {
                                     // Kick
-                                    member.kick("VVarden - Cheating Discord Member");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nCheating Discord Member.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being a member of a cheating discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                        .then(message => {
+                                            member.kick("VVarden - Cheating Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nCheating Discord Member.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.kick("VVarden - Cheating Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been kicked.\nCheating Discord Member.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 } else {
                                     // Ban
-                                    member.ban(0, "VVarden - Cheating Discord Member");
-                                    bot.createMessage(
-                                        guildInfo.logchan,
-                                        {
-                                            embed: {
-                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nCheating Discord Member.",
-                                                author: {
-                                                    name: member.username+"#"+member.discriminator,
-                                                    icon_url: member.avatarURL
-                                                },
-                                                color: 0x008000,
-                                            }
-                                        }
-                                    );
+                                    bot.getDMChannel(member.id)
+                                        .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being a member of a cheating discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                        .then(message => {
+                                            member.ban(0, "VVarden - Cheating Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nCheating Discord Member.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        })
+                                        .catch(err => {
+                                            member.ban(0, "VVarden - Cheating Discord Member");
+                                            bot.createMessage(
+                                                guildInfo.logchan,
+                                                {
+                                                    embed: {
+                                                        description: ":shield: User <@"+member.id+"> joined and has been banned.\nCheating Discord Member.\n:warning: Unable to DM user.",
+                                                        author: {
+                                                            name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                            icon_url: member.avatarURL
+                                                        },
+                                                        color: 0x008000,
+                                                    }
+                                                }
+                                            );
+                                        });
                                 }
                                 break;
                             default:
@@ -1039,71 +1199,151 @@ bot.on("messageCreate", (msg) => {
                                                     case "owner":
                                                         if (guildInfo.punown == "kick") {
                                                             // Kick
-                                                            member.kick("VVarden - Leaking or Cheating Discord Staff");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been kicked.\nLeaking or Cheating Discord Owner.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being an Owner or Staff of a leaking or cheating discord.\nThere is no appeal for this."))
+                                                                .then(message => {
+                                                                    member.kick("VVarden - Leaking or Cheating Discord Staff");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Owner.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.kick("VVarden - Leaking or Cheating Discord Staff");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Owner.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         } else {
                                                             // Ban
-                                                            member.ban(0, "VVarden - Leaking or Cheating Discord Staff");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been banned.\nLeaking or Cheating Discord Owner.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being an Owner or Staff of a leaking or cheating discord.\nThere is no appeal for this."))
+                                                                .then(message => {
+                                                                    member.ban(0, "VVarden - Leaking or Cheating Discord Staff");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Owner.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.ban(0, "VVarden - Leaking or Cheating Discord Staff");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Owner.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         }
                                                         break;
                                                     case "supporter":
                                                         if (guildInfo.punsupp == "kick") {
                                                             // Kick
-                                                            member.kick("VVarden - Leaking or Cheating Discord Supporter");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been kicked.\nLeaking or Cheating Discord Supporter.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being a supporter of a leaking or cheating discord, via donation, purchases, or nitro boosting.\nThere is no appeal for this."))
+                                                                .then(message => {
+                                                                    member.kick("VVarden - Leaking or Cheating Discord Supporter");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Supporter.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.kick("VVarden - Leaking or Cheating Discord Supporter");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking or Cheating Discord Supporter.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         } else {
                                                             // Ban
-                                                            member.ban(0, "VVarden - Leaking or Cheating Discord Supporter");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been banned.\nLeaking or Cheating Discord Supporter.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being a supporter of a leaking or cheating discord, via donation, purchases, or nitro boosting.\nThere is no appeal for this."))
+                                                                .then(message => {
+                                                                    member.ban(0, "VVarden - Leaking or Cheating Discord Supporter");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Supporter.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.ban(0, "VVarden - Leaking or Cheating Discord Supporter");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking or Cheating Discord Supporter.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         }
                                                         break;
                                                     case "leaker":
@@ -1124,36 +1364,76 @@ bot.on("messageCreate", (msg) => {
                                                             );
                                                         } else if (guildInfo.punleak == "kick") {
                                                             // Kick
-                                                            member.kick("VVarden - Leaking Discord Member");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been kicked.\nLeaking Discord Member.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being a member of a leaking discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                                                .then(message => {
+                                                                    member.kick("VVarden - Leaking Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking Discord Member.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.kick("VVarden - Leaking Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nLeaking Discord Member.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         } else {
                                                             // Ban
-                                                            member.ban(0, "VVarden - Leaking Discord Member");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been banned.\nLeaking Discord Member.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being a member of a leaking discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                                                .then(message => {
+                                                                    member.ban(0, "VVarden - Leaking Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking Discord Member.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.ban(0, "VVarden - Leaking Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nLeaking Discord Member.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         }
                                                         break;
                                                     case "cheater":
@@ -1174,36 +1454,76 @@ bot.on("messageCreate", (msg) => {
                                                             );
                                                         } else if (guildInfo.puncheat == "kick") {
                                                             // Kick
-                                                            member.kick("VVarden - Cheating Discord Member");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been kicked.\nCheating Discord Member.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been kicked from "+guild.name+" for being a member of a cheating discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                                                .then(message => {
+                                                                    member.kick("VVarden - Cheating Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nCheating Discord Member.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.kick("VVarden - Cheating Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been kicked.\nCheating Discord Member.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         } else {
                                                             // Ban
-                                                            member.ban(0, "VVarden - Cheating Discord Member");
-                                                            bot.createMessage(
-                                                                guildInfo.logchan,
-                                                                {
-                                                                    embed: {
-                                                                        description: ":shield: User <@"+member.id+"> has been banned.\nCheating Discord Member.",
-                                                                        author: {
-                                                                            name: member.username+"#"+member.discriminator,
-                                                                            icon_url: member.avatarURL
-                                                                        },
-                                                                        color: 0x008000,
-                                                                    }
-                                                                }
-                                                            );
+                                                            bot.getDMChannel(member.id)
+                                                                .then(channel => channel.createMessage(":shield: Warden\nYou have been banned from "+guild.name+" for being a member of a cheating discord.\nYou can attempt to appeal this via the official discord:\nhttps://discord.gg/jeFeDRasfs"))
+                                                                .then(message => {
+                                                                    member.ban(0, "VVarden - Cheating Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nCheating Discord Member.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                })
+                                                                .catch(err => {
+                                                                    member.ban(0, "VVarden - Cheating Discord Member");
+                                                                    bot.createMessage(
+                                                                        guildInfo.logchan,
+                                                                        {
+                                                                            embed: {
+                                                                                description: ":shield: User <@"+member.id+"> joined and has been banned.\nCheating Discord Member.\n:warning: Unable to DM user.",
+                                                                                author: {
+                                                                                    name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                                                    icon_url: member.avatarURL
+                                                                                },
+                                                                                color: 0x008000,
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                });
                                                         }
                                                         break;
                                                     default:
