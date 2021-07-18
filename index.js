@@ -214,13 +214,28 @@ function addUserToDB(userID, avatar, status, usertype, lastuser, server, roles, 
             if (spServers.includes(server)) {
                 // Already know they are in that server
                 // No real need to update it. Maybe update roles?
+                if (oldUser.status == "appealed") {
+                    // User WAS appealed, now permblacklisted
+                    pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', status='+pool.escape("permblacklisted")+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
+                        if (err) throw err;
+                    });
+                    return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
+                }
             } else {
                 // New Server
                 spServers.push(server);
-                pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
-                    if (err) throw err;
-                });
-                return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
+                if (oldUser.status == "appealed") {
+                    // User WAS appealed, now permblacklisted
+                    pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+', status='+pool.escape("permblacklisted")+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
+                        if (err) throw err;
+                    });
+                    return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
+                } else {
+                    pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
+                        if (err) throw err;
+                    });
+                    return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
+                }
             }
         }
     });
@@ -441,7 +456,7 @@ bot.on("guildMemberAdd", (guild, member) => {
                         punleak = leaker
                         puncheat = cheater
                     */
-                    if (oldUser.status == "blacklisted") {
+                    if (oldUser.status == "blacklisted" || oldUser.status == "permblacklisted") {
                         switch(oldUser.user_type) {
                             case "owner":
                                 if (guildInfo.punown == "kick") {
@@ -778,7 +793,7 @@ bot.on("guildMemberAdd", (guild, member) => {
                                 break;
                         }
                     } else {
-                        // Should be a bot or whitelisted
+                        // Should be a bot, whitelisted, or appealed
                     }
                 }
             });
@@ -1194,7 +1209,7 @@ bot.on("messageCreate", (msg) => {
                                                 punleak = leaker
                                                 puncheat = cheater
                                             */
-                                            if (oldUser.status == "blacklisted") {
+                                            if (oldUser.status == "blacklisted" || oldUser.status == "permblacklisted") {
                                                 switch(oldUser.user_type) {
                                                     case "owner":
                                                         if (guildInfo.punown == "kick") {
@@ -1531,7 +1546,7 @@ bot.on("messageCreate", (msg) => {
                                                         break;
                                                 }
                                             } else {
-                                                // Should be whitelisted or bot
+                                                // Should be a bot, whitelisted, or appealed
                                             }
                                         }
                                     });
@@ -1700,7 +1715,7 @@ bot.on("messageCreate", (msg) => {
                                 }
                             );
                         } else {
-                            if (userInfo.status != "whitelisted" && userInfo.status != "bot") {
+                            if (userInfo.status != "whitelisted" && userInfo.status != "bot" && userInfo.status != "appealed") {
                                 let roles = userInfo.roles.split(";").join(",\n");
                                 if (roles == "") {
                                     roles = "None";
@@ -1747,7 +1762,7 @@ bot.on("messageCreate", (msg) => {
                                     }
                                 );
                             } else {
-                                // User is Whitelisted, fake it
+                                // User is Whitelisted or appealed, fake it
                                 bot.createMessage(
                                     msg.channel.id,
                                     {
