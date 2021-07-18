@@ -1633,6 +1633,6 @@ bot.on("messageCreate", (msg) => {
 });
 
 // CONNECT AND INTERVALS
-bot.connect();
+bot.connect().catch(err => {});
 
 setInterval(randomStatus, 5000)
