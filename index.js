@@ -146,6 +146,26 @@ function randomStatus() {
     );
 }
 
+function chanLog(chan, author, mess, color) {
+    // Simple Channel Log Wrapper
+
+    bot.createMessage(
+        chan,
+        {
+            embed: {
+                description: mess,
+                author: {
+                    name: author.username+"#"+author.discriminator+" / "+author.id,
+                    icon_url: author.avatarURL
+                },
+                color: color,
+            }
+        }
+    ).catch(err => {
+        logMaster(err);
+    });
+}
+
 function combineRoles(oldRoles, newRoles) {
     // Takes a delimited role string and combines it, removing dupes
     let wipOldArr = oldRoles.split(";");
