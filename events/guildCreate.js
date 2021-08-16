@@ -3,11 +3,11 @@
 let guildCreate = function(guild) {
         // Invited to New Guild
         logMaster("Joined New Guild "+guild.name+" with "+guild.memberCount+" members\nGuild Owner is <@"+guild.ownerID+"> "+guild.ownerID+"");
-        let guildChannel = typeof guild.systemChannelID !== "undefined" ? guild.systemChannelID : "861767445832269844";
+        let guildChannel = guild.systemChannelID !== null ? guild.systemChannelID : "861767445832269844";
         console.log("logchan: "+guildChannel)
         func.addGuildToDB(guild.id, guild.name, guildChannel);
         bot.createMessage(
-            guild.systemChannelID,
+            guildChannel,
             {
                 embed: {
                     title: "Hello "+guild.name+"!",
