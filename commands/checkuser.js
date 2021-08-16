@@ -7,7 +7,7 @@ let checkuser = function() {
 
             if (msg.mentions.length > 0) {
                 // Mentioned user
-                let userID = msg.mentions[0];
+                let userID = msg.mentions[0].id;
                 func.getUserFromDB(userID, function (userInfo) {
                     if (userInfo == "nores") {
                         // Not In Database

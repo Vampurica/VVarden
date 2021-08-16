@@ -5,7 +5,7 @@ let upstatus = function() {
         if (args.length >= 4) {
             if (msg.mentions.length == 1) {
                 // Has a mention, no need to verify userID
-                let userID = msg.mentions[0];
+                let userID = msg.mentions[0].id;
                 let status = args[1];
                 let usertype = args[2];
                 let reason = args;
