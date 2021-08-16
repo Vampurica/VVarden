@@ -92,7 +92,7 @@ let dconfig = function() {
     });
 
     main.registerSubcommand("logchan", (msg, args) => {
-        if (msg.channelMentions.length > 0) {
+        if (msg.channelMentions.length > 0 && typeof msg.channelMentions[0] !== "undefined") {
             // Channel Mention
             func.changeGuildSetting(msg.guildID, "logchan", msg.channelMentions[0], function (ret) {
                 bot.createMessage(
