@@ -14,7 +14,10 @@ let guildMemberAdd = function(guild, member) {
                     // Maybe in the future give a clean log
                 } else {
                     // User Exists, Process
-                    func.punishUser(member, guildInfo, oldUser.user_type, true);
+                    let block = ["blacklisted","permblacklisted"];
+                    if (block.includes(oldUser.status)) {
+                        func.punishUser(member, guildInfo, oldUser.user_type, true);
+                    }
                 }
             });
         }

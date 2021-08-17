@@ -31,10 +31,9 @@ let scanusers = function() {
                                 // Maybe in the future give a clean log
                             } else {
                                 // User Exists, Process
-                                if (oldUser.status == "blacklisted" || oldUser.status == "permblacklisted") {
+                                let block = ["blacklisted","permblacklisted"];
+                                if (block.includes(oldUser.status)) {
                                     func.punishUser(member, guildInfo, oldUser.user_type, false);
-                                } else {
-                                    // Should be a bot, whitelisted, or appealed
                                 }
                             }
                         });
