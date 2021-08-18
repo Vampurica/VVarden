@@ -121,7 +121,10 @@ bot.on("ready", () => {
 });
 
 bot.on("error", (err) => {
-    logMaster(err);
+    // This error is normal, as Discord resets bot connections occasionally
+    if (!err["message"].includes("Connection reset by peer")) {
+        logMaster(err);
+    }
 });
 
 // Hidden command for code testing
