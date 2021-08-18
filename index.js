@@ -104,6 +104,20 @@ bot.on("ready", () => {
             type:0
         }
     );
+
+    // Build Prefixes
+    bot.guilds.forEach((value, key) => {
+        let guildID = key.toString();
+        let guild = value;
+        func.getGuildSettings(key.toString(), function (guildInfo) {
+            if (guildInfo == "nores") {
+                logMaster("Bot is in unknown guild???\n"+guild.id+" / "+guild.name+"\n\nSave me Vampire!!!");
+            } else {
+                //console.log("Setting "+guild.name+" prefix to "+guildInfo.prefix+"")
+                bot.registerGuildPrefix(guild.id, guildInfo.prefix);
+            }
+        });
+    });
 });
 
 bot.on("error", (err) => {
