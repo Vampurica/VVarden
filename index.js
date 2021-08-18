@@ -129,11 +129,7 @@ bot.on("error", (err) => {
 
 // Hidden command for code testing
 bot.registerCommand("test", (msg, args) => {
-    bot.getRESTUser(args[0]).then(rUser => {
-        logMaster("Got Rest Info");
-    }).catch(err => {
-        logMaster(err);
-    });
+    
 },{
     requirements: {
         userIDs: [dev]
