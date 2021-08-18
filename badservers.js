@@ -14,6 +14,7 @@ let badservers = {
     "758834687689883668": "Ξnvbis Project",
     "857704085787377674": "Fluxies Shop | Reseller Premium Sp00fer",
 	"834585620143145023": "EC Communityy",
+	"865985423166799882": "CK GANG",
     /* Leaking Discords */
     "794977495518019604": "Arena Leaks",
     "807213432860180480": "Lewix FiveM Leaks",
@@ -71,7 +72,7 @@ let badservers = {
     "764584618916708412": "VAG WORLD V9",
     "850399522014101564": "Exclusive Leaks - FiveM | 2021",
     "779818567897317406": "MoLeaks V2",
-    "816738253376847882": "KC SCRIPTS",
+    "816738253376847882": "070-scripts",
     "818419718808535060": "FIVEM LEAKS",
     "841438265126289469": "Downtown Leaks",
     "827942062153400360": "Original Leaks",
@@ -105,7 +106,6 @@ let badservers = {
     "698688743238008882": "VM LEAKS",
     "808048125058088980": "Qbus Leaks",
     "786670914439610408": "Cocktails Développement | Leaks",
-	// New Servers
 	"771861298925404181": "Cloud Leaks",
 	"816329462488236073": "[PL/ENG] FIVEM BEST SCRIPTS LEAK",
 	"800097495422074890": "Star Leaks",
@@ -120,7 +120,14 @@ let badservers = {
 	"750636778129457202": "Estandar Leaks V2",
 	"796796957536419851": "Horizon Leaks FiveM",
 	"858121755436908544": "Pr1me Leaks Global",
-	"788037826289598474": "Venom Leak"
+	"788037826289598474": "Venom Leak",
+	/* New Leaking Servers */
+	"826491605758115876": "IceBerg Leaks",
+	"744199755630116934": "PepeLeaks",
+	"848554296584175616": "2YOU | FiveM Script Leaks",
+	"690941641095118868": "Nova Leak",
+	"503718104782602251": "FiveM - Switch Leaks",
+	"845981124349919262": "RiuLeaks"
 };
 
 module.exports = badservers;
