@@ -47,7 +47,7 @@ let checkuser = function() {
                                         icon_url: userInfo.avatar
                                     },
                                     thumbnail: { url: userInfo.avatar },
-                                    color: 0x800000,
+                                    color: 0xFFFF00,
                                     fields: [ // Array of field objects
                                         {
                                             name: "User Information", // Field
@@ -65,8 +65,8 @@ let checkuser = function() {
                                             inline: false
                                         },
                                         {
-                                            name: "Blacklist Reason",
-                                            value: "**User Type**: "+userInfo.user_type+"\n**Details**: "+userInfo.reason,
+                                            name: "Database Information",
+                                            value: "**User Status**: "+userInfo.status+"\n**User Type**: "+userInfo.user_type+"\n**Details**: "+userInfo.reason,
                                             inline: false
                                         },
                                         {
@@ -120,14 +120,14 @@ let checkuser = function() {
                                 msg.channel.id,
                                 {
                                     embed: {
-                                        title: ":x: User Blacklisted",
+                                        title: ":x: User In Database",
                                         description: "<@"+userInfo.userid+"> has been in "+userInfo.servers.split(";").length+" bad Discord servers.",
                                         author: {
                                             name: userInfo.last_username,
                                             icon_url: userInfo.avatar
                                         },
                                         thumbnail: { url: userInfo.avatar },
-                                        color: 0x800000,
+                                        color: 0xFFFF00,
                                         fields: [ // Array of field objects
                                             {
                                                 name: "User Information", // Field
@@ -145,8 +145,8 @@ let checkuser = function() {
                                                 inline: false
                                             },
                                             {
-                                                name: "Blacklist Reason",
-                                                value: "**User Type**: "+userInfo.user_type+"\n**Details**: "+userInfo.reason,
+                                                name: "Database Information",
+                                                value: "**User Status**: "+userInfo.status+"\n**User Type**: "+userInfo.user_type+"\n**Details**: "+userInfo.reason,
                                                 inline: false
                                             },
                                             {
