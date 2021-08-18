@@ -329,7 +329,7 @@ let func = {
             if (!member.bot) {
                 if (toDM) {
                     bot.getDMChannel(member.id)
-                        .then(channel => channel.createMessage(":shield: Warden\nYou are being automodded by "+guild.name+" for being associated with Leaking or Cheating Discord Servers.\nYou may attempt to appeal this via the Official Warden Discord:\nhttps://discord.gg/jeFeDRasfs"))
+                        .then(channel => channel.createMessage(":shield: Warden\nYou are being automodded by "+guildInfo.guildname+" for being associated with Leaking or Cheating Discord Servers.\nYou may attempt to appeal this via the Official Warden Discord:\nhttps://discord.gg/jeFeDRasfs"))
                         .catch(err => {
                             bot.createMessage(
                                 guildInfo.logchan,
@@ -344,11 +344,41 @@ let func = {
                                     }
                                 }
                             );
+                        }).finally(any => {
+                            let action = guildInfo[types[type]] == "ban" ? member[guildInfo[types[type]]](0, "Warden - User Type "+type) : member[guildInfo[types[type]]]("Warden - User Type "+type);
+                            action.then(any => {
+                                bot.createMessage(
+                                    guildInfo.logchan,
+                                    {
+                                        embed: {
+                                            description: ":shield: User <@"+member.id+"> has been punished with a "+guildInfo[types[type]]+", type "+type+".\nUse checkuser for more information.",
+                                            author: {
+                                                name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                icon_url: member.avatarURL
+                                            },
+                                            color: 0x008000,
+                                        }
+                                    }
+                                );
+                            }).catch(err => {
+                                bot.createMessage(
+                                    guildInfo.logchan,
+                                    {
+                                        embed: {
+                                            description: ":warning: I tried to "+guildInfo[types[type]]+" <@"+member.id+"> but something errored!\nPlease verify I have this permission, and am a higher role than this user!",
+                                            author: {
+                                                name: member.username+"#"+member.discriminator+" / "+member.id,
+                                                icon_url: member.avatarURL
+                                            },
+                                            color: 0x008000,
+                                        }
+                                    }
+                                );
+                            });
                         });
-                }
-
-                let action = guildInfo[types[type]] == "ban" ? member[guildInfo[types[type]]](0, "Warden - User Type "+type) : member[guildInfo[types[type]]]("Warden - User Type "+type);
-                action.then(any => {
+                } else {
+                    let action = guildInfo[types[type]] == "ban" ? member[guildInfo[types[type]]](0, "Warden - User Type "+type) : member[guildInfo[types[type]]]("Warden - User Type "+type);
+                    action.then(any => {
                         bot.createMessage(
                             guildInfo.logchan,
                             {
@@ -377,6 +407,7 @@ let func = {
                             }
                         );
                     });
+                }
             }
         } else if (guildInfo[types[type]] == "warn") {
             // Warn Discord
