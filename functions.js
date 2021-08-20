@@ -231,7 +231,22 @@ let func = {
         }
 
         //logMaster("Added "+add+" users and updated "+upd+" users for the database from "+filename+".csv")
+        updateServerIDList(serverid)
         return callback(true);
+    },
+
+    updateServerIDList: function(serverID) {
+        // Get the Message in the bad-discords channel
+        bot.channels.cache.get('CHANNEL_ID:HERE').messages.fetch("MSG_ID_HERE")
+            .then(message =>{
+                //Open the message, Remove ending String
+                var oldMSG = message.content.replace(" ```", "")
+                //Add new Server & close the message
+                var endMSG = oldMSG + "\n" + serverID + " ```";
+                // Edit the existing message
+                message.edit(endMSG)
+            })
+            .catch(console.error);
     },
 
     getGuildSettings: function(guildID, callback) {
