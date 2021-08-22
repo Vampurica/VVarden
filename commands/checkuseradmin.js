@@ -186,7 +186,8 @@ let checkuser = function() {
         fullDescription: "Check user database status as an admin",
         usage: "cua 000000000000000",
         aliases: ["cua"],
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a BOT ADMIN to use this command.\nMaybe try `cu` or `checkuser` instead?"
     });
 };
 

@@ -34,7 +34,8 @@ let procfile = function() {
         usage: "procfile LeakerLeaks 0000000000000 leaker",
         aliases: ["pf"],
         hidden: true,
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a BOT OWNER to use this command."
     });
 };
 

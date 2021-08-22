@@ -122,7 +122,8 @@ let adduser = function() {
         fullDescription: "Add a user to the database",
         usage: "adduser 0000000000000 blacklisted leaker 000000000000 Sucks at life",
         aliases: ["add"],
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a BOT OWNER to use this command"
     });
 };
 

@@ -59,7 +59,8 @@ let dconfig = function() {
         fullDescription: "Adjust this Guilds Settings for Warden",
         usage: "config punleak ban",
         aliases: ["settings","configuration"],
-        argsRequired: false
+        argsRequired: false,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 
     main.registerSubcommand("prefix", (msg, args) => {
@@ -88,7 +89,8 @@ let dconfig = function() {
         description: "Change Guild Prefix",
         fullDescription: "Change the command prefix for Warden in this guild.",
         usage: "config prefix $$",
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 
     main.registerSubcommand("logchan", (msg, args) => {
@@ -126,7 +128,8 @@ let dconfig = function() {
         fullDescription: "Change log channel, must be a mention.",
         usage: "config logchan #channel",
         aliases: ["log"],
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 
     main.registerSubcommand("punown", (msg, args) => {
@@ -154,7 +157,8 @@ let dconfig = function() {
         description: "Punish Owner Setting",
         fullDescription: "Adjust how to treat Owners/Staff of bad discords",
         usage: "config punown ban",
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 
     main.registerSubcommand("punsupp", (msg, args) => {
@@ -182,7 +186,8 @@ let dconfig = function() {
         description: "Punish Supporter Setting",
         fullDescription: "Adjust how to treat Supporters/Donors of bad discords",
         usage: "config punsupp ban",
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 
     main.registerSubcommand("punleak", (msg, args) => {
@@ -210,7 +215,8 @@ let dconfig = function() {
         description: "Punish Leaker Setting",
         fullDescription: "Adjust how to treat Members of leaking discords",
         usage: "config punleak ban",
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 
     main.registerSubcommand("puncheat", (msg, args) => {
@@ -238,7 +244,8 @@ let dconfig = function() {
         description: "Punish Cheater Setting",
         fullDescription: "Adjust how to treat members of cheating discords",
         usage: "config puncheat ban",
-        argsRequired: true
+        argsRequired: true,
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 };
 

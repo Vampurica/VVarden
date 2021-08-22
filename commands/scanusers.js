@@ -51,7 +51,8 @@ let scanusers = function() {
         description: "Scan discord users",
         fullDescription: "Scans your discord users and punishes them if blacklisted.",
         usage: "scanusers",
-        aliases: ["scan"]
+        aliases: ["scan"],
+        permissionMessage: "You must be a SERVER ADMIN to use this command."
     });
 };
 
