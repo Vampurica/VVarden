@@ -129,7 +129,14 @@ bot.on("error", (err) => {
 
 // Hidden command for code testing
 bot.registerCommand("test", (msg, args) => {
-    
+    try {
+
+        
+
+    } catch (err) {
+        console.log(err["stack"].toString());
+    }
+
 },{
     requirements: {
         userIDs: [dev]
@@ -165,7 +172,7 @@ let cupstatus = require('./commands/upstatus.js')();
 let cadduser = require('./commands/adduser.js')();
 let cconfig = require('./commands/config.js')();
 let cinvite = require('./commands/invite.js')();
-
+let cforcecheck = require('./commands/forcecheck.js')();
 
 // CONNECT AND INTERVALS
 bot.connect().catch(err => {});
