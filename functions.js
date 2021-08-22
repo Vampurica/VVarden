@@ -83,6 +83,7 @@ let func = {
                 // Add New User
                 pool.query('INSERT INTO users (userid, avatar, user_type, last_username, servers, roles, added_date) VALUES('+pool.escape(userID)+','+pool.escape(avatar)+','+pool.escape(usertype)+','+pool.escape(lastuser)+','+pool.escape(server)+','+pool.escape(roles)+',"'+(new Date())+'")', function(err, results, fields) {
                     if (err) throw err;
+                    func.globalFindAndCheck(userID);
                 });
                 return callback(":x: Auto Added "+usertype+" "+lastuser+" <@"+userID+"> into database from "+badservers[server]+"");
             } else {
@@ -96,6 +97,7 @@ let func = {
                         // User WAS appealed, now permblacklisted
                         pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', status='+pool.escape("permblacklisted")+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
                             if (err) throw err;
+                            func.globalFindAndCheck(userID);
                         });
                         return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
                     }
@@ -106,11 +108,13 @@ let func = {
                         // User WAS appealed, now permblacklisted
                         pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+', status='+pool.escape("permblacklisted")+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
                             if (err) throw err;
+                            func.globalFindAndCheck(userID);
                         });
                         return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
                     } else {
                         pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
                             if (err) throw err;
+                            func.globalFindAndCheck(userID);
                         });
                         return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
                     }
@@ -129,12 +133,14 @@ let func = {
                     // Good REST
                     pool.query('INSERT INTO users (avatar, last_username, userid, status, user_type, servers, reason, filter_type, added_date) VALUES('+pool.escape(rUser.avatarURL)+','+pool.escape(rUser.username+'#'+rUser.discriminator)+','+pool.escape(userID)+','+pool.escape(status)+','+pool.escape(usertype)+','+pool.escape(server)+','+pool.escape(reason)+','+pool.escape("Manual")+',"'+(new Date())+'")', function(err, results, fields) {
                         if (err) throw err;
+                        func.globalFindAndCheck(userID);
                     });
                     return callback("Added <@"+userID+"> / "+userID+" to database as "+status+" with REST");
                 }).catch(err => {
                     // Bad REST
                     pool.query('INSERT INTO users (userid, status, user_type, servers, reason, filter_type, added_date) VALUES('+pool.escape(userID)+','+pool.escape(status)+','+pool.escape(usertype)+','+pool.escape(server)+','+pool.escape(reason)+','+pool.escape("Manual")+',"'+(new Date())+'")', function(err, results, fields) {
                         if (err) throw err;
+                        func.globalFindAndCheck(userID);
                     });
                     return callback("Added <@"+userID+"> / "+userID+" to database as "+status+"");
                 });
@@ -427,6 +433,36 @@ let func = {
                 );
             }
         }
+    },
+
+    globalFindAndCheck: function(userID) {
+
+        func.getUserFromDB(userID, function (oldUser) {
+            if (oldUser == "nores") {
+                // User Does not exist
+            } else {
+                // User Exists, Process
+                let block = ["blacklisted","permblacklisted"];
+                if (block.includes(oldUser.status)) {
+                    // User is Blacklisted
+                    bot.guilds.forEach((_, guildID) => {
+                        bot.guilds.get(guildID.toString()).fetchAllMembers().then( () => {
+                            let member = bot.guilds.get(guildID.toString()).members.get(userID);
+                            if (typeof member !== "undefined") {
+                                let guild = bot.guilds.get(guildID.toString());
+                                //console.log("Found "+member.username+" in "+guild.name);
+
+                                func.getGuildSettings(guildID.toString(), function (guildInfo) {
+                                    func.punishUser(member, guildInfo, oldUser.user_type, false);
+                                });
+                            }
+                        });
+                    });
+
+                }
+            }
+        });
+
     }
 
 };
