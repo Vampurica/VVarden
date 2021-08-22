@@ -7,7 +7,7 @@ let adduser = function() {
             if (!isNaN(args[0])) {
                 // It's a number, so run it
                 let userID = args[0];
-                func.addUserToDBMan(userID, "blacklisted", "leaker", "860760302227161118", "Manual: Member of bad discord", function (ret) {
+                func.addUserToDBMan(userID, "blacklisted", "leaker", "860760302227161118", "Manual: Member of Blacklisted Discord Server", function (ret) {
                     bot.createMessage(
                         msg.channel.id,
                         {
@@ -27,7 +27,7 @@ let adduser = function() {
                 let userID = util.stripID(args[0]);
                 if (!isNaN(userID)) {
                     // Valid now
-                    func.addUserToDBMan(userID, "blacklisted", "leaker", "860760302227161118", "Manual: Member of bad discord", function (ret) {
+                    func.addUserToDBMan(userID, "blacklisted", "leaker", "860760302227161118", "Manual: Member of Blacklisted Discord Server", function (ret) {
                         bot.createMessage(
                             msg.channel.id,
                             {
@@ -58,7 +58,7 @@ let adduser = function() {
                 let status = typeof(args[1]) !== "undefined" ? args[1] : "blacklisted";
                 let type = typeof(args[2]) !== "undefined" ? args[2] : "leaker";
                 let server = typeof(args[3]) !== "undefined" ? args[3] : "860760302227161118";
-                let reason = args.length > 4 ? args.splice(4, args.length-1).join(" ") : "Manual: Member of bad discord";
+                let reason = args.length > 4 ? args.splice(4, args.length-1).join(" ") : "Manual: Member of Blacklisted Discord Server";
 
                 func.addUserToDBMan(userID, status, type, server, reason, function (ret) {
                     bot.createMessage(
@@ -83,7 +83,7 @@ let adduser = function() {
                     let status = typeof(args[1]) !== "undefined" ? args[1] : "blacklisted";
                     let type = typeof(args[2]) !== "undefined" ? args[2] : "leaker";
                     let server = typeof(args[3]) !== "undefined" ? args[3] : "860760302227161118";
-                    let reason = args.length > 4 ? args.splice(4, args.length-1).join(" ") : "Manual: Member of bad discord";
+                    let reason = args.length > 4 ? args.splice(4, args.length-1).join(" ") : "Manual: Member of Blacklisted Discord Server";
 
                     func.addUserToDBMan(userID, status, type, server, reason, function (ret) {
                         bot.createMessage(
