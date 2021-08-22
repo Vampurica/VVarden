@@ -81,6 +81,7 @@ global.logMaster = function(logMess) {
 
 // MAIN CODE BODY
 global.bot = new Eris.CommandClient(config.token, {
+    getAllUsers: true,
     intents:[
         "guildMembers",
         "guildMessages",
