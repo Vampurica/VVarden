@@ -174,6 +174,7 @@ let cadduser = require('./commands/adduser.js')();
 let cconfig = require('./commands/config.js')();
 let cinvite = require('./commands/invite.js')();
 let cforcecheck = require('./commands/forcecheck.js')();
+let cdonate = require('./commands/donate.js')();
 
 // CONNECT AND INTERVALS
 bot.connect().catch(err => {});
