@@ -1,5 +1,6 @@
-// Functions
+const {execute, pool} = require('./mysql.js')
 
+// Functions
 let func = {
     randomStatus: function() {
         // Randomizes the bot status from the list
@@ -56,20 +57,15 @@ let func = {
     getUserFromDB: function(userID, callback) {
         // Calls the database to get the row about the specified user.
         //logMaster("GetUserFromDB: "+userID+"")
-        pool.query('SELECT EXISTS(SELECT 1 FROM users WHERE userid='+pool.escape(userID)+')', function (error, results, fields) {
+        execute('SELECT * FROM users WHERE userid = ?', [userID])
+        .then(results => {
             //logMaster("GetUserFromDB: "+Object.values(results[0])[0]+" and "+pool.escape(userID))
-            if (error) throw error;
-            if (Object.values(results[0])[0] == 0) {
-                // Doesn't exist
-                //logMaster("GetUserFromDB: NoRes")
-                return callback("nores");
+            if (results && results[0]) {
+                //logMaster("GetUserFromDB: ReturningRes")
+                return callback(results[0])
             } else {
-                // Found in DB
-                pool.query('SELECT * FROM users WHERE userid='+pool.escape(userID)+'', function (error, results, fields) {
-                    if (error) throw error;
-                    //logMaster("GetUserFromDB: ReturningRes")
-                    return callback(results[0]);
-                });
+                //logMaster("GetUserFromDB: NoRes")
+                return callback('nores')
             }
         });
     },
@@ -81,11 +77,11 @@ let func = {
         func.getUserFromDB(userID, function (oldUser) {
             if (oldUser == "nores") {
                 // Add New User
-                pool.query('INSERT INTO users (userid, avatar, user_type, last_username, servers, roles, added_date) VALUES('+pool.escape(userID)+','+pool.escape(avatar)+','+pool.escape(usertype)+','+pool.escape(lastuser)+','+pool.escape(server)+','+pool.escape(roles)+',"'+(new Date())+'")', function(err, results, fields) {
-                    if (err) throw err;
+                execute('INSERT INTO users (userid, avatar, user_type, last_username, servers, roles, added_date) VALUES (?, ?, ?, ?, ?, ?, ?)', [userID, avatar, usertype, lastuser, server, roles])
+                .then(results => {
                     func.globalFindAndCheck(userID);
+                    return callback(":x: Auto Added "+usertype+" "+lastuser+" <@"+userID+"> into database from "+badservers[server]+"");
                 });
-                return callback(":x: Auto Added "+usertype+" "+lastuser+" <@"+userID+"> into database from "+badservers[server]+"");
             } else {
                 // Update Existing User
                 let newRoles = func.combineRoles(oldUser.roles, roles).join(';');
@@ -95,28 +91,28 @@ let func = {
                     // No real need to update it. Maybe update roles?
                     if (oldUser.status == "appealed") {
                         // User WAS appealed, now permblacklisted
-                        pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', status='+pool.escape("permblacklisted")+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
-                            if (err) throw err;
+                        execute('UPDATE users SET last_username = ?, status = ? WHERE userid = ?', [lastuser, 'permblacklisted', userID])
+                        .then(results => {
                             func.globalFindAndCheck(userID);
+                            return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
                         });
-                        return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
                     }
                 } else {
                     // New Server
                     spServers.push(server);
                     if (oldUser.status == "appealed") {
                         // User WAS appealed, now permblacklisted
-                        pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+', status='+pool.escape("permblacklisted")+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
-                            if (err) throw err;
+                        execute('UPDATE users SET last_username = ?, servers = ?, roles = ?, status = ? WHERE userid = ?', [lastuser, spServers.join(';'), newRoles, 'permblacklisted', userID])
+                        .then(results => {
                             func.globalFindAndCheck(userID);
+                            return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
                         });
-                        return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
                     } else {
-                        pool.query('UPDATE users SET last_username='+pool.escape(lastuser)+', servers='+pool.escape(spServers.join(';'))+', roles='+pool.escape(newRoles)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
-                            if (err) throw err;
+                        execute('UPDATE users SET last_username = ?, servers = ?, roles = ? WHERE userid = ?', [lastuser, spServers.join(';'), newRoles, userID])
+                        .then(results => {
                             func.globalFindAndCheck(userID);
+                            return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
                         });
-                        return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
                     }
                 }
             }
@@ -131,18 +127,19 @@ let func = {
                 // User Does not exist, so add user
                 bot.getRESTUser(userID).then(rUser => {
                     // Good REST
-                    pool.query('INSERT INTO users (avatar, last_username, userid, status, user_type, servers, reason, filter_type, added_date) VALUES('+pool.escape(rUser.avatarURL)+','+pool.escape(rUser.username+'#'+rUser.discriminator)+','+pool.escape(userID)+','+pool.escape(status)+','+pool.escape(usertype)+','+pool.escape(server)+','+pool.escape(reason)+','+pool.escape("Manual")+',"'+(new Date())+'")', function(err, results, fields) {
-                        if (err) throw err;
+                    execute('INSERT INTO USERS (avatar, last_username, userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [rUser.avatarURL, (rUser.username+'#'+rUser.discriminator), userID, status, usertype, server, reason, 'Manual'])
+                    .then(results => {
                         func.globalFindAndCheck(userID);
-                    });
-                    return callback("Added <@"+userID+"> / "+userID+" to database as "+status+" with REST");
+                        return callback("Added <@"+userID+"> / "+userID+" to database as "+status+" with REST");
+                    })
                 }).catch(err => {
                     // Bad REST
-                    pool.query('INSERT INTO users (userid, status, user_type, servers, reason, filter_type, added_date) VALUES('+pool.escape(userID)+','+pool.escape(status)+','+pool.escape(usertype)+','+pool.escape(server)+','+pool.escape(reason)+','+pool.escape("Manual")+',"'+(new Date())+'")', function(err, results, fields) {
-                        if (err) throw err;
+                    console.log(userID, status, usertype, server, reason)
+                    execute('INSERT INTO users (userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?)', [userID, status, usertype, server, reason, 'Manual'])
+                    .then(results => {
                         func.globalFindAndCheck(userID);
-                    });
-                    return callback("Added <@"+userID+"> / "+userID+" to database as "+status+"");
+                        return callback("Added <@"+userID+"> / "+userID+" to database as "+status+"");
+                    })
                 });
             } else {
                 // User Already in Database
@@ -161,10 +158,10 @@ let func = {
                 return callback(":x: User not found in database");
             } else {
                 // Existing User
-                pool.query('UPDATE users SET status='+pool.escape(newStatus)+', user_type='+pool.escape(newType)+', reason='+pool.escape(newReason)+' WHERE userid='+pool.escape(userID)+'', function(err, results, fields) {
-                    if (err) throw err;
+                execute('UPDATE users SET status = ?, user_type = ?, reason = ? WHERE userid = ?', [newStatus, newType, newReason, userID])
+                .then(results => {
+                    return callback("Updated "+oldUser.last_username+" <@"+userID+"> to status `"+newStatus+"`, type `"+newType+"` and `"+newReason+"`");
                 });
-                return callback("Updated "+oldUser.last_username+" <@"+userID+"> to status `"+newStatus+"`, type `"+newType+"` and `"+newReason+"`");
             }
         });
     },
@@ -242,33 +239,26 @@ let func = {
 
     getGuildSettings: function(guildID, callback) {
         // Gets the guild settings from the database
-        pool.query('SELECT EXISTS(SELECT 1 FROM guilds WHERE guildid='+pool.escape(guildID)+')', function (error, results, fields) {
-            if (error) throw error;
-            if (Object.values(results[0])[0] == 0) {
-                // Doesn't exist
-                return callback("nores");
-            } else {
+        execute('SELECT * FROM guilds WHERE guildid = ?', [guildID])
+        .then(results => {
+            if (results && results[0]) {
                 // Found in DB
-                pool.query('SELECT * FROM guilds WHERE guildid='+pool.escape(guildID)+'', function (error, results, fields) {
-                    if (error) throw error;
-                    return callback(results[0]);
-                });
+                return callback(results[0])
+            } else {
+                // Doesn't exist
+                return callback('nores')
             }
         });
     },
 
     addGuildToDB: function(guildID, guildName, logChannel) {
         // Adds a guild row to the database
-        pool.query('INSERT INTO guilds (guildid, guildname, logchan) VALUES ('+pool.escape(guildID)+','+pool.escape(guildName)+','+pool.escape(logChannel)+') ON DUPLICATE KEY UPDATE guildname='+pool.escape(guildName), function (error, results, fields) {
-            if (error) throw error;
-        });
+        execute('INSERT INTO guilds (guildid, guildname, logchan) VALUES (:id, :name, :chan) ON DUPLICATE KEY UPDATE guildname = :name', [{id: guildID, name:guildName, chan:logChannel}])
     },
 
     removeGuildFromDB: function(guildID) {
         // Removes a guild row from the database
-        pool.query('DELETE FROM guilds WHERE guildid='+pool.escape(guildID)+'', function (error, results, fields) {
-            if (error) throw error;
-        });
+        execute('DELETE FROM guilds WHERE guildid = ?', [guildID])
     },
 
     changeGuildSetting: function(guildID, guildOpt, guildVal, callback) {
@@ -284,8 +274,8 @@ let func = {
                 if (guildInfo == "nores") {
                     return callback(":x: Guild settings not found!\nPlease let the bot developer know.");
                 } else {
-                    pool.query('UPDATE guilds SET logchan='+pool.escape(guildVal)+' WHERE guildid='+pool.escape(guildID)+'', function (error, results, fields) {
-                        if (error) throw error;
+                    execute('UPDATE guilds SET logchan = ? WHERE guildid = ?', [guildVal, guildID])
+                    .then(results => {
                         return callback("Changed setting "+pool.escape(guildOpt)+" to "+pool.escape(guildVal)+"");
                     });
                 }
@@ -295,8 +285,8 @@ let func = {
                 if (guildInfo == "nores") {
                     return callback(":x: Guild settings not found!\nPlease let the bot developer know.");
                 } else {
-                    pool.query('UPDATE guilds SET prefix='+pool.escape(guildVal)+' WHERE guildid='+pool.escape(guildID)+'', function (error, results, fields) {
-                        if (error) throw error;
+                    execute('UPDATE guilds SET prefix = ? WHERE guildid = ?', [guildVal, guildID])
+                    .then(results => {
                         return callback("Changed setting "+pool.escape(guildOpt)+" to "+pool.escape(guildVal)+"");
                     });
                 }
@@ -307,8 +297,8 @@ let func = {
                     if (guildInfo == "nores") {
                         return callback(":x: Guild settings not found!\nPlease let the bot developer know.");
                     } else {
-                        pool.query('UPDATE guilds SET '+guildOpt+'='+pool.escape(guildVal)+' WHERE guildid='+pool.escape(guildID)+'', function (error, results, fields) {
-                            if (error) throw error;
+                        execute('UPDATE guilds SET '+guildOpt+' = ? WHERE guildid = ?', [guildVal, guildID])
+                        .then(results => {
                             return callback("Changed setting "+pool.escape(guildOpt)+" to "+pool.escape(guildVal)+"");
                         });
                     }
