@@ -253,7 +253,7 @@ let func = {
 
     addGuildToDB: function(guildID, guildName, logChannel) {
         // Adds a guild row to the database
-        execute('INSERT INTO guilds (guildid, guildname, logchan) VALUES (:id, :name, :chan) ON DUPLICATE KEY UPDATE guildname = :name', [{id: guildID, name:guildName, chan:logChannel}])
+        execute('INSERT INTO guilds (guildid, guildname, logchan) VALUES (:id, :name, :chan) ON DUPLICATE KEY UPDATE guildname = :name', {id: guildID, name:guildName, chan:logChannel})
     },
 
     removeGuildFromDB: function(guildID) {
