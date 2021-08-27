@@ -9,10 +9,10 @@
   "license": "None",
   "bugs": {},
   "dependencies": {
-	"eris": "latest",
+    "eris": "latest",
     "fs": "latest",
     "readline": "latest",
     "winston": "latest",
-    "mysql": "latest"
+    "mysql2": "latest"
   }
 }

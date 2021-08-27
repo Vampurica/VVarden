@@ -1,11 +1,12 @@
-// status
+const {execute} = require('../mysql.js')
 
+// status
 let status = function() {
     bot.registerCommand("status", (msg, args) => {
-        pool.query('SELECT COUNT(*) FROM users', function(err, results, fields) {
-            if (err) throw err;
+        execute('SELECT COUNT(*) FROM users')
+        .then(results => {
             if (Object.values(results[0])[0] == 0) {
-                // Doesn't exist???
+                // Doesn't exist?
             } else {
                 // Found in DB
                 let bCount = Object.values(results[0])[0];

@@ -12,15 +12,6 @@ const Eris        = require("eris");
 global.fs         = require('fs');
 global.readline   = require('readline');
 const winston     = require('winston');
-const mysql       = require('mysql');
-global.pool  = mysql.createPool({
-  connectionLimit : 20,
-  host            : 'localhost',
-  user            : 'root',
-  password        : '',
-  database        : 'vvarden',
-  charset         : "utf8_general_ci"
-});
 
 const logger = winston.createLogger({
   transports: [
@@ -132,7 +123,7 @@ bot.on("error", (err) => {
 bot.registerCommand("test", (msg, args) => {
     try {
 
-        
+
 
     } catch (err) {
         console.log(err["stack"].toString());

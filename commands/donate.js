@@ -1,7 +1,7 @@
 // donate
 
 let donate = function() {
-    bot.registerCommand("upstatus", (msg, args) => {
+    bot.registerCommand("donate", (msg, args) => {
         bot.createMessage(
             msg.channel.id,
             {
