@@ -67,7 +67,7 @@ let func = {
                 //logMaster("GetUserFromDB: NoRes")
                 return callback('nores')
             }
-        });
+        }).catch(console.error);
     },
 
     addUserToDB: function(userID, avatar, status, usertype, lastuser, server, roles, filtertype, callback) {
@@ -77,11 +77,11 @@ let func = {
         func.getUserFromDB(userID, function (oldUser) {
             if (oldUser == "nores") {
                 // Add New User
-                execute('INSERT INTO users (userid, avatar, user_type, last_username, servers, roles, added_date) VALUES (?, ?, ?, ?, ?, ?, ?)', [userID, avatar, usertype, lastuser, server, roles])
+                execute('INSERT INTO users (userid, avatar, user_type, last_username, servers, roles) VALUES (?, ?, ?, ?, ?, ?)', [userID, avatar, usertype, lastuser, server, roles])
                 .then(results => {
                     func.globalFindAndCheck(userID);
                     return callback(":x: Auto Added "+usertype+" "+lastuser+" <@"+userID+"> into database from "+badservers[server]+"");
-                });
+                }).catch(console.error);
             } else {
                 // Update Existing User
                 let newRoles = func.combineRoles(oldUser.roles, roles).join(';');
@@ -95,7 +95,7 @@ let func = {
                         .then(results => {
                             func.globalFindAndCheck(userID);
                             return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
-                        });
+                        }).catch(console.error);
                     }
                 } else {
                     // New Server
@@ -106,13 +106,13 @@ let func = {
                         .then(results => {
                             func.globalFindAndCheck(userID);
                             return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+" to **PERMANENT BLACKLIST**");
-                        });
+                        }).catch(console.error);
                     } else {
                         execute('UPDATE users SET last_username = ?, servers = ?, roles = ? WHERE userid = ?', [lastuser, spServers.join(';'), newRoles, userID])
                         .then(results => {
                             func.globalFindAndCheck(userID);
                             return callback(":x: Auto Updated "+usertype+" "+lastuser+" <@"+userID+"> in database from "+badservers[server]+"");
-                        });
+                        }).catch(console.error);
                     }
                 }
             }
@@ -131,7 +131,7 @@ let func = {
                     .then(results => {
                         func.globalFindAndCheck(userID);
                         return callback("Added <@"+userID+"> / "+userID+" to database as "+status+" with REST");
-                    })
+                    }).catch(console.error);
                 }).catch(err => {
                     // Bad REST
                     console.log(userID, status, usertype, server, reason)
@@ -139,7 +139,7 @@ let func = {
                     .then(results => {
                         func.globalFindAndCheck(userID);
                         return callback("Added <@"+userID+"> / "+userID+" to database as "+status+"");
-                    })
+                    }).catch(console.error);
                 });
             } else {
                 // User Already in Database
@@ -161,7 +161,7 @@ let func = {
                 execute('UPDATE users SET status = ?, user_type = ?, reason = ? WHERE userid = ?', [newStatus, newType, newReason, userID])
                 .then(results => {
                     return callback("Updated "+oldUser.last_username+" <@"+userID+"> to status `"+newStatus+"`, type `"+newType+"` and `"+newReason+"`");
-                });
+                }).catch(console.error);
             }
         });
     },
@@ -248,7 +248,7 @@ let func = {
                 // Doesn't exist
                 return callback('nores')
             }
-        });
+        }).catch(console.error);
     },
 
     addGuildToDB: function(guildID, guildName, logChannel) {
@@ -277,7 +277,7 @@ let func = {
                     execute('UPDATE guilds SET logchan = ? WHERE guildid = ?', [guildVal, guildID])
                     .then(results => {
                         return callback("Changed setting "+pool.escape(guildOpt)+" to "+pool.escape(guildVal)+"");
-                    });
+                    }).catch(console.error);
                 }
             });
         } else if (guildOpt === "prefix") {
@@ -288,7 +288,7 @@ let func = {
                     execute('UPDATE guilds SET prefix = ? WHERE guildid = ?', [guildVal, guildID])
                     .then(results => {
                         return callback("Changed setting "+pool.escape(guildOpt)+" to "+pool.escape(guildVal)+"");
-                    });
+                    }).catch(console.error);
                 }
             });
         } else if (guildOptions[guildOpt] != null) {
@@ -300,7 +300,7 @@ let func = {
                         execute('UPDATE guilds SET '+guildOpt+' = ? WHERE guildid = ?', [guildVal, guildID])
                         .then(results => {
                             return callback("Changed setting "+pool.escape(guildOpt)+" to "+pool.escape(guildVal)+"");
-                        });
+                        }).catch(console.error);
                     }
                 });
             } else {
