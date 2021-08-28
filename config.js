@@ -12,7 +12,11 @@ let config = {
 		"640703664738271233"	// Dunak
 	],
     logChannel:     "861736808345370654",
-    addUsersChan:   "861665428760952852"
+    addUsersChan:   "861665428760952852",
+    host:           "localhost",
+    user:           "root",
+    password:       "",
+    database:       "vvarden",
 };
 
 module.exports = config;

@@ -2,10 +2,10 @@ const { createPool } = require('mysql2/promise');
 
 const pool = createPool({
     connectionLimit   : 20,
-    host              : 'localhost',
-    user              : 'root',
-    password          : '',
-    database          : 'vvarden',
+    host              : config.host,
+    user              : config.user,
+    password          : config.password,
+    database          : config.database,
     charset           : "utf8_general_ci",
     namedPlaceholders : true,
 });
