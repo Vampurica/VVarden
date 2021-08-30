@@ -98,18 +98,22 @@ bot.on("ready", () => {
     );
 
     // Build Prefixes
-    bot.guilds.forEach((value, key) => {
-        let guildID = key.toString();
-        let guild = value;
-        func.getGuildSettings(key.toString(), function (guildInfo) {
-            if (guildInfo == "nores") {
-                logMaster("Bot is in unknown guild???\n"+guild.id+" / "+guild.name+"\n\nSave me Vampire!!!");
-            } else {
-                //console.log("Setting "+guild.name+" prefix to "+guildInfo.prefix+"")
-                bot.registerGuildPrefix(guild.id, guildInfo.prefix);
+    func.getGuildPrefixes(function(guilds) {
+        let exists = []
+        bot.guilds.forEach((value, key) => {
+            Object.keys(guilds).some((k) => {
+                if (guilds[k] && guilds[k].guildid === key) {
+                    //console.log("Setting "+value.name+" prefix to "+guilds[k].prefix+"")
+                    bot.registerGuildPrefix(key, guilds[k].prefix);
+                    guilds[k] = undefined
+                    exists.push(key)
+                }
+            })
+            if (exists.indexOf(key) == -1) {
+                logMaster("Bot is in an unknown guild?\n<"+key+"> "+value.name+"\n\nSave me Vampire!")
             }
-        });
-    });
+        })
+    })
 });
 
 bot.on("error", (err) => {

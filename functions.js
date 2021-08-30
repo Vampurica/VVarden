@@ -237,6 +237,14 @@ let func = {
         return callback(true);
     },
 
+    getGuildPrefixes: function(callback) {
+        // Get all guilds prefixes from the database during startup
+        execute('SELECT guildid, prefix FROM guilds')
+        .then(results => {
+            return callback(results)
+        }).catch(console.error);
+    },
+
     getGuildSettings: function(guildID, callback) {
         // Gets the guild settings from the database
         execute('SELECT * FROM guilds WHERE guildid = ?', [guildID])

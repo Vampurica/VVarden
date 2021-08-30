@@ -6,8 +6,11 @@ const pool = createPool({
     user              : config.user,
     password          : config.password,
     database          : config.database,
-    charset           : "utf8_general_ci",
+    charset           : "utf8mb4_general_ci",
     namedPlaceholders : true,
+    waitForConnections: true,
+    queueLimit        : 0,
+    multipleStatements: false
 });
 
 const execute = async (query, parameters) => {
@@ -15,10 +18,9 @@ const execute = async (query, parameters) => {
         //console.time(query);
         const [result] = await pool.execute(query, parameters);
         //console.timeEnd(query);
-
-        return result;
+        return result
     } catch (error) {
-        throw error;
+        throw error
     }
 };
 
