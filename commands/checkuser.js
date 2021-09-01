@@ -24,10 +24,6 @@ let checkuser = function() {
                         // In Database
                         let badType = ["blacklisted","permblacklisted"];
                         if (badType.includes(userInfo.status)) {
-                            let roles = userInfo.roles.split(";").join(",\n");
-                            if (roles == "") {
-                                roles = "None";
-                            }
 
                             bot.createMessage(
                                 msg.channel.id,
@@ -46,11 +42,6 @@ let checkuser = function() {
                                                 name: "User Information", // Field
                                                 value: "**ID**: "+userInfo.userid+" / **Name**: "+userInfo.last_username+"",
                                                 inline: false // Whether you want multiple fields in same line
-                                            },
-                                            {
-                                                name: "Known Discord Roles",
-                                                value: roles.substring(0, 1024),
-                                                inline: false
                                             },
                                             {
                                                 name: "Blacklist Reason",
