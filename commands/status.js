@@ -3,7 +3,7 @@ const {execute} = require("../mysql.js");
 // status
 let status = function() {
 	bot.registerCommand("status", (msg, args) => {
-		execute("SELECT COUNT(*) FROM users").then(results => {
+		execute("SELECT COUNT(*) FROM users WHERE status LIKE '%blacklisted%'").then(results => {
 			if (Object.values(results[0])[0] == 0) {
 				// Doesn't exist?
 			} else {
