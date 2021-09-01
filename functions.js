@@ -333,7 +333,7 @@ let func = {
 										color: 0xFFFF00,
 									}
 								}
-							);
+							).catch(err => {});
 						}).finally(any => {
 							let action = guildInfo[types[type]] == "ban" ? member[guildInfo[types[type]]](0, "Warden - User Type "+type) : member[guildInfo[types[type]]]("Warden - User Type "+type);
 							action.then(any => {
@@ -349,7 +349,7 @@ let func = {
 											color: 0x008000,
 										}
 									}
-								);
+								).catch(err => {});
 							}).catch(err => {
 								bot.createMessage(
 									guildInfo.logchan,
@@ -363,7 +363,7 @@ let func = {
 											color: 0x008000,
 										}
 									}
-								);
+								).catch(err => {});
 							});
 						});
 				} else {
@@ -381,7 +381,7 @@ let func = {
 									color: 0x008000,
 								}
 							}
-						);
+						).catch(err => {});
 					}).catch(err => {
 						bot.createMessage(
 							guildInfo.logchan,
@@ -395,7 +395,7 @@ let func = {
 									color: 0x008000,
 								}
 							}
-						);
+						).catch(err => {});
 					});
 				}
 			}
@@ -414,7 +414,7 @@ let func = {
 							color: 0x008000,
 						}
 					}
-				);
+				).catch(err => {});
 			}
 		}
 	},
