@@ -116,7 +116,7 @@ let adduser = function() {
         }
     },{
         requirements: {
-            userIDs: admin
+            userIDs: [dev]
         },
         description: "Add a User to the database",
         fullDescription: "Add a user to the database",
