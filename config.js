@@ -1,6 +1,9 @@
 const config = {
     token:          "",
-    specialChar:	"war ",
+    specialChar:	[
+		"war ",
+		"War "
+	],
     admin:			[
 		"282199104996507650", // Vampire
 		"147409981757587456", // Mycroft
