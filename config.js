@@ -1,4 +1,4 @@
-let config = {
+const config = {
     token:          "",
     specialChar:	"war ",
     admin:			[
