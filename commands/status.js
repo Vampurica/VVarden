@@ -17,6 +17,11 @@ let status = function() {
 							color: 0x008000,
 							fields: [
 								{
+									name: "Shard Count",
+									value: "I am using "+bot.shards.size+" Shards",
+									inline: false
+								},
+								{
 									name: "Protected Guilds",
 									value: "I am watching "+bot.guilds.size+" Guilds",
 									inline: false
