@@ -1,5 +1,7 @@
-// Checkuser
+const {func}    = require("../functions.js");
+const util      = require("../utils.js");
 
+// Checkuser
 let checkuser = function() {
     bot.registerCommand("checkuser", (msg, args) => {
         // TODO: add validation, dev only so meh atm

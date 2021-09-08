@@ -1,7 +1,37 @@
-const {execute, pool} = require("./mysql.js");
+const config		= require("./config.js");
+const badservers	= require("./badservers.js");
+const fs			= require("fs");
+const readline		= require("readline");
+const util			= require("./utils.js");
+
+// MySQL
+const { createPool } = require('mysql2/promise');
+const pool = createPool({
+    connectionLimit   : 20,
+    host              : config.host,
+    user              : config.user,
+    password          : config.password,
+    database          : config.database,
+    charset           : "utf8mb4_general_ci",
+    namedPlaceholders : true,
+    waitForConnections: true,
+    queueLimit        : 0,
+    multipleStatements: false
+});
+
+const execute = async (query, parameters) => {
+    try {
+        //console.time(query);
+        const [result] = await pool.execute(query, parameters);
+        //console.timeEnd(query);
+        return result
+    } catch (error) {
+        throw error
+    }
+};
 
 // Functions
-let func = {
+const func = {
 	randomStatus: function() {
 		// Randomizes the bot status from the list
 		let rStatus = [
@@ -229,13 +259,6 @@ let func = {
 		return callback(true);
 	},
 
-	getGuildPrefixes: function(callback) {
-		// Get all guilds prefixes from the database during startup
-		execute("SELECT guildid, prefix FROM guilds").then(results => {
-			return callback(results);
-		}).catch(console.error);
-	},
-
 	getGuildSettings: function(guildID, callback) {
 		// Gets the guild settings from the database
 		execute("SELECT * FROM guilds WHERE guildid = ?", [guildID]).then(results => {
@@ -442,13 +465,14 @@ let func = {
 							}
 						});
 					});
-
 				}
 			}
 		});
-
 	}
-
 };
 
-module.exports = func;
+module.exports = {
+	func: func,
+    pool: pool,
+    execute: execute
+};

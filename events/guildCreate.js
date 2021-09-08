@@ -1,6 +1,7 @@
-// Triggers when bot is invited to a new guild
+const {func} = require("../functions.js");
 
-let guildCreate = function(guild) {
+// Triggers when bot is invited to a new guild
+const guildCreate = function(guild) {
         // Invited to New Guild
         logMaster("Joined New Guild "+guild.name+" with "+guild.memberCount+" members\nGuild Owner is <@"+guild.ownerID+"> "+guild.ownerID+"");
         let guildChannel = guild.systemChannelID !== null ? guild.systemChannelID : "861767445832269844";

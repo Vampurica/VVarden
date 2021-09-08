@@ -1,5 +1,7 @@
-// Adduser
+const {func}    = require("../functions.js");
+const util      = require("../utils.js");
 
+// Adduser
 let adduser = function() {
     bot.registerCommand("adduser", (msg, args) => {
         if (args.length == 1) {
@@ -116,14 +118,13 @@ let adduser = function() {
         }
     },{
         requirements: {
-            userIDs: [dev]
+            userIDs: dev
         },
         description: "Add a User to the database",
         fullDescription: "Add a user to the database",
         usage: "adduser 0000000000000 blacklisted leaker 000000000000 Sucks at life",
         aliases: ["add"],
         argsRequired: true,
-        permissionMessage: "You must be a BOT OWNER to use this command"
     });
 };
 
