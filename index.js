@@ -80,7 +80,8 @@ global.bot = new Eris.CommandClient(config.token, {
 		/*"guildMessageReactions",*/
 		"guilds"
 	],
-	restMode: true
+	restMode: true,
+	maxShards: "auto"
 },{
 	description: "A discord bot that cross-references people in bad discords",
 	owner: "Vampire#8144",
@@ -116,6 +117,10 @@ bot.on("ready", () => {
 			}
 		});
 	});
+});
+
+bot.on("shardReady", (id) => {
+	logMaster(`Shard #${id + 1} launched!`);
 });
 
 bot.on("error", (err) => {
