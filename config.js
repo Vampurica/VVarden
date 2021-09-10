@@ -1,5 +1,5 @@
 let config = {
-    token:          "",
+    token:          "ODg1MDM1Mjg5NjcwNzEzMzU0.YThLWA.5Ck_4CALWK9QnhUxYuTQCjh-F0o",
     specialChar:	"war ",
     admin:			[
 		"282199104996507650", // Vampire
@@ -12,12 +12,13 @@ let config = {
 		"640703664738271233",	// Dunak
 		"298207278375370763"	// Eruzil
 	],
-    logChannel:     "861736808345370654",
-    addUsersChan:   "861665428760952852",
+    logChannel:     "",
+    addUsersChan:   "",
     host:           "localhost",
     user:           "root",
-    password:       "",
+    password:       "winter18",
     database:       "vvarden",
+	devLogChannel: "885041596284936232"
 };
 
 module.exports = config;
