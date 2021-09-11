@@ -125,6 +125,7 @@ let adduser = function() {
         usage: "adduser 0000000000000 blacklisted leaker 000000000000 Sucks at life",
         aliases: ["add"],
         argsRequired: true,
+        hidden: true
     });
 };
 

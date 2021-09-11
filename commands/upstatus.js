@@ -73,6 +73,7 @@ let upstatus = function() {
         usage: "upstatus 0000000000 appealed leaker Appealed on 8/3/21 or whatever",
         aliases: ["ups"],
         argsRequired: true,
+        permissionMessage: "You must be a BOT ADMIN to use this command."
     });
 };
 

@@ -191,6 +191,7 @@ let checkuser = function() {
         aliases: ["cua"],
         hidden: true,
         argsRequired: true,
+        permissionMessage: "You must be a BOT ADMIN to use this command.\nMaybe try `cu` or `checkuser` instead?"
     });
 };
 
