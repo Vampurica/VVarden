@@ -12,7 +12,6 @@ const Eris        = require("eris");
 global.fs         = require("fs");
 global.readline   = require("readline");
 const winston     = require("winston");
-let db 			  = require('./mysql.js')
 
 const logger = winston.createLogger({
 	transports: [
@@ -38,7 +37,7 @@ global.logMaster = function(logMess) {
 			message: logMess["stack"]
 		});
 		bot.createMessage(
-			config.devLogChannel, 
+			"861736808345370654",
 			{
 				embed: {
 					description: logMess["stack"],
@@ -56,7 +55,7 @@ global.logMaster = function(logMess) {
 			message: logMess.toString()
 		});
 		bot.createMessage(
-			config.devLogChannel, 
+			"861736808345370654",
 			{
 				embed: {
 					description: logMess.toString(),
@@ -91,7 +90,6 @@ global.bot = new Eris.CommandClient(config.token, {
 
 bot.on("ready", () => {
 	console.log("Logged into Discord!");
-
 	bot.editStatus(
 		"online",
 		{

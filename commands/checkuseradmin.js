@@ -1,7 +1,5 @@
 // Checkuser
 
-// Before running the command, get the guild's log channel and set it.
-
 let checkuser = function() {
     bot.registerCommand("checkuseradmin", (msg, args) => {
         // TODO: add validation, dev only so meh atm
@@ -163,7 +161,7 @@ let checkuser = function() {
                                     }
                                 }
                             );
-                        }   
+                        }
                     });
                 } else {
                     // Not a Number
@@ -189,7 +187,7 @@ let checkuser = function() {
         usage: "cua 000000000000000",
         aliases: ["cua"],
         argsRequired: true,
-        permissionMessage: ":x: Error, you must be `BOT ADMIN` to use this command.\nMaybe try `cu` or `checkuser` instead?"
+        permissionMessage: "You must be a BOT ADMIN to use this command.\nMaybe try `cu` or `checkuser` instead?"
     });
 };
 

@@ -1,32 +1,7 @@
 // config settings
 
-
-let logchan;
-let logExist;
-let prefix;
-let punown;
-let punsupp;
-let punleak;
-let puncheat;
-
-
 let dconfig = function() {
     let main = bot.registerCommand("config", (msg, args) => {
-        func.getGuildSettings(msg.guildID, function (guildInfo) {
-            if(!guildInfo.logchan) {
-                logExist = false;
-                bot.createMessage( msg.channel.id, ':warning: No log channel found. this action will not log.');
-            } else if (guildInfo.logchan) {
-                logExist = true;
-                logchan = guildInfo.logchan;
-            }
-            // Set the OLD config settings for logging.
-            prefix = guildInfo.prefix;
-            punown = guildInfo.punown;
-            punsupp = guildInfo.punsupp;
-            punleak = guildInfo.punleak;
-            puncheat = guildInfo.puncheat;
-        })
         func.getGuildSettings(msg.guildID, function (guildInfo) {
             bot.createMessage(
                 msg.channel.id,
@@ -96,26 +71,14 @@ let dconfig = function() {
                 {
                     embed: {
                         description: ret,
-                        color: 0x008000,
                         author: {
                             name: msg.author.username+"#"+msg.author.discriminator,
                             icon_url: msg.author.avatarURL
                         },
+                        color: 0x008000,
                     }
                 }
             );
-            if(logExist) {
-                bot.createMessage(
-                    logchan,
-                    {
-                        embed: {
-                            color: 0x008000,
-                            title: 'Config was changed sucessfuly!',
-                            description: 'The config var: `prefix` was changed by: ' + msg.author.username + `\n Old value: ${prefix} \n New value: ${args[0]}` + `\n At ${new Date().toLocaleString()} EST.`
-                        },
-                    }
-                ); 
-            }
         });
     },{
         requirements: {
@@ -147,18 +110,6 @@ let dconfig = function() {
                         }
                     }
                 );
-                if(logExist) {
-                    bot.createMessage(
-                        logchan,
-                        {
-                            embed: {
-                                color: 0x008000,
-                                title: 'Config was changed sucessfuly!',
-                                description: 'The config var: `logchan` was changed by: ' + msg.author.username + `\n Old value: <#${logchan}> \n New value: ${args[0]}` + `\n At ${new Date().toLocaleString()} EST.`
-                            },
-                        }
-                    ); 
-                }
             });
         } else {
             // No mention
@@ -187,27 +138,15 @@ let dconfig = function() {
                 msg.channel.id,
                 {
                     embed: {
-                        color: 0x008000,
                         description: ret,
                         author: {
                             name: msg.author.username+"#"+msg.author.discriminator,
                             icon_url: msg.author.avatarURL
                         },
+                        color: 0x008000,
                     }
                 }
             );
-            if(logExist) {
-                bot.createMessage(
-                    logchan,
-                    {
-                        embed: {
-                            color: 0x008000,
-                            title: 'Config was changed sucessfuly!',
-                            description: 'The config var: `punown` was changed by: ' + msg.author.username + `\n Old value: ${punown} \n New value: ${args[0]}` + `\n At ${new Date().toLocaleString()} EST.`
-                        },
-                    }
-                ); 
-            }
         });
     },{
         requirements: {
@@ -237,18 +176,6 @@ let dconfig = function() {
                     }
                 }
             );
-            if(logExist) {
-                bot.createMessage(
-                    logchan,
-                    {
-                        embed: {
-                            color: 0x008000,
-                            title: 'Config was changed sucessfuly!',
-                            description: 'The config var: `punsupp` was changed by: ' + msg.author.username + `\n Old value: ${punsupp} \n New value: ${args[0]}` + `\n At ${new Date().toLocaleString()} EST.`
-                        },
-                    }
-                ); 
-            }
         });
     },{
         requirements: {
@@ -278,18 +205,6 @@ let dconfig = function() {
                     }
                 }
             );
-            if(logExist) {
-                bot.createMessage(
-                    logchan,
-                    {
-                        embed: {
-                            color: 0x008000,
-                            title: 'Config was changed sucessfuly!',
-                            description: 'The config var: `punleak` was changed by: ' + msg.author.username + `\n Old value: ${punleak} \n New value: ${args[0]}` + `\n At ${new Date().toLocaleString()} EST.`
-                        },
-                    }
-                ); 
-            }
         });
     },{
         requirements: {
@@ -319,18 +234,6 @@ let dconfig = function() {
                     }
                 }
             );
-            if(logExist) {
-                bot.createMessage(
-                    logchan,
-                    {
-                        embed: {
-                            color: 0x008000,
-                            title: 'Config was changed sucessfuly!',
-                            description: 'The config var: `puncheat` was changed by: ' + msg.author.username + `\n Old value: ${puncheat} \n New value: ${args[0]}` + `\n At ${new Date().toLocaleString()} EST.`
-                        },
-                    }
-                ); 
-            }
         });
     },{
         requirements: {
