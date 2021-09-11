@@ -12,6 +12,7 @@ const Eris        = require("eris");
 global.fs         = require("fs");
 global.readline   = require("readline");
 const winston     = require("winston");
+const config 	  = require("./config.js");
 
 const logger = winston.createLogger({
 	transports: [
@@ -37,7 +38,7 @@ global.logMaster = function(logMess) {
 			message: logMess["stack"]
 		});
 		bot.createMessage(
-			"861736808345370654",
+			config.devLogChannel,
 			{
 				embed: {
 					description: logMess["stack"],
@@ -55,7 +56,7 @@ global.logMaster = function(logMess) {
 			message: logMess.toString()
 		});
 		bot.createMessage(
-			"861736808345370654",
+			config.devLogChannel,
 			{
 				embed: {
 					description: logMess.toString(),

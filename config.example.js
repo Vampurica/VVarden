@@ -1,5 +1,5 @@
 let config = {
-    token:          "ODg1MDM1Mjg5NjcwNzEzMzU0.YThLWA.5Ck_4CALWK9QnhUxYuTQCjh-F0o",
+    token:          "",
     specialChar:	"war ",
     admin:			[
 		"282199104996507650", // Vampire
@@ -15,8 +15,8 @@ let config = {
     logChannel:     "",
     addUsersChan:   "",
     host:           "localhost",
-    user:           "root",
-    password:       "winter18",
+    user:           "",
+    password:       "",
     database:       "vvarden",
 	devLogChannel: "885041596284936232"
 };

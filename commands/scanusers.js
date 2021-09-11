@@ -1,13 +1,26 @@
 // Scan Users
 // In the future this could maybe be done slowly automatically
 
+let logchan;
+let logExist;
+
 let scanusers = function() {
     bot.registerCommand("scanusers", (msg, args) => {
         /*function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }*/
-
         bot.guilds.get(msg.guildID).fetchAllMembers().then( () => {
+            // Setup logging. 
+            func.getGuildSettings(msg.guildID, function (guildInfo) {
+                if(!guildInfo.logchan) {
+                    logExist = false;
+                    bot.createMessage( msg.channel.id, ':warning: No log channel found. this action will not log.');
+                } else if (guildInfo.logchan) {
+                    logExist = true;
+                    logchan = guildInfo.logchan;
+                }
+            })
+
             func.getGuildSettings(msg.guildID, function (guildInfo) {
                 logMaster("Guild ID: "+msg.guildID+" "+guildInfo.guildname+" / "+msg.author.username+"#"+msg.author.discriminator+" running `scanusers` command");
                 bot.createMessage(
@@ -19,6 +32,20 @@ let scanusers = function() {
                         }
                     }
                 );
+                // At this point we can safely assume that the command has started, so logit.
+                // Also check to ensure there is a channel.
+                if(logExist) {
+                    bot.createMessage(
+                        logchan,
+                        {
+                            embed: {
+                                color: 0x008000,
+                                title: 'Admin command successfully ran.',
+                                description: 'The command: `scanusers` was ran by: ' + msg.author.username + `\n At ${new Date().toLocaleString()} EST.`
+                            },
+                        }
+                    ); 
+                }
                 if (guildInfo == "nores") {
                     logMaster("Bot is in unknown guild???\n"+msg.guildID+" Save me Vampire!!!");
                 } else {
