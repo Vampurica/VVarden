@@ -1,5 +1,8 @@
-// Checkuser
+const {func}        = require("../functions.js");
+const badservers    = require("../badservers.js");
+const util          = require("../utils.js");
 
+// Checkuser
 let checkuser = function() {
     bot.registerCommand("checkuseradmin", (msg, args) => {
         // TODO: add validation, dev only so meh atm
@@ -186,6 +189,7 @@ let checkuser = function() {
         fullDescription: "Check user database status as an admin",
         usage: "cua 000000000000000",
         aliases: ["cua"],
+        hidden: true,
         argsRequired: true,
         permissionMessage: "You must be a BOT ADMIN to use this command.\nMaybe try `cu` or `checkuser` instead?"
     });

@@ -1,5 +1,7 @@
-// config settings
+const {func} = require("../functions.js");
+const {spc}  = require("../config.js")
 
+// config settings
 let dconfig = function() {
     let main = bot.registerCommand("config", (msg, args) => {
         func.getGuildSettings(msg.guildID, function (guildInfo) {

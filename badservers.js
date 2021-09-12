@@ -1,4 +1,4 @@
-let badservers = {
+const badservers = {
 	"860760302227161118": "Unknown Discord", /* CFXCIP for Manual Adds */
     /* Cheating Discords */
     "769786559071125575": "5mDictator",

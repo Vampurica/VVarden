@@ -1,4 +1,4 @@
-const {execute} = require("../mysql.js");
+const {execute} = require("../functions.js");
 
 // status
 let status = function() {

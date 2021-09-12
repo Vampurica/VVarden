@@ -1,5 +1,6 @@
-// Procfile
+const {func} = require("../functions.js");
 
+// Procfile
 let procfile = function() {
     bot.registerCommand("procfile", (msg, args) => {
         // TODO: add validation, dev only so meh atm
@@ -27,7 +28,7 @@ let procfile = function() {
         }
     },{
         requirements: {
-            userIDs: [dev]
+            userIDs: dev
         },
         description: "Import File",
         fullDescription: "Process and Import User Files",
@@ -35,7 +36,6 @@ let procfile = function() {
         aliases: ["pf"],
         hidden: true,
         argsRequired: true,
-        permissionMessage: "You must be a BOT OWNER to use this command."
     });
 };
 

@@ -1,6 +1,7 @@
+const {func} = require("../functions.js");
+
 // Scan Users
 // In the future this could maybe be done slowly automatically
-
 let scanusers = function() {
     bot.registerCommand("scanusers", (msg, args) => {
         /*function sleep(ms) {

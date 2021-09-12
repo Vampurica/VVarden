@@ -1,5 +1,6 @@
-// Upstatus
+const {func} = require("../functions.js");
 
+// Upstatus
 let upstatus = function() {
     bot.registerCommand("upstatus", (msg, args) => {
         if (args.length >= 4) {

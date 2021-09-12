@@ -1,5 +1,7 @@
-// forcecheck
+const {func}    = require("../functions.js");
+const util      = require("../utils.js");
 
+// forcecheck
 let forcecheck = function() {
     bot.registerCommand("forcecheck", (msg, args) => {
         if (args.length == 1) {
