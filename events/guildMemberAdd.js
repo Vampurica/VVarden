@@ -1,6 +1,7 @@
-// Triggers when a user joins a guild the bot is in
+const {func} = require("../functions.js");
 
-let guildMemberAdd = function(guild, member) {
+// Triggers when a user joins a guild the bot is in
+const guildMemberAdd = function(guild, member) {
     // Member Joined Guild, process blacklist
     // First get Guild Settings
     func.getGuildSettings(guild.id, function (guildInfo) {

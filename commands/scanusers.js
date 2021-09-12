@@ -1,3 +1,5 @@
+const {func} = require("../functions.js");
+
 // Scan Users
 // In the future this could maybe be done slowly automatically
 
