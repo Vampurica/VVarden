@@ -23,8 +23,6 @@ let dconfig = function() {
             punsupp = guildInfo.punsupp;
             punleak = guildInfo.punleak;
             puncheat = guildInfo.puncheat;
-        })
-        func.getGuildSettings(msg.guildID, function (guildInfo) {
             bot.createMessage(
                 msg.channel.id,
                 {

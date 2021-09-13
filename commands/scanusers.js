@@ -12,7 +12,7 @@ let scanusers = function() {
             return new Promise(resolve => setTimeout(resolve, ms));
         }*/
         bot.guilds.get(msg.guildID).fetchAllMembers().then( () => {
-            // Setup logging. 
+            // Setup logging.
             func.getGuildSettings(msg.guildID, function (guildInfo) {
                 if(!guildInfo.logchan) {
                     logExist = false;
@@ -21,9 +21,6 @@ let scanusers = function() {
                     logExist = true;
                     logchan = guildInfo.logchan;
                 }
-            })
-
-            func.getGuildSettings(msg.guildID, function (guildInfo) {
                 logMaster("Guild ID: "+msg.guildID+" "+guildInfo.guildname+" / "+msg.author.username+"#"+msg.author.discriminator+" running `scanusers` command");
                 bot.createMessage(
                     msg.channel.id,
