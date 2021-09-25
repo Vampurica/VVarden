@@ -188,7 +188,7 @@ const func = {
 		});
 	},
 
-    anonymizeUser: function(userID) {
+    anonymizeUser: function(userID, callback) {
         // Anonymize a user in the database
 
         // Check user exists
@@ -205,7 +205,7 @@ const func = {
                 let servers = "860760302227161118";
                 let roles = "";
 
-				execute("UPDATE users SET avatar = ?, last_username = ?, servers = ?, roles = ? WHERE userid = ?", [avatar, last_username, servers, roles]).then(results => {
+				execute("UPDATE users SET avatar = ?, last_username = ?, servers = ?, roles = ? WHERE userid = ?", [avatar, username, servers, roles, userID]).then(results => {
 					return callback("Anonymized "+oldUser.last_username+" <@"+userID+">");
 				}).catch(console.error);
 			}

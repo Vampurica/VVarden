@@ -1,9 +1,9 @@
-const {func}    = require("../functions.js");
+const {func} = require("../functions.js");
 
 // Anonymize
-let anonymize =  = function() {
+const anonymize = function() {
     bot.registerCommand("anonymize", (msg, args) => {
-        if (args.length >= 3) {
+        if (args.length = 1) {
             if (msg.mentions.length == 1) {
                 // Has a mention, no need to verify userID
                 let userID = msg.mentions[0].id;
