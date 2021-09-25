@@ -188,6 +188,30 @@ const func = {
 		});
 	},
 
+    anonymizeUser: function(userID, callback) {
+        // Anonymize a user in the database
+
+        // Check user exists
+        func.getUserFromDB(userID, function (oldUser) {
+			if (oldUser == "nores") {
+				// Return Nothing
+				return callback(":x: User not found in database");
+			} else {
+				// Existing User
+                // Set Default Values
+
+                let avatar = "https://discord.com/assets/6debd47ed13483642cf09e832ed0bc1b.png";
+                let username = "unknown#0000";
+                let servers = "860760302227161118";
+                let roles = "";
+
+				execute("UPDATE users SET avatar = ?, last_username = ?, servers = ?, roles = ? WHERE userid = ?", [avatar, username, servers, roles, userID]).then(results => {
+					return callback("Anonymized "+oldUser.last_username+" <@"+userID+">");
+				}).catch(console.error);
+			}
+		});
+    },
+
 	CSVtoArray: function(text) {
 		let re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
 		let re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
