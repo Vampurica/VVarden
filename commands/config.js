@@ -1,5 +1,5 @@
 const {func} = require("../functions.js");
-const {spc}  = require("../config.js")
+const {spc}  = require("../config.js");
 
 // config settings
 let dconfig = function() {
