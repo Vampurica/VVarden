@@ -33,15 +33,23 @@ const execute = async (query, parameters) => {
 // Functions
 const func = {
   sleep: function (ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    const promise = new Promise((resolve) => setTimeout(resolve, ms));
+    return promise
+  },
+
+  date: function(time) {
+    const date = new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'long',
+    }).format(time || Date.now());
+    return date
   },
 
   randomStatus: function () {
     // Randomizes the bot status from the list
     let rStatus = [
-      'Leakers | Use ' + spc + 'help',
+      'Leakers | Use ' + config.spc + 'help',
       ' Guilds',
-      'Cheaters | Use ' + spc + 'help',
+      'Cheaters | Use ' + config.spc + 'help',
       'discord.gg/jeFeDRasfs',
     ];
     let newStatus = util.selectRandom(rStatus);
@@ -95,7 +103,7 @@ const func = {
           return callback(results[0]);
         } else {
           //logMaster("GetUserFromDB: NoRes")
-          return callback('nores');
+          return callback();
         }
       })
       .catch(console.error);
@@ -106,7 +114,7 @@ const func = {
 
     // First check the database for the user
     func.getUserFromDB(userID, function (oldUser) {
-      if (oldUser == 'nores') {
+      if (!oldUser) {
         // Add New User
         execute(
           'INSERT INTO users (userid, avatar, user_type, last_username, servers, roles) VALUES (?, ?, ?, ?, ?, ?)',
@@ -216,7 +224,7 @@ const func = {
     // Function for an admin to manually add a user to the database
 
     func.getUserFromDB(userID, function (oldUser) {
-      if (oldUser == 'nores') {
+      if (!oldUser) {
         // User Does not exist, so add user
         bot
           .getRESTUser(userID)
@@ -256,7 +264,7 @@ const func = {
           });
       } else {
         // User Already in Database
-        return callback(':x: User is already in database.\nChange status if necessary using ' + spc + 'upstatus');
+        return callback(':x: User is already in database.\nChange status if necessary using ' + config.spc + 'upstatus');
       }
     });
   },
@@ -266,11 +274,13 @@ const func = {
 
     // First check the database for the user
     func.getUserFromDB(userID, function (oldUser) {
-      if (oldUser == 'nores') {
-        // Return Nothing
+      if (!oldUser) {
         return callback(':x: User not found in database');
       } else {
         // Existing User
+        if (newType === undefined) {
+          newType = oldUser.user_type
+        }
         execute('UPDATE users SET status = ?, user_type = ?, reason = ? WHERE userid = ?', [
           newStatus,
           newType,
@@ -302,7 +312,7 @@ const func = {
 
     // Check user exists
     func.getUserFromDB(userID, function (oldUser) {
-      if (oldUser == 'nores') {
+      if (!oldUser) {
         // Return Nothing
         return callback(':x: User not found in database');
       } else {
@@ -408,7 +418,7 @@ const func = {
           return callback(results[0]);
         } else {
           // Doesn't exist
-          return callback('nores');
+          return callback();
         }
       })
       .catch(console.error);
@@ -437,7 +447,7 @@ const func = {
     };
     if (guildOpt === 'logchan') {
       func.getGuildSettings(guildID, function (guildInfo) {
-        if (guildInfo == 'nores') {
+        if (!guildInfo) {
           return callback(':x: Guild settings not found!\nPlease let the bot developer know.');
         } else {
           execute('UPDATE guilds SET logchan = ? WHERE guildid = ?', [guildVal, guildID])
@@ -449,7 +459,7 @@ const func = {
       });
     } else if (guildOpt === 'prefix') {
       func.getGuildSettings(guildID, function (guildInfo) {
-        if (guildInfo == 'nores') {
+        if (!guildInfo) {
           return callback(':x: Guild settings not found!\nPlease let the bot developer know.');
         } else {
           execute('UPDATE guilds SET prefix = ? WHERE guildid = ?', [guildVal, guildID])
@@ -462,7 +472,7 @@ const func = {
     } else if (guildOptions[guildOpt] != null) {
       if (guildOptions[guildOpt].includes(guildVal)) {
         func.getGuildSettings(guildID, function (guildInfo) {
-          if (guildInfo == 'nores') {
+          if (!guildInfo) {
             return callback(':x: Guild settings not found!\nPlease let the bot developer know.');
           } else {
             execute('UPDATE guilds SET ' + guildOpt + ' = ? WHERE guildid = ?', [guildVal, guildID])
@@ -475,14 +485,14 @@ const func = {
       } else {
         return callback(
           ':x: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
-            spc +
+            config.spc +
             'config` again for the allowed values per setting'
         );
       }
     } else {
       return callback(
         ':x: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
-          spc +
+          config.spc +
           'config` again for the allowed values per setting'
       );
     }
@@ -645,7 +655,7 @@ const func = {
 
   globalFindAndCheck: function (userID) {
     func.getUserFromDB(userID, function (oldUser) {
-      if (oldUser != 'nores') {
+      if (oldUser) {
         // User Exists, Process
         let block = ['blacklisted', 'permblacklisted'];
         if (block.includes(oldUser.status)) {

@@ -29,14 +29,14 @@ let scanusers = function () {
                 color: 0xffff00,
               },
             });
-            if (guildInfo == 'nores') {
+            if (!guildInfo) {
               logMaster('Bot is in unknown guild???\n' + msg.guildID + ' Save me Vampire!!!');
             } else {
               bot.guilds.get(msg.guildID).members.forEach((value, key) => {
                 let member = bot.guilds.get(msg.guildID).members.get(key);
                 // Now Get Member Info
                 func.getUserFromDB(member.id, function (oldUser) {
-                  if (oldUser == 'nores') {
+                  if (!oldUser) {
                     // User Does not exist, so do nothing I guess?
                     // Maybe in the future give a clean log
                   } else {
