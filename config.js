@@ -14,7 +14,6 @@
     '298207278375370763', // Eruzil
     '793379017062350888', // Kakarot
   ]),
-  (global.spc = 'war ');
 
 module.exports = {
   token: '',
@@ -24,4 +23,5 @@ module.exports = {
   user: '',
   password: '',
   database: '',
+  spc: 'war '
 };

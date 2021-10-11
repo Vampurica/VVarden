@@ -5,7 +5,7 @@
 
 // INCLUDES AND CONFIGS
 const config = require('./config.js');
-const { func, pool, execute } = require('./functions.js');
+const { func, execute } = require('./functions.js');
 const Eris = require('eris');
 const fs = require('fs');
 const winston = require('winston');
@@ -75,7 +75,7 @@ global.bot = new Eris.CommandClient(
   {
     description: 'A discord bot that cross-references people in bad discords',
     owner: 'Vampire#8144',
-    prefix: spc,
+    prefix: config.spc,
     defaultHelpCommand: false,
   }
 );

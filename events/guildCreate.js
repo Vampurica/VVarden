@@ -1,4 +1,5 @@
 const { func } = require('../functions.js');
+const { spc } = require('../config.js');
 
 // Triggers when bot is invited to a new guild
 const guildCreate = function (guild) {
