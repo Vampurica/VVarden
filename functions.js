@@ -34,14 +34,15 @@ const execute = async (query, parameters) => {
 const func = {
   sleep: function (ms) {
     const promise = new Promise((resolve) => setTimeout(resolve, ms));
-    return promise
+    return promise;
   },
 
-  date: function(time) {
+  date: function (time) {
+    if (time && !time.match(/^\d/)) return time;
     const date = new Intl.DateTimeFormat('en-US', {
       dateStyle: 'long',
-    }).format(time || Date.now());
-    return date
+    }).format(time ? new Date(time.replace(/-/g, '/')) : Date.now());
+    return date;
   },
 
   randomStatus: function () {
@@ -264,7 +265,9 @@ const func = {
           });
       } else {
         // User Already in Database
-        return callback(':x: User is already in database.\nChange status if necessary using ' + config.spc + 'upstatus');
+        return callback(
+          ':x: User is already in database.\nChange status if necessary using ' + config.spc + 'upstatus'
+        );
       }
     });
   },
@@ -279,7 +282,7 @@ const func = {
       } else {
         // Existing User
         if (newType === undefined) {
-          newType = oldUser.user_type
+          newType = oldUser.user_type;
         }
         execute('UPDATE users SET status = ?, user_type = ?, reason = ? WHERE userid = ?', [
           newStatus,

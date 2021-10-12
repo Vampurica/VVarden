@@ -54,7 +54,7 @@ let checkuser = function () {
                       },
                       {
                         name: 'Added Type: ' + userInfo.filter_type,
-                        value: '**Date Added**: ' + func.date(new Date(userInfo.added_date.replace(/-/g, '/'))),
+                        value: '**Date Added**: ' + func.date(userInfo.added_date),
                         inline: false,
                       },
                     ],
@@ -124,7 +124,7 @@ let checkuser = function () {
                         },
                         {
                           name: 'Added Type: ' + userInfo.filter_type,
-                          value: '**Date Added**: ' + func.date(new Date(userInfo.added_date.replace(/-/g, '/'))),
+                          value: '**Date Added**: ' + func.date(userInfo.added_date),
                           inline: false,
                         },
                       ],
