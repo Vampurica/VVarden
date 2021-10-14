@@ -12,7 +12,7 @@ let checkuser = function () {
           // Mentioned user
           let userID = msg.mentions[0].id;
           func.getUserFromDB(userID, function (userInfo) {
-            if (userInfo == 'nores') {
+            if (!userInfo) {
               // Not In Database
               bot.createMessage(msg.channel.id, {
                 embed: {
@@ -82,7 +82,7 @@ let checkuser = function () {
           if (!isNaN(userID)) {
             // Should be a valid ID
             func.getUserFromDB(userID, function (userInfo) {
-              if (userInfo == 'nores') {
+              if (!userInfo) {
                 // Not In Database
                 bot.createMessage(msg.channel.id, {
                   embed: {
