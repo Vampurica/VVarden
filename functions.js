@@ -372,7 +372,7 @@ const func = {
                 if (usertype === 'permblacklisted') {
                   if (newServer) {
                     permaCount++;
-                    bot.createMessage(config.addUsersChan, {
+                    bot.createMessage(config.logChannel, {
                       embed: {
                         description: `:x: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
                         color: 0x800000,
@@ -387,7 +387,7 @@ const func = {
       }
       bot.createMessage(config.addUsersChan, {
         embed: {
-          description: `:warden: Completed user imports for ${filename} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users were permanently blacklisted.`,
+          description: `:shield: Completed user imports for ${badservers[serverid]} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users were permanently blacklisted.`,
           color: 0x800000,
         },
       });
