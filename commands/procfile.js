@@ -7,6 +7,16 @@ let procfile = function () {
     (msg, args) => {
       // TODO: add validation, dev only so meh atm
       if (args.length == 3) {
+        bot.createMessage(msg.channel.id, {
+          embed: {
+            description: `:shield: Importing ${args[2]} user data for ${args[1]}`,
+            author: {
+              name: msg.author.username + '#' + msg.author.discriminator,
+              icon_url: msg.author.avatarURL,
+            },
+            color: 0x008000,
+          },
+        });
         func.processCSVImport(args[0], args[1], args[2], function (ret) {
           if (!ret) {
             bot.createMessage(msg.channel.id, {
@@ -20,16 +30,6 @@ let procfile = function () {
               },
             });
           }
-          bot.createMessage(msg.channel.id, {
-            embed: {
-              description: 'Running command.\nCheck added users for results.',
-              author: {
-                name: msg.author.username + '#' + msg.author.discriminator,
-                icon_url: msg.author.avatarURL,
-              },
-              color: 0x008000,
-            },
-          });
         });
       } else {
         bot.createMessage(msg.channel.id, 'Invalid Argument Length.');

@@ -22,9 +22,7 @@ const pool = createPool({
 
 const execute = async (query, parameters) => {
   try {
-    //console.time(query);
     const [result] = await pool.execute(query, parameters);
-    //console.timeEnd(query);
     return result;
   } catch (error) {
     throw error;
@@ -154,7 +152,7 @@ const func = {
                 return callback(usertype, lastuser, userID);
               })
               .catch(console.error);
-          }
+          } else return callback()
         } else {
           // New Server
           spServers.push(server);
@@ -235,7 +233,7 @@ const func = {
       } else {
         // User Already in Database
         return callback(
-          ':x: User is already in database.\nChange status if necessary using ' + config.spc + 'upstatus'
+          ':shield: User is already in database.\nChange status if necessary using ' + config.spc + 'upstatus'
         );
       }
     });
@@ -247,7 +245,7 @@ const func = {
     // First check the database for the user
     func.getUserFromDB(userID, function (oldUser) {
       if (!oldUser) {
-        return callback(':x: User not found in database');
+        return callback(':shield: User not found in database');
       } else {
         // Existing User
         if (newType === undefined) {
@@ -286,7 +284,7 @@ const func = {
     func.getUserFromDB(userID, function (oldUser) {
       if (!oldUser) {
         // Return Nothing
-        return callback(':x: User not found in database');
+        return callback(':shield: User not found in database');
       } else {
         // Existing User
         // Set Default Values
@@ -341,51 +339,57 @@ const func = {
   processCSVImport: async function (filename, serverid, utype, callback) {
     if (processState === undefined) {
       processState = 'import';
-      const fileStream = fs.createReadStream(filename + '.csv');
-      //let add = 0;
-      //let upd = 0;
+
+      let blacklistCount = 0;
+      let permaCount = 0;
 
       const rl = readline.createInterface({
-        input: fileStream,
+        input: fs.createReadStream(filename + '.csv'),
         crlfDelay: Infinity,
       });
       // Note: we use the crlfDelay option to recognize all instances of CR LF
       // ('\r\n') in input.txt as a single line break.
-      let blacklistCount = 0;
-      let permaCount = 0;
 
-      for await (const line of rl) {
-        // Each line in input.txt will be successively available here as `line`.
-        let lineArr = func.CSVtoArray(line);
-        if (lineArr != null) {
-          if (lineArr[0] != 'username') {
-            func.addUserToDB(
-              lineArr[7], // UserID
-              lineArr[2], // Avatar
-              'blacklisted', // Status
-              utype, // User Type
-              lineArr[0] + '#' + lineArr[1], // Username
-              serverid, // Server ID
-              lineArr[3], // Roles
-              'Semi-Auto', // Filter Type
-              function (usertype, lastuser, userID, newServer) {
-                blacklistCount++;
-                if (usertype === 'permblacklisted') {
-                  if (newServer) {
-                    permaCount++;
-                    bot.createMessage(config.logChannel, {
-                      embed: {
-                        description: `:x: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
-                        color: 0x800000,
-                      },
-                    });
+      const processLines = async () => {
+        for await (const line of rl) {
+          // Each line in input.txt will be successively available here as `line`.
+          let lineArr = func.CSVtoArray(line);
+          if (lineArr != null) {
+            if (lineArr[0] != 'username') {
+              await new Promise((r) => {
+                func.addUserToDB(
+                  lineArr[7], // UserID
+                  lineArr[2], // Avatar
+                  'blacklisted', // Status
+                  utype, // User Type
+                  lineArr[0] + '#' + lineArr[1], // Username
+                  serverid, // Server ID
+                  lineArr[3], // Roles
+                  'Semi-Auto', // Filter Type
+                  function (usertype, lastuser, userID, newServer) {
+                    if (usertype) {
+                      blacklistCount++;
+                      if (usertype === 'permblacklisted') {
+                        if (newServer) {
+                          permaCount++;
+                          bot.createMessage(config.logChannel, {
+                            embed: {
+                              description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
+                              color: 0x800000,
+                            },
+                          });
+                        }
+                      }
+                    }
+                    r();
                   }
-                }
-              }
-            );
+                );
+              });
+            }
           }
         }
-      }
+      };
+      await processLines();
       bot.createMessage(config.addUsersChan, {
         embed: {
           description: `:shield: Completed user imports for ${badservers[serverid]} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users were permanently blacklisted.`,
@@ -439,7 +443,7 @@ const func = {
     if (guildOpt === 'logchan') {
       func.getGuildSettings(guildID, function (guildInfo) {
         if (!guildInfo) {
-          return callback(':x: Guild settings not found!\nPlease let the bot developer know.');
+          return callback(':shield: Guild settings not found!\nPlease let the bot developer know.');
         } else {
           execute('UPDATE guilds SET logchan = ? WHERE guildid = ?', [guildVal, guildID])
             .then((results) => {
@@ -451,7 +455,7 @@ const func = {
     } else if (guildOpt === 'prefix') {
       func.getGuildSettings(guildID, function (guildInfo) {
         if (!guildInfo) {
-          return callback(':x: Guild settings not found!\nPlease let the bot developer know.');
+          return callback(':shield: Guild settings not found!\nPlease let the bot developer know.');
         } else {
           execute('UPDATE guilds SET prefix = ? WHERE guildid = ?', [guildVal, guildID])
             .then((results) => {
@@ -464,7 +468,7 @@ const func = {
       if (guildOptions[guildOpt].includes(guildVal)) {
         func.getGuildSettings(guildID, function (guildInfo) {
           if (!guildInfo) {
-            return callback(':x: Guild settings not found!\nPlease let the bot developer know.');
+            return callback(':shield: Guild settings not found!\nPlease let the bot developer know.');
           } else {
             execute('UPDATE guilds SET ' + guildOpt + ' = ? WHERE guildid = ?', [guildVal, guildID])
               .then((results) => {
@@ -475,14 +479,14 @@ const func = {
         });
       } else {
         return callback(
-          ':x: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
+          ':shield: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
             config.spc +
             'config` again for the allowed values per setting'
         );
       }
     } else {
       return callback(
-        ':x: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
+        ':shield: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
           config.spc +
           'config` again for the allowed values per setting'
       );

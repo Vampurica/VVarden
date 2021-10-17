@@ -27,7 +27,7 @@ let checkuser = function () {
               if (badType.includes(userInfo.status)) {
                 bot.createMessage(msg.channel.id, {
                   embed: {
-                    title: ':x: User Blacklisted',
+                    title: ':shield: User Blacklisted',
                     description:
                       '<@' +
                       userInfo.userid +
@@ -97,7 +97,7 @@ let checkuser = function () {
                 if (badType.includes(userInfo.status)) {
                   bot.createMessage(msg.channel.id, {
                     embed: {
-                      title: ':x: User Blacklisted',
+                      title: ':shield: User Blacklisted',
                       description:
                         '<@' +
                         userInfo.userid +

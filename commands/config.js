@@ -135,7 +135,7 @@ let dconfig = function () {
         });
       } else {
         // No mention
-        bot.createMessage(msg.channel.id, ':x: Invalid Channel Mention.');
+        bot.createMessage(msg.channel.id, ':shield: Invalid Channel Mention.');
       }
     },
     {

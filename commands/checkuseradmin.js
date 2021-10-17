@@ -40,7 +40,7 @@ let checkuser = function () {
 
               bot.createMessage(msg.channel.id, {
                 embed: {
-                  title: ':x: User In Database',
+                  title: ':shield: User In Database',
                   description:
                     '<@' +
                     userInfo.userid +
@@ -128,7 +128,7 @@ let checkuser = function () {
 
                 bot.createMessage(msg.channel.id, {
                   embed: {
-                    title: ':x: User In Database',
+                    title: ':shield: User In Database',
                     description:
                       '<@' +
                       userInfo.userid +
