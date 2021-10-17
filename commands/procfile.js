@@ -8,6 +8,18 @@ let procfile = function () {
       // TODO: add validation, dev only so meh atm
       if (args.length == 3) {
         func.processCSVImport(args[0], args[1], args[2], function (ret) {
+          if (!ret) {
+            bot.createMessage(msg.channel.id, {
+              embed: {
+                description: 'Unable to start import.\nPrevious import has not been completed.',
+                author: {
+                  name: msg.author.username + '#' + msg.author.discriminator,
+                  icon_url: msg.author.avatarURL,
+                },
+                color: 0x008000,
+              },
+            });
+          }
           bot.createMessage(msg.channel.id, {
             embed: {
               description: 'Running command.\nCheck added users for results.',

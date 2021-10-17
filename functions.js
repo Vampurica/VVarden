@@ -1,8 +1,8 @@
 const config = require('./config.js');
-const badservers = require('./badservers.js');
 const fs = require('fs');
 const readline = require('readline');
 const util = require('./utils.js');
+let processState;
 
 // MySQL
 const { createPool } = require('mysql2/promise');
@@ -43,6 +43,14 @@ const func = {
       dateStyle: 'long',
     }).format(time ? new Date(time.replace(/-/g, '/')) : Date.now());
     return date;
+  },
+
+  processStatus: function (set) {
+    if (set) {
+      if (set === 'done') processState = undefined;
+      else processState = set;
+    }
+    return processState;
   },
 
   randomStatus: function () {
@@ -123,17 +131,7 @@ const func = {
         )
           .then((results) => {
             func.globalFindAndCheck(userID);
-            return callback(
-              ':x: Auto Added ' +
-                usertype +
-                ' ' +
-                lastuser +
-                ' <@' +
-                userID +
-                '> into database from ' +
-                badservers[server] +
-                ''
-            );
+            return callback(usertype, lastuser, userID);
           })
           .catch(console.error);
       } else {
@@ -152,17 +150,7 @@ const func = {
             ])
               .then((results) => {
                 func.globalFindAndCheck(userID);
-                return callback(
-                  ':x: Auto Updated ' +
-                    usertype +
-                    ' ' +
-                    lastuser +
-                    ' <@' +
-                    userID +
-                    '> in database from ' +
-                    badservers[server] +
-                    ' to **PERMANENT BLACKLIST**'
-                );
+                return callback(usertype, lastuser, userID);
               })
               .catch(console.error);
           }
@@ -180,17 +168,7 @@ const func = {
             ])
               .then((results) => {
                 func.globalFindAndCheck(userID);
-                return callback(
-                  ':x: Auto Updated ' +
-                    usertype +
-                    ' ' +
-                    lastuser +
-                    ' <@' +
-                    userID +
-                    '> in database from ' +
-                    badservers[server] +
-                    ' to **PERMANENT BLACKLIST**'
-                );
+                return callback(usertype, lastuser, userID, true);
               })
               .catch(console.error);
           } else {
@@ -202,17 +180,7 @@ const func = {
             ])
               .then((results) => {
                 func.globalFindAndCheck(userID);
-                return callback(
-                  ':x: Auto Updated ' +
-                    usertype +
-                    ' ' +
-                    lastuser +
-                    ' <@' +
-                    userID +
-                    '> in database from ' +
-                    badservers[server] +
-                    ''
-                );
+                return callback(usertype, lastuser, userID, false);
               })
               .catch(console.error);
           }
@@ -370,45 +338,63 @@ const func = {
   },
 
   processCSVImport: async function (filename, serverid, utype, callback) {
-    const fileStream = fs.createReadStream(filename + '.csv');
-    //let add = 0;
-    //let upd = 0;
+    if (processState === undefined) {
+      processState = 'import';
+      const fileStream = fs.createReadStream(filename + '.csv');
+      //let add = 0;
+      //let upd = 0;
 
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity,
-    });
-    // Note: we use the crlfDelay option to recognize all instances of CR LF
-    // ('\r\n') in input.txt as a single line break.
+      const rl = readline.createInterface({
+        input: fileStream,
+        crlfDelay: Infinity,
+      });
+      // Note: we use the crlfDelay option to recognize all instances of CR LF
+      // ('\r\n') in input.txt as a single line break.
+      let blacklistCount = 0;
+      let permaCount = 0;
 
-    for await (const line of rl) {
-      // Each line in input.txt will be successively available here as `line`.
-      let lineArr = func.CSVtoArray(line);
-      if (lineArr != null) {
-        if (lineArr[0] != 'username') {
-          func.addUserToDB(
-            lineArr[7], // UserID
-            lineArr[2], // Avatar
-            'blacklisted', // Status
-            utype, // User Type
-            lineArr[0] + '#' + lineArr[1], // Username
-            serverid, // Server ID
-            lineArr[3], // Roles
-            'Semi-Auto', // Filter Type
-            function (ret) {
-              bot.createMessage(config.addUsersChan, {
-                embed: {
-                  description: ret,
-                  color: 0x800000,
-                },
-              });
-            }
-          );
+      for await (const line of rl) {
+        // Each line in input.txt will be successively available here as `line`.
+        let lineArr = func.CSVtoArray(line);
+        if (lineArr != null) {
+          if (lineArr[0] != 'username') {
+            func.addUserToDB(
+              lineArr[7], // UserID
+              lineArr[2], // Avatar
+              'blacklisted', // Status
+              utype, // User Type
+              lineArr[0] + '#' + lineArr[1], // Username
+              serverid, // Server ID
+              lineArr[3], // Roles
+              'Semi-Auto', // Filter Type
+              function (usertype, lastuser, userID, newServer) {
+                if (usertype === 'permblacklisted') {
+                  if (newServer) {
+                    permaCount++;
+                    bot.createMessage(config.addUsersChan, {
+                      embed: {
+                        description: `:x: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
+                        color: 0x800000,
+                      },
+                    });
+                  }
+                } else blacklistCount++;
+              }
+            );
+          }
         }
       }
+    } else {
+      return callback(processState);
     }
-
+    bot.createMessage(config.addUsersChan, {
+      embed: {
+        description: `:warden: Completed user imports for ${filename} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users have been permanently blacklisted.`,
+        color: 0x800000,
+      },
+    });
     //logMaster("Added "+add+" users and updated "+upd+" users for the database from "+filename+".csv")
+    func.processStatus('done');
     return callback(true);
   },
 
