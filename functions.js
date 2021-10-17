@@ -368,6 +368,7 @@ const func = {
               lineArr[3], // Roles
               'Semi-Auto', // Filter Type
               function (usertype, lastuser, userID, newServer) {
+                blacklistCount++;
                 if (usertype === 'permblacklisted') {
                   if (newServer) {
                     permaCount++;
@@ -378,24 +379,24 @@ const func = {
                       },
                     });
                   }
-                } else blacklistCount++;
+                }
               }
             );
           }
         }
       }
+      bot.createMessage(config.addUsersChan, {
+        embed: {
+          description: `:warden: Completed user imports for ${filename} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users were permanently blacklisted.`,
+          color: 0x800000,
+        },
+      });
+      //logMaster("Added "+add+" users and updated "+upd+" users for the database from "+filename+".csv")
+      func.processStatus('done');
+      return callback(true);
     } else {
       return callback(processState);
     }
-    bot.createMessage(config.addUsersChan, {
-      embed: {
-        description: `:warden: Completed user imports for ${filename} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users have been permanently blacklisted.`,
-        color: 0x800000,
-      },
-    });
-    //logMaster("Added "+add+" users and updated "+upd+" users for the database from "+filename+".csv")
-    func.processStatus('done');
-    return callback(true);
   },
 
   getGuildSettings: function (guildID, callback) {
