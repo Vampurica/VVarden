@@ -9,10 +9,12 @@
   "license": "None",
   "bugs": {},
   "dependencies": {
+    "bufferutil": "^4.0.5",
     "eris": "latest",
     "fs": "latest",
+    "mysql2": "^2.3.2",
+    "pako": "^2.0.4",
     "readline": "latest",
-    "winston": "latest",
-    "mysql2": "latest"
+    "winston": "latest"
   }
 }

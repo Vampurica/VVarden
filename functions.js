@@ -18,6 +18,7 @@ const pool = createPool({
   waitForConnections: true,
   queueLimit: 0,
   multipleStatements: false,
+  trace: false,
 });
 
 const execute = async (query, parameters) => {
