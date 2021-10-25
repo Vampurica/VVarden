@@ -25,6 +25,13 @@ let rank = function () {
             color: 0x008000,
           },
         });
+      } else if (msg.author.id == '102498921640640512') {
+        bot.createMessage(msg.channel.id, {
+          embed: {
+            description: msg.author.mention + " You're looking great today Leah. Let me know what you need.",
+            color: 0x008000,
+          },
+        });
       } else {
         bot.createMessage(msg.channel.id, {
           embed: {
