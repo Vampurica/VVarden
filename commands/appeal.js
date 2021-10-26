@@ -13,7 +13,7 @@ let appeal = function () {
                 embed: {
                   description: ret,
                   author: {
-                    name: msg.author.username + '#' + msg.author.discriminator,
+                    name: `${msg.author.username}#${msg.author.discriminator}`,
                     icon_url: msg.author.avatarURL,
                   },
                   color: 0x008000,

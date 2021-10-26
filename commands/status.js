@@ -18,30 +18,29 @@ let status = function () {
               fields: [
                 {
                   name: 'Shard Count',
-                  value: 'I am using ' + bot.shards.size + ' Shards',
+                  value: `I am using ${bot.shards.size} Shards`,
                   inline: false,
                 },
                 {
                   name: 'Protected Guilds',
-                  value: 'I am watching ' + bot.guilds.size + ' Guilds',
+                  value: `I am watching ${bot.guilds.size} Guilds`,
                   inline: false,
                 },
                 {
                   name: 'Blacklisted Accounts',
-                  value: 'I am blocking ' + bCount + ' discord accounts.',
+                  value: `I am blocking ${bCount} discord accounts.`,
                   inline: false,
                 },
                 {
                   name: 'Bot Uptime Since Last Restart',
-                  value: 'I have been up for ' + Math.round((process.uptime() / 60) * 100) / 100 + ' minutes',
+                  value: `I have been up for ${Math.round((process.uptime() / 60) * 100) / 100} minutes`,
                   inline: false,
                 },
                 {
                   name: 'Memory Usage',
-                  value:
-                    'I am currently using ' +
-                    Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100 +
-                    ' MB of RAM.',
+                  value: `I am currently using ${
+                    Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100
+                  } MB of RAM.`,
                   inline: false,
                 },
               ],

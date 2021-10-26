@@ -41,12 +41,9 @@ let checkuser = function () {
               bot.createMessage(msg.channel.id, {
                 embed: {
                   title: ':shield: User In Database',
-                  description:
-                    '<@' +
-                    userInfo.userid +
-                    '> has been in ' +
-                    userInfo.servers.split(';').length +
-                    ' Discord servers.',
+                  description: `<@${userInfo.userid}> has been seen in ${
+                    userInfo.servers.split(';').length
+                  } bad Discord servers.`,
                   author: {
                     name: userInfo.last_username,
                     icon_url: userInfo.avatar,
@@ -57,7 +54,7 @@ let checkuser = function () {
                     // Array of field objects
                     {
                       name: 'User Information', // Field
-                      value: '**ID**: ' + userInfo.userid + ' / **Name**: ' + userInfo.last_username + '',
+                      value: `**ID**: ${userInfo.userid} / **Name**: ${userInfo.last_username}`,
                       inline: false, // Whether you want multiple fields in same line
                     },
                     {
@@ -72,18 +69,12 @@ let checkuser = function () {
                     },
                     {
                       name: 'Database Information',
-                      value:
-                        '**User Status**: ' +
-                        userInfo.status +
-                        '\n**User Type**: ' +
-                        userInfo.user_type +
-                        '\n**Details**: ' +
-                        userInfo.reason,
+                      value: `**User Status**: ${userInfo.status}\n**User Type**: ${userInfo.user_type}\n**Details**: ${userInfo.reason}`,
                       inline: false,
                     },
                     {
-                      name: 'Added Type: ' + userInfo.filter_type,
-                      value: '**Date Added**: ' + func.date(userInfo.added_date),
+                      name: `Added Type: ${userInfo.filter_type}`,
+                      value: `**Date Added**: ${func.date(userInfo.added_date)}`,
                       inline: false,
                     },
                   ],
@@ -129,12 +120,9 @@ let checkuser = function () {
                 bot.createMessage(msg.channel.id, {
                   embed: {
                     title: ':shield: User In Database',
-                    description:
-                      '<@' +
-                      userInfo.userid +
-                      '> has been in ' +
-                      userInfo.servers.split(';').length +
-                      ' bad Discord servers.',
+                    description: `<@${userInfo.userid}> has been in ${
+                      userInfo.servers.split(';').length
+                    } bad Discord servers.`,
                     author: {
                       name: userInfo.last_username,
                       icon_url: userInfo.avatar,
@@ -145,7 +133,7 @@ let checkuser = function () {
                       // Array of field objects
                       {
                         name: 'User Information', // Field
-                        value: '**ID**: ' + userInfo.userid + ' / **Name**: ' + userInfo.last_username + '',
+                        value: `**ID**: ${userInfo.userid} / **Name**: ${userInfo.last_username}`,
                         inline: false, // Whether you want multiple fields in same line
                       },
                       {
@@ -160,18 +148,12 @@ let checkuser = function () {
                       },
                       {
                         name: 'Database Information',
-                        value:
-                          '**User Status**: ' +
-                          userInfo.status +
-                          '\n**User Type**: ' +
-                          userInfo.user_type +
-                          '\n**Details**: ' +
-                          userInfo.reason,
+                        value: `**User Status**: ${userInfo.status}\n**User Type**: ${userInfo.user_type}\n**Details**: ${userInfo.reason}`,
                         inline: false,
                       },
                       {
-                        name: 'Added Type: ' + userInfo.filter_type,
-                        value: '**Date Added**: ' + func.date(userInfo.added_date),
+                        name: `Added Type: ${userInfo.filter_type}`,
+                        value: `**Date Added**: ${func.date(userInfo.added_date)}`,
                         inline: false,
                       },
                     ],

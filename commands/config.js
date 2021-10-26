@@ -10,55 +10,41 @@ let dconfig = function () {
         bot.createMessage(msg.channel.id, {
           embed: {
             title: 'Server Configuration',
-            description:
-              'To change a setting use the config command with one of the options\nFor example: `' +
-              spc +
-              'config punleak ban`',
+            description: `To change a setting use the config command with one of the options\nFor example: \`${spc}config punleak ban\``,
             color: 0x008000,
             fields: [
               {
                 name: 'prefix - Command Prefix',
-                value: 'I am using `' + guildInfo.prefix + '` for this guild.',
+                value: `I am using \`${guildInfo.prefix}\` for this guild.`,
                 inline: false,
               },
               {
                 name: 'logchan - Log Channel',
-                value:
-                  'I am using <#' +
-                  guildInfo.logchan +
-                  '> for my logs\nThis is where I will post messages about the actions I take.',
+                value: `I am using <#${guildInfo.logchan}> for my logs\nThis is where I will post messages about the actions I take.`,
                 inline: false,
               },
               {
                 name: 'punown - Punish Owners [kick/ban]',
                 value:
-                  'I am set to **' +
-                  guildInfo.punown +
-                  '** Leak and Cheat Server Owners\nThese are the Owners and Staff Members of these Discords',
+                  `I am set to **${guildInfo.punown}** Leak and Cheat Server Owners\nThese are the Owners and Staff Members of these Discords`,
                 inline: false,
               },
               {
                 name: 'punsupp - Punish Supporters [kick/ban]',
                 value:
-                  'I am set to **' +
-                  guildInfo.punsupp +
-                  '** Leak and Cheat Server Supporters\nThese are Nitro Boosters, Customers, or other types of Donators.',
+                  `I am set to **${guildInfo.punsupp}** Leak and Cheat Server Supporters\nThese are Nitro Boosters, Customers, or other types of Donators.`,
                 inline: false,
               },
               {
                 name: 'punleak - Punish Leakers [warn/kick/ban]',
                 value:
-                  'I am set to **' +
-                  guildInfo.punleak +
-                  '** Members of Leaking Discords.\nThese are users with only a Member Role in these servers.',
+                  `I am set to **${guildInfo.punleak}** Members of Leaking Discords.\nThese are users with only a Member Role in these servers.`,
                 inline: false,
               },
               {
                 name: 'puncheat - Punish Cheaters [warn/kick/ban]',
                 value:
-                  'I am set to **' +
-                  guildInfo.puncheat +
-                  '** Members of Cheating Discords.\nThese are users with only a Member Role in these servers.',
+                  `I am set to **${guildInfo.puncheat}** Members of Cheating Discords.\nThese are users with only a Member Role in these servers.`,
                 inline: false,
               },
             ],
@@ -94,7 +80,7 @@ let dconfig = function () {
           embed: {
             description: ret,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,
@@ -126,7 +112,7 @@ let dconfig = function () {
             embed: {
               description: ret,
               author: {
-                name: msg.author.username + '#' + msg.author.discriminator,
+                name: `${msg.author.username}#${msg.author.discriminator}`,
                 icon_url: msg.author.avatarURL,
               },
               color: 0x008000,
@@ -161,7 +147,7 @@ let dconfig = function () {
           embed: {
             description: ret,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,
@@ -191,7 +177,7 @@ let dconfig = function () {
           embed: {
             description: ret,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,
@@ -221,7 +207,7 @@ let dconfig = function () {
           embed: {
             description: ret,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,
@@ -251,7 +237,7 @@ let dconfig = function () {
           embed: {
             description: ret,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,

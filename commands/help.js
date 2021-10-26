@@ -39,7 +39,7 @@ let help = function () {
           embed: {
             description: result,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,
@@ -58,7 +58,7 @@ let help = function () {
           ) {
             let res = {
               name: msg.prefix + label,
-              value: '- ' + bot.commands[label].description,
+              value: `- ${bot.commands[label].description}`,
               inline: false,
             };
             commands.push(res);
@@ -69,7 +69,7 @@ let help = function () {
           embed: {
             title: 'Command List',
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,

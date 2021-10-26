@@ -21,15 +21,7 @@ let scanusers = function () {
           .then(() => {
             func.getGuildSettings(msg.guildID, function (guildInfo) {
               logMaster(
-                'Guild ID: ' +
-                  msg.guildID +
-                  ' ' +
-                  guildInfo.guildname +
-                  ' / ' +
-                  msg.author.username +
-                  '#' +
-                  msg.author.discriminator +
-                  ' running `scanusers` command'
+                `Guild ID: ${msg.guildID} ${guildInfo.guildname} ${msg.author.username}#${msg.author.discriminator} is running \`scanusers\``
               );
               bot.createMessage(msg.channel.id, {
                 embed: {
@@ -39,7 +31,7 @@ let scanusers = function () {
                 },
               });
               if (!guildInfo) {
-                logMaster('Bot is in unknown guild???\n' + msg.guildID + ' Save me Vampire!!!');
+                logMaster(`Bot is in an unknown guild?\n${msg.guildID} Save me Vampire!!!`)
               } else {
                 bot.guilds.get(msg.guildID).members.forEach((value, key) => {
                   let member = bot.guilds.get(msg.guildID).members.get(key);

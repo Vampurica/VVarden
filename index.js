@@ -34,7 +34,7 @@ global.logMaster = function (logMess) {
         color: 0x800000,
         footer: {
           // Footer text
-          text: '' + Date(Date.now()).toLocaleString().slice(0, 24) + '',
+          text: Date(Date.now()).toLocaleString().slice(0, 24),
         },
       },
     });
@@ -50,7 +50,7 @@ global.logMaster = function (logMess) {
         color: 0x800000,
         footer: {
           // Footer text
-          text: '' + Date(Date.now()).toLocaleString().slice(0, 24) + '',
+          text: Date(Date.now()).toLocaleString().slice(0, 24),
         },
       },
     });
@@ -70,7 +70,7 @@ global.bot = new Eris.CommandClient(
       'guilds',
     ],
     restMode: true,
-    maxShards: 4,
+    maxShards: 'auto',
   },
   {
     description: 'A discord bot that cross-references people in bad discords',
@@ -94,14 +94,13 @@ bot.on('ready', () => {
       bot.guilds.forEach((value, guildid) => {
         Object.keys(guilds).some((k) => {
           if (guilds[k] && guilds[k].guildid === guildid) {
-            //console.log("Setting "+value.name+" prefix to "+guilds[k].prefix+"")
             bot.registerGuildPrefix(guildid, guilds[k].prefix);
             guilds[k] = undefined;
             exists.push(guildid);
           }
         });
         if (exists.indexOf(guildid) == -1) {
-          logMaster('Bot is in an unknown guild?\n<' + guildid + '> ' + value.name + '\n\nSave me Vampire!');
+          logMaster(`Bot is in an unknown guild?\n<${guildid}> ${value.name}\n\nSave me Vampire!`);
         }
       });
     })
@@ -151,7 +150,7 @@ bot.on('guildMemberAdd', (guild, member) => {
 
 // Command Handling
 fs.readdirSync('./commands/').forEach((file) => {
-  require('./commands/' + file)();
+  require(`./commands/${file}`)();
 });
 
 // CONNECT AND INTERVALS

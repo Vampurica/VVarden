@@ -6,7 +6,7 @@ const guildMemberAdd = function (guild, member) {
   // First get Guild Settings
   func.getGuildSettings(guild.id, function (guildInfo) {
     if (!guildInfo) {
-      logMaster('Bot is in unknown guild???\n' + guild.id + ' / ' + guild.name + '\n\nSave me Vampire!!!');
+      logMaster(`Bot is in an unknown guild?\n${guild.id} / ${guild.name} Save me Vampire!!!`);
     } else {
       // Now Get Member Info
       func.getUserFromDB(member.id, function (oldUser) {

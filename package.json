@@ -5,8 +5,8 @@
   "scripts": {},
   "repository": {},
   "keywords": [],
-  "author": "",
-  "license": "None",
+  "author": "SMVampire",
+  "license": "GNU GPLv3",
   "bugs": {},
   "dependencies": {
     "bufferutil": "^4.0.5",

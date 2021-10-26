@@ -56,10 +56,10 @@ const func = {
   randomStatus: function () {
     // Randomizes the bot status from the list
     let rStatus = [
-      'Leakers | Use ' + config.spc + 'help',
-      ' Guilds',
-      'Cheaters | Use ' + config.spc + 'help',
-      'discord.gg/jeFeDRasfs',
+      `Leakers | Use ${config.spc} help`,
+      ` Guilds`,
+      `Cheaters | Use ${config.spc} help`,
+      `discord.gg/jeFeDRasfs`,
     ];
     let newStatus = util.selectRandom(rStatus);
     if (newStatus.charAt(0) == ' ') {
@@ -81,7 +81,7 @@ const func = {
         embed: {
           description: mess,
           author: {
-            name: author.username + '#' + author.discriminator + ' / ' + author.id,
+            name: `${author.username}#${author.discriminator} / ${author.id}`,
             icon_url: author.avatarURL,
           },
           color: color,
@@ -103,17 +103,10 @@ const func = {
 
   getUserFromDB: function (userID, callback) {
     // Calls the database to get the row about the specified user.
-    //logMaster("GetUserFromDB: "+userID+"")
     execute('SELECT * FROM users WHERE userid = ?', [userID])
       .then((results) => {
-        //logMaster("GetUserFromDB: "+Object.values(results[0])[0]+" and "+pool.escape(userID))
-        if (results && results[0]) {
-          //logMaster("GetUserFromDB: ReturningRes")
-          return callback(results[0]);
-        } else {
-          //logMaster("GetUserFromDB: NoRes")
-          return callback();
-        }
+        if (results && results[0]) return callback(results[0]);
+        else return callback();
       })
       .catch(console.error);
   },
@@ -153,7 +146,7 @@ const func = {
                 return callback(usertype, lastuser, userID);
               })
               .catch(console.error);
-          } else return callback()
+          } else return callback();
         } else {
           // New Server
           spServers.push(server);
@@ -203,7 +196,7 @@ const func = {
               'INSERT INTO USERS (avatar, last_username, userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
               [
                 rUser.avatarURL,
-                rUser.username + '#' + rUser.discriminator,
+                `${rUser.username}#${rUser.discriminator}`,
                 userID,
                 status,
                 usertype,
@@ -214,7 +207,7 @@ const func = {
             )
               .then((results) => {
                 func.globalFindAndCheck(userID);
-                return callback('Added <@' + userID + '> / ' + userID + ' to database as ' + status + ' with REST');
+                return callback(`Added <@${userID}> / ${userID} to database as ${status} with REST`);
               })
               .catch(console.error);
           })
@@ -227,14 +220,14 @@ const func = {
             )
               .then((results) => {
                 func.globalFindAndCheck(userID);
-                return callback('Added <@' + userID + '> / ' + userID + ' to database as ' + status + '');
+                return callback(`Added <@${userID}> / ${userID} to database as ${status}`);
               })
               .catch(console.error);
           });
       } else {
         // User Already in Database
         return callback(
-          ':shield: User is already in database.\nChange status if necessary using ' + config.spc + 'upstatus'
+          `:shield: User is already in database.\nChange status if necessary using ${config.spc} upstatus`
         );
       }
     });
@@ -260,17 +253,7 @@ const func = {
         ])
           .then((results) => {
             return callback(
-              'Updated ' +
-                oldUser.last_username +
-                ' <@' +
-                userID +
-                '> to status `' +
-                newStatus +
-                '`, type `' +
-                newType +
-                '` and `' +
-                newReason +
-                '`'
+              `Updated ${oldUser.last_username} <@${userID}> to status \`${newStatus}\`, type \`${newType}\` with reason: \`${newReason}\``
             );
           })
           .catch(console.error);
@@ -303,7 +286,7 @@ const func = {
           userID,
         ])
           .then((results) => {
-            return callback('Anonymized ' + oldUser.last_username + ' <@' + userID + '>');
+            return callback(`Anonymized ${oldUser.last_username} <@${userID}>`);
           })
           .catch(console.error);
       }
@@ -363,7 +346,7 @@ const func = {
                   lineArr[2], // Avatar
                   'blacklisted', // Status
                   utype, // User Type
-                  lineArr[0] + '#' + lineArr[1], // Username
+                  lineArr[0] + `#${lineArr[1]}`, // Username
                   serverid, // Server ID
                   lineArr[3], // Roles
                   'Semi-Auto', // Filter Type
@@ -397,7 +380,6 @@ const func = {
           color: 0x800000,
         },
       });
-      //logMaster("Added "+add+" users and updated "+upd+" users for the database from "+filename+".csv")
       func.processStatus('done');
       return callback(true);
     } else {
@@ -448,7 +430,7 @@ const func = {
         } else {
           execute('UPDATE guilds SET logchan = ? WHERE guildid = ?', [guildVal, guildID])
             .then((results) => {
-              return callback('Changed setting ' + pool.escape(guildOpt) + ' to ' + pool.escape(guildVal) + '');
+              return callback(`Changed setting \`${guildOpt}\` to \`${guildVal}\``);
             })
             .catch(console.error);
         }
@@ -460,7 +442,7 @@ const func = {
         } else {
           execute('UPDATE guilds SET prefix = ? WHERE guildid = ?', [guildVal, guildID])
             .then((results) => {
-              return callback('Changed setting ' + pool.escape(guildOpt) + ' to ' + pool.escape(guildVal) + '');
+              return callback(`Changed setting \`${guildOpt}\` to \`${guildVal}\``);
             })
             .catch(console.error);
         }
@@ -471,25 +453,21 @@ const func = {
           if (!guildInfo) {
             return callback(':shield: Guild settings not found!\nPlease let the bot developer know.');
           } else {
-            execute('UPDATE guilds SET ' + guildOpt + ' = ? WHERE guildid = ?', [guildVal, guildID])
+            execute(`UPDATE guilds SET ${guildOpt} = ? WHERE guildid = ?`, [guildVal, guildID])
               .then((results) => {
-                return callback('Changed setting ' + pool.escape(guildOpt) + ' to ' + pool.escape(guildVal) + '');
+                return callback(`Changed setting \`${guildOpt}\` to \`${guildVal}\``);
               })
               .catch(console.error);
           }
         });
       } else {
         return callback(
-          ':shield: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
-            config.spc +
-            'config` again for the allowed values per setting'
+          `:shield: You cannot set that option to that value.\nSetting not applied.\nPlease review \`${config.spc} config\` again for the allowed values per setting`
         );
       }
     } else {
       return callback(
-        ':shield: You cannot set that option to that value.\nSetting not applied.\nPlease review `' +
-          config.spc +
-          'config` again for the allowed values per setting'
+        `:shield: You cannot set that option to that value.\nSetting not applied.\nPlease review \`${config.spc} config\` again for the allowed values per setting`
       );
     }
   },
@@ -511,18 +489,16 @@ const func = {
             .getDMChannel(member.id)
             .then((channel) =>
               channel.createMessage(
-                ':shield: Warden\nYou are being automodded by ' +
-                  guildInfo.guildname +
-                  ' for being associated with Leaking or Cheating Discord Servers.\nYou may attempt to appeal this via the Official Warden Discord:\nhttps://discord.gg/jeFeDRasfs'
+                `:shield: Warden\nYou are being automodded by ${guildInfo.guildname} for being associated with Leaking or Cheating Discord Servers.\nYou may attempt to appeal this via the Official Warden Discord:\nhttps://discord.gg/jeFeDRasfs`
               )
             )
             .catch((err) => {
               bot
                 .createMessage(guildInfo.logchan, {
                   embed: {
-                    description: ':warning: Unable to Direct Message User <@' + member.id + '>',
+                    description: `:warning: Unable to Direct Message User <@${member.id}>`,
                     author: {
-                      name: member.username + '#' + member.discriminator + ' / ' + member.id,
+                      name: `${member.username}#${member.discriminator} / ${member.id}`,
                       icon_url: member.avatarURL,
                     },
                     color: 0xffff00,
@@ -533,23 +509,18 @@ const func = {
             .finally((any) => {
               let action =
                 guildInfo[types[type]] == 'ban'
-                  ? member[guildInfo[types[type]]](0, 'Warden - User Type ' + type)
-                  : member[guildInfo[types[type]]]('Warden - User Type ' + type);
+                  ? member[guildInfo[types[type]]](0, `Warden - User Type ${type}`)
+                  : member[guildInfo[types[type]]](`Warden - User Type ${type}`);
               action
                 .then((any) => {
                   bot
                     .createMessage(guildInfo.logchan, {
                       embed: {
-                        description:
-                          ':shield: User <@' +
-                          member.id +
-                          '> has been punished with a ' +
-                          guildInfo[types[type]] +
-                          ', type ' +
-                          type +
-                          '.\nUse checkuser for more information.',
+                        description: `:shield: User <@${member.id}> has been punished with a ${
+                          guildInfo[types[type]]
+                        }, reason: ${type}.\nUse checkuser for more information.`,
                         author: {
-                          name: member.username + '#' + member.discriminator + ' / ' + member.id,
+                          name: `${member.username}#${member.discriminator} / ${member.id}`,
                           icon_url: member.avatarURL,
                         },
                         color: 0x008000,
@@ -561,14 +532,11 @@ const func = {
                   bot
                     .createMessage(guildInfo.logchan, {
                       embed: {
-                        description:
-                          ':warning: I tried to ' +
-                          guildInfo[types[type]] +
-                          ' <@' +
-                          member.id +
-                          '> but something errored!\nPlease verify I have this permission, and am a higher role than this user!',
+                        description: `:warning: I tried to ${guildInfo[types[type]]} <@${
+                          member.id
+                        }> but something errored!\nPlease verify I have this permission, and am a higher role than this user!`,
                         author: {
-                          name: member.username + '#' + member.discriminator + ' / ' + member.id,
+                          name: `${member.username}#${member.discriminator} / ${member.id}`,
                           icon_url: member.avatarURL,
                         },
                         color: 0x008000,
@@ -580,23 +548,18 @@ const func = {
         } else {
           let action =
             guildInfo[types[type]] == 'ban'
-              ? member[guildInfo[types[type]]](0, 'Warden - User Type ' + type)
-              : member[guildInfo[types[type]]]('Warden - User Type ' + type);
+              ? member[guildInfo[types[type]]](0, `Warden - User Type ${type}`)
+              : member[guildInfo[types[type]]](`Warden - User Type ${type}`);
           action
             .then((any) => {
               bot
                 .createMessage(guildInfo.logchan, {
                   embed: {
-                    description:
-                      ':shield: User <@' +
-                      member.id +
-                      '> has been punished with a ' +
-                      guildInfo[types[type]] +
-                      ', type ' +
-                      type +
-                      '.\nUse checkuser for more information.',
+                    description: `:shield: User <@${member.id}> has been punished with a ${
+                      guildInfo[types[type]]
+                    }, reason: ${type}.\nUse checkuser for more information.`,
                     author: {
-                      name: member.username + '#' + member.discriminator + ' / ' + member.id,
+                      name: `${member.username}#${member.discriminator} / ${member.id}`,
                       icon_url: member.avatarURL,
                     },
                     color: 0x008000,
@@ -608,14 +571,11 @@ const func = {
               bot
                 .createMessage(guildInfo.logchan, {
                   embed: {
-                    description:
-                      ':warning: I tried to ' +
-                      guildInfo[types[type]] +
-                      ' <@' +
-                      member.id +
-                      '> but something errored!\nPlease verify I have this permission, and am a higher role than this user!',
+                    description: `:warning: I tried to ${guildInfo[types[type]]} <@${
+                      member.id
+                    }> but something errored!\nPlease verify I have this permission, and am a higher role than this user!`,
                     author: {
-                      name: member.username + '#' + member.discriminator + ' / ' + member.id,
+                      name: `${member.username}#${member.discriminator} / ${member.id}`,
                       icon_url: member.avatarURL,
                     },
                     color: 0x008000,
@@ -631,14 +591,9 @@ const func = {
         bot
           .createMessage(guildInfo.logchan, {
             embed: {
-              description:
-                ':warning: User <@' +
-                member.id +
-                '> is blacklisted as ' +
-                type +
-                '.\nUse checkuser for more information.',
+              description: `:warning: User <@'${member.id}> is blacklisted as ${type}.\nUse checkuser for more information.`,
               author: {
-                name: member.username + '#' + member.discriminator + ' / ' + member.id,
+                name: `${member.username}#${member.discriminator} / ${member.id}`,
                 icon_url: member.avatarURL,
               },
               color: 0x008000,
@@ -660,7 +615,6 @@ const func = {
             const guild = bot.guilds.get(guildID.toString());
             const member = guild.members.get(userID);
             if (typeof member !== 'undefined') {
-              //console.log("Found "+member.username+" in "+guild.name);
               func.getGuildSettings(guildID.toString(), function (guildInfo) {
                 func.punishUser(member, guildInfo, oldUser.user_type, false);
               });

@@ -11,7 +11,7 @@ let procfile = function () {
           embed: {
             description: `:shield: Importing ${args[2]} user data for ${args[1]}`,
             author: {
-              name: msg.author.username + '#' + msg.author.discriminator,
+              name: `${msg.author.username}#${msg.author.discriminator}`,
               icon_url: msg.author.avatarURL,
             },
             color: 0x008000,
@@ -23,7 +23,7 @@ let procfile = function () {
               embed: {
                 description: 'Unable to start import.\nPrevious import has not been completed.',
                 author: {
-                  name: msg.author.username + '#' + msg.author.discriminator,
+                  name: `${msg.author.username}#${msg.author.discriminator}`,
                   icon_url: msg.author.avatarURL,
                 },
                 color: 0x008000,
