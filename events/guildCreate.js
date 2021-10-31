@@ -24,3 +24,5 @@ const guildCreate = function (guild) {
     },
   });
 };
+
+module.exports = guildCreate;

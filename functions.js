@@ -354,8 +354,8 @@ const func = {
                     if (usertype) {
                       blacklistCount++;
                       if (usertype === 'permblacklisted') {
+                        permaCount++;
                         if (newServer) {
-                          permaCount++;
                           bot.createMessage(config.logChannel, {
                             embed: {
                               description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
@@ -591,7 +591,7 @@ const func = {
         bot
           .createMessage(guildInfo.logchan, {
             embed: {
-              description: `:warning: User <@'${member.id}> is blacklisted as ${type}.\nUse checkuser for more information.`,
+              description: `:warning: User <@${member.id}> is blacklisted as ${type}.\nUse checkuser for more information.`,
               author: {
                 name: `${member.username}#${member.discriminator} / ${member.id}`,
                 icon_url: member.avatarURL,
