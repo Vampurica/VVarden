@@ -332,6 +332,7 @@ const badservers = {
   '693367871962611792': 'KK 4 LYFF.',
   '891563322003054603': 'Danar Leaks',
   '875882592652640297': 'Underground Leaks',
+  '734348535016849419': 'Tronix V Free Leaks / Free Cheats',
 };
 
 module.exports = badservers;
