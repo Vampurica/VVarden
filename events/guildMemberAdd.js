@@ -17,7 +17,7 @@ const guildMemberAdd = function (guild, member) {
           // User Exists, Process
           let block = ['blacklisted', 'permblacklisted'];
           if (block.includes(oldUser.status)) {
-            func.punishUser(member, guildInfo, oldUser.user_type, true);
+            func.punishUser(member, guildInfo, oldUser, true);
           }
         }
       });

@@ -472,8 +472,10 @@ const func = {
     }
   },
 
-  punishUser: function (member, guildInfo, type, toDM) {
+  punishUser: function (member, guildInfo, olduser, toDM) {
     // Process a Bad User
+    let type = olduser.user_type;
+    let count = userInfo.servers.split(';').length;
     let types = {
       owner: 'punown',
       supporter: 'punsupp',
@@ -489,7 +491,7 @@ const func = {
             .getDMChannel(member.id)
             .then((channel) =>
               channel.createMessage(
-                `:shield: Warden\nYou are being automodded by ${guildInfo.guildname} for being associated with Leaking or Cheating Discord Servers.\nYou may attempt to appeal this via the Official Warden Discord:\nhttps://discord.gg/jeFeDRasfs`
+                `:shield: Warden\nYou are being automodded by ${guildInfo.guildname} for being associated with ${count} Leaking or Cheating Discord Servers.\nYou may attempt to appeal this via the Official Warden Discord:\nhttps://discord.gg/jeFeDRasfs`
               )
             )
             .catch((err) => {
@@ -518,7 +520,9 @@ const func = {
                       embed: {
                         description: `:shield: User <@${member.id}> has been punished with a ${
                           guildInfo[types[type]]
-                        }, reason: ${type}.\nUse checkuser for more information.`,
+                        } on join.\nThey have been seen in ${count} bad discord servers.\nUser Status: ${
+                          olduser.status
+                        } / User Type: ${type}.\nDetails: ${olduser.reason}`,
                         author: {
                           name: `${member.username}#${member.discriminator} / ${member.id}`,
                           icon_url: member.avatarURL,
@@ -557,7 +561,9 @@ const func = {
                   embed: {
                     description: `:shield: User <@${member.id}> has been punished with a ${
                       guildInfo[types[type]]
-                    }, reason: ${type}.\nUse checkuser for more information.`,
+                    } on scan.\nThey have been seen in ${count} bad discord servers.\nUser Status: ${
+                      olduser.status
+                    } / User Type: ${type}.\nDetails: ${olduser.reason}`,
                     author: {
                       name: `${member.username}#${member.discriminator} / ${member.id}`,
                       icon_url: member.avatarURL,
@@ -591,7 +597,7 @@ const func = {
         bot
           .createMessage(guildInfo.logchan, {
             embed: {
-              description: `:warning: User <@${member.id}> is blacklisted as ${type}.\nUse checkuser for more information.`,
+              description: `:warning: User <@${member.id}> has been seen in ${count} bad discord servers.\nUser Status: ${olduser.status} / User Type: ${type}.\nDetails: ${olduser.reason}`,
               author: {
                 name: `${member.username}#${member.discriminator} / ${member.id}`,
                 icon_url: member.avatarURL,
