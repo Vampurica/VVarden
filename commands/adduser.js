@@ -28,6 +28,9 @@ let adduser = function () {
                   color: 0x008000,
                 },
               });
+              logMaster(
+                `${msg.author.username}#${msg.author.discriminator} added <@${userID}> ${userID} to the database with default values.`
+              );
             }
           );
         } else {
@@ -53,6 +56,9 @@ let adduser = function () {
                   },
                 });
               }
+            );
+            logMaster(
+              `${msg.author.username}#${msg.author.discriminator} added <@${userID}> ${userID} to the database with default values.`
             );
           } else {
             // Invalid
@@ -84,6 +90,9 @@ let adduser = function () {
               },
             });
           });
+          logMaster(
+            `${msg.author.username}#${msg.author.discriminator} added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason}`
+          );
         } else {
           // Mention?
           let userID = util.stripID(args[0]);
@@ -109,6 +118,9 @@ let adduser = function () {
                 },
               });
             });
+            logMaster(
+              `${msg.author.username}#${msg.author.discriminator} added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason}`
+            );
           } else {
             // Still NaN, bad
             bot.createMessage(msg.channel.id, 'Invalid UserID or Mention.');

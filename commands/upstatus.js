@@ -24,6 +24,9 @@ let upstatus = function () {
                 color: 0x008000,
               },
             });
+            logMaster(
+              `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`
+            );
           });
         } else {
           // No Mention, try and validate an ID
@@ -45,6 +48,9 @@ let upstatus = function () {
                   color: 0x008000,
                 },
               });
+              logMaster(
+                `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`
+              );
             });
           } else {
             // Isn't a number, shouldn't be an ID

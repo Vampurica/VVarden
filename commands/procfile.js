@@ -17,6 +17,7 @@ let procfile = function () {
             color: 0x008000,
           },
         });
+        logMaster(`${msg.author.username}#${msg.author.discriminator} importing user file for ${args[1]}`);
         func.processCSVImport(args[0], args[1], args[2], function (ret) {
           if (!ret) {
             bot.createMessage(msg.channel.id, {
