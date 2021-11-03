@@ -475,7 +475,7 @@ const func = {
   punishUser: function (member, guildInfo, olduser, toDM) {
     // Process a Bad User
     let type = olduser.user_type;
-    let count = userInfo.servers.split(';').length;
+    let count = olduser.servers.split(';').length;
     let types = {
       owner: 'punown',
       supporter: 'punsupp',
