@@ -4,7 +4,7 @@ let rank = function () {
   bot.registerCommand(
     'rank',
     (msg, args) => {
-      if (dev == msg.author.id) {
+      if (dev.includes(msg.author.id)) {
         bot.createMessage(msg.channel.id, {
           embed: {
             description: msg.author.mention + ' Your wish is my command **Bot Owner**!',
