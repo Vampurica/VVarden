@@ -294,10 +294,8 @@ const func = {
   },
 
   CSVtoArray: function (text) {
-    let re_valid =
-      /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
-    let re_value =
-      /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+    let re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+    let re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
 
     // Return NULL if input string is not well formed CSV string.
     if (!re_valid.test(text)) return null;
@@ -520,9 +518,9 @@ const func = {
                       embed: {
                         description: `:shield: User <@${member.id}> has been punished with a ${
                           guildInfo[types[type]]
-                        } on join.\nThey have been seen in ${count} bad discord servers.\nUser Status: ${
+                        } on join.\nThey have been seen in ${count} bad discord servers.\n**User Status**: ${
                           olduser.status
-                        } / User Type: ${type}.\nDetails: ${olduser.reason}`,
+                        } / **User Type**: ${type}.\n**Details**: ${olduser.reason}`,
                         author: {
                           name: `${member.username}#${member.discriminator} / ${member.id}`,
                           icon_url: member.avatarURL,
@@ -561,9 +559,9 @@ const func = {
                   embed: {
                     description: `:shield: User <@${member.id}> has been punished with a ${
                       guildInfo[types[type]]
-                    } on scan.\nThey have been seen in ${count} bad discord servers.\nUser Status: ${
+                    } on scan.\nThey have been seen in ${count} bad discord servers.\n**User Status**: ${
                       olduser.status
-                    } / User Type: ${type}.\nDetails: ${olduser.reason}`,
+                    } / **User Type**: ${type}.\n**Details**: ${olduser.reason}`,
                     author: {
                       name: `${member.username}#${member.discriminator} / ${member.id}`,
                       icon_url: member.avatarURL,
@@ -597,7 +595,7 @@ const func = {
         bot
           .createMessage(guildInfo.logchan, {
             embed: {
-              description: `:warning: User <@${member.id}> has been seen in ${count} bad discord servers.\nUser Status: ${olduser.status} / User Type: ${type}.\nDetails: ${olduser.reason}`,
+              description: `:warning: User <@${member.id}> has been seen in ${count} bad discord servers.\n**User Status**: ${olduser.status} / **User Type**: ${type}.\n**Details**: ${olduser.reason}`,
               author: {
                 name: `${member.username}#${member.discriminator} / ${member.id}`,
                 icon_url: member.avatarURL,
