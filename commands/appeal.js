@@ -1,3 +1,4 @@
+const config = require('../config.js');
 const { func } = require('../functions.js');
 
 // Appeal
@@ -22,7 +23,12 @@ let appeal = function () {
                 color: 0x008000,
               },
             });
-            logMaster(`${msg.author.username}#${msg.author.discriminator} appealed <@${userID}> ${userID}`);
+            func.chanLog(
+              config.logChannel,
+              msg.author,
+              `${msg.author.username}#${msg.author.discriminator} appealed <@${userID}> ${userID}`,
+              0x008000
+            );
           });
         } else {
           bot.createMessage(msg.channel.id, 'Invalid UserID or Mention.');

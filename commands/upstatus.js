@@ -1,3 +1,4 @@
+const config = require('../config.js');
 const { func } = require('../functions.js');
 
 // Upstatus
@@ -24,8 +25,11 @@ let upstatus = function () {
                 color: 0x008000,
               },
             });
-            logMaster(
-              `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`
+            func.chanLog(
+              config.logChannel,
+              msg.author,
+              `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`,
+              0x008000
             );
           });
         } else {
@@ -48,8 +52,11 @@ let upstatus = function () {
                   color: 0x008000,
                 },
               });
-              logMaster(
-                `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`
+              func.chanLog(
+                config.logChannel,
+                msg.author,
+                `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`,
+                0x008000
               );
             });
           } else {
