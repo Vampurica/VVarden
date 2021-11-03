@@ -89,6 +89,11 @@ bot.on('ready', () => {
     type: 0,
   });
 
+  // Build Interactions - Must happen after bot ready
+  fs.readdirSync('./interactions/').forEach((file) => {
+    require(`./interactions/${file}`)(null, true);
+  });
+
   // Build Prefixes
   execute('SELECT guildid, prefix FROM guilds')
     .then((guilds) => {
@@ -129,6 +134,11 @@ bot.on('guildCreate', (guild) => {
 const guildMemberAdd = require('./events/guildMemberAdd.js');
 bot.on('guildMemberAdd', (guild, member) => {
   guildMemberAdd(guild, member);
+});
+
+const interactionCreate = require('./events/interactionCreate.js');
+bot.on('interactionCreate', (interaction) => {
+  interactionCreate(interaction);
 });
 
 // bot.registerCommand(
