@@ -14,12 +14,7 @@
     '588473874644074517', // Kawan
   ]),
   (module.exports = {
-    token: '',
     logChannel: '',
     addUsersChan: '',
-    host: '',
-    user: '',
-    password: '',
-    database: '',
     spc: 'war ',
   });
