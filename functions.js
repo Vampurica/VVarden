@@ -620,7 +620,7 @@ const func = {
             const member = guild.members.get(userID);
             if (typeof member !== 'undefined') {
               func.getGuildSettings(guildID.toString(), function (guildInfo) {
-                func.punishUser(member, guildInfo, oldUser.user_type, false);
+                func.punishUser(member, guildInfo, oldUser, false);
               });
             }
           });

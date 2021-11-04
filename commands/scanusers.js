@@ -44,7 +44,7 @@ let scanusers = function () {
                       // User Exists, Process
                       let block = ['blacklisted', 'permblacklisted'];
                       if (block.includes(oldUser.status)) {
-                        func.punishUser(member, guildInfo, oldUser.user_type, false);
+                        func.punishUser(member, guildInfo, oldUser, false);
                       }
                     }
                   });
