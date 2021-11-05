@@ -46,10 +46,7 @@ const func = {
   },
 
   processStatus: function (set) {
-    if (set) {
-      if (set === 'done') processState = undefined;
-      else processState = set;
-    }
+    if (set) processState = set;
     return processState;
   },
 
@@ -294,8 +291,10 @@ const func = {
   },
 
   CSVtoArray: function (text) {
-    let re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
-    let re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+    let re_valid =
+      /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+    let re_value =
+      /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
 
     // Return NULL if input string is not well formed CSV string.
     if (!re_valid.test(text)) return null;
@@ -318,71 +317,112 @@ const func = {
     return a;
   },
 
-  processCSVImport: async function (filename, serverid, utype, callback) {
-    if (processState === undefined) {
-      processState = 'import';
+  processCSVImport: async function (msg) {
+    let total = { count: 0, blacklisted: 0, permblacklisted: 0 };
 
-      let blacklistCount = 0;
-      let permaCount = 0;
-
-      const rl = readline.createInterface({
-        input: fs.createReadStream(filename + '.csv'),
-        crlfDelay: Infinity,
-      });
-      // Note: we use the crlfDelay option to recognize all instances of CR LF
-      // ('\r\n') in input.txt as a single line break.
-
-      const processLines = async () => {
-        for await (const line of rl) {
-          // Each line in input.txt will be successively available here as `line`.
-          let lineArr = func.CSVtoArray(line);
-          if (lineArr != null) {
-            if (lineArr[0] != 'username') {
-              await new Promise((r) => {
-                func.addUserToDB(
-                  lineArr[7], // UserID
-                  lineArr[2], // Avatar
-                  'blacklisted', // Status
-                  utype, // User Type
-                  lineArr[0] + `#${lineArr[1]}`, // Username
-                  serverid, // Server ID
-                  lineArr[3], // Roles
-                  'Semi-Auto', // Filter Type
-                  function (usertype, lastuser, userID, newServer) {
-                    if (usertype) {
-                      blacklistCount++;
-                      if (usertype === 'permblacklisted') {
-                        permaCount++;
-                        if (newServer) {
-                          bot.createMessage(config.logChannel, {
-                            embed: {
-                              description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
-                              color: 0x800000,
-                            },
-                          });
-                        }
-                      }
-                    }
-                    r();
-                  }
-                );
-              });
-            }
-          }
+    async function processFiles(type) {
+      return new Promise((resolve) => {
+        if (processState === undefined) {
+          processState = 'import';
+          func.chanLog(
+            config.logChannel,
+            msg.author,
+            `${msg.author.username}#${msg.author.discriminator} has started processing imports.`,
+            0x008000
+          );
         }
-      };
-      await processLines();
-      bot.createMessage(config.addUsersChan, {
+
+        const dir = fs.readdirSync(`./imports/${type}`);
+
+        if (Array.isArray(dir) && dir.length > 0) {
+          dir.forEach(async (filename, index) => {
+            const serverid = filename.slice(0, filename.length - 4);
+
+            const rl = readline.createInterface({
+              input: fs.createReadStream(`./imports/${type}/${filename}`),
+              crlfDelay: Infinity,
+            });
+            // Note: we use the crlfDelay option to recognize all instances of CR LF
+            // ('\r\n') in input.txt as a single line break.
+
+            let blacklisted = 0;
+            let permblacklisted = 0;
+            total.count++;
+
+            for await (const line of rl) {
+              // Each line in input.txt will be successively available here as `line`.
+              let lineArr = func.CSVtoArray(line);
+              if (lineArr != null) {
+                if (lineArr[0] != 'username') {
+                  await new Promise((r) => {
+                    func.addUserToDB(
+                      lineArr[7], // UserID
+                      lineArr[2], // Avatar
+                      'blacklisted', // Status
+                      type, // User Type
+                      lineArr[0] + `#${lineArr[1]}`, // Username
+                      serverid, // Server ID
+                      lineArr[3], // Roles
+                      'Semi-Auto', // Filter Type
+                      function (usertype, lastuser, userID, newServer) {
+                        if (usertype) {
+                          blacklisted++;
+                          if (usertype === 'permblacklisted') {
+                            permblacklisted++;
+                            if (newServer) {
+                              bot.createMessage(config.logChannel, {
+                                embed: {
+                                  description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
+                                  color: 0x800000,
+                                },
+                              });
+                            }
+                          }
+                        }
+                        r();
+                      }
+                    );
+                  });
+                }
+              }
+            }
+            total.blacklisted += blacklisted;
+            total.permblacklisted += permblacklisted;
+
+            bot.createMessage(config.addUsersChan, {
+              embed: {
+                description: `:shield: Completed user imports for ${badservers[serverid]} (${serverid}).\n+ ${blacklisted} users have been added as ${type}s.\n+ ${permblacklisted} users were permanently blacklisted.`,
+                color: 0x800000,
+              },
+            });
+
+            fs.unlink(`./imports/${type}/${filename}`, (err) => {
+              if (err) throw err;
+            });
+
+            if (index + 1 === dir.length) resolve();
+          });
+        } else resolve();
+      });
+    }
+    try {
+      await Promise.all([processFiles('leaker'), processFiles('cheater')]);
+
+      bot.createMessage(msg.channel.id, {
         embed: {
-          description: `:shield: Completed user imports for ${badservers[serverid]} (${serverid}).\n+ ${blacklistCount} users have been added as ${utype}s.\n+ ${permaCount} users were permanently blacklisted.`,
-          color: 0x800000,
+          description: `:shield: Sucessfully completed imports for ${total.count} servers.\n+ ${total.blacklisted} users have been added.\n+ ${total.permblacklisted} users were permanently blacklisted.`,
+          author: {
+            name: `${msg.author.username}#${msg.author.discriminator}`,
+            icon_url: msg.author.avatarURL,
+          },
+          color: 0x008000,
         },
       });
-      func.processStatus('done');
-      return callback(true);
-    } else {
-      return callback(processState);
+    } catch (e) {
+      console.log(e);
     }
+
+    processState = undefined;
   },
 
   getGuildSettings: function (guildID, callback) {

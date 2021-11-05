@@ -1,6 +1,5 @@
 /node_modules
 botinfo.log
-*.csv
 .idea
-
 .env
+/imports/**/*.csv

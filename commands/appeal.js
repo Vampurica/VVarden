@@ -6,35 +6,49 @@ let appeal = function () {
   bot.registerCommand(
     'appeal',
     (msg, args) => {
-      if (args.length === 1) {
-        const userID = (msg.mentions.length === 1 && msg.mentions[0].id) || (!isNaN(args[0]) && args[0]) || false;
-        if (userID) {
-          const date = func.date();
-          func.updateUserStatus(userID, 'appealed', undefined, `Appealed ${date} -${msg.author.username}`, function (
-            ret
-          ) {
-            bot.createMessage(msg.channel.id, {
-              embed: {
-                description: ret,
-                author: {
-                  name: `${msg.author.username}#${msg.author.discriminator}`,
-                  icon_url: msg.author.avatarURL,
-                },
-                color: 0x008000,
-              },
-            });
-            func.chanLog(
-              config.logChannel,
-              msg.author,
-              `${msg.author.username}#${msg.author.discriminator} appealed <@${userID}> ${userID}`,
-              0x008000
+      if (func.processStatus() === undefined) {
+        if (args.length === 1) {
+          const userID = (msg.mentions.length === 1 && msg.mentions[0].id) || (!isNaN(args[0]) && args[0]) || false;
+          if (userID) {
+            const date = func.date();
+            func.updateUserStatus(
+              userID,
+              'appealed',
+              undefined,
+              `Appealed ${date} -${msg.author.username}`,
+              function (ret) {
+                bot.createMessage(msg.channel.id, {
+                  embed: {
+                    description: ret,
+                    author: {
+                      name: `${msg.author.username}#${msg.author.discriminator}`,
+                      icon_url: msg.author.avatarURL,
+                    },
+                    color: 0x008000,
+                  },
+                });
+                func.chanLog(
+                  config.logChannel,
+                  msg.author,
+                  `${msg.author.username}#${msg.author.discriminator} appealed <@${userID}> ${userID}`,
+                  0x008000
+                );
+              }
             );
-          });
+          } else {
+            bot.createMessage(msg.channel.id, 'Invalid UserID or Mention.');
+          }
         } else {
-          bot.createMessage(msg.channel.id, 'Invalid UserID or Mention.');
+          bot.createMessage(msg.channel.id, 'Invalid Argument Length.');
         }
       } else {
-        bot.createMessage(msg.channel.id, 'Invalid Argument Length.');
+        bot.createMessage(msg.channel.id, {
+          embed: {
+            description:
+              'Appeals are currently disabled while VVarden processes new information.',
+            color: 0xffff00,
+          },
+        });
       }
     },
     {
