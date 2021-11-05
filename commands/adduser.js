@@ -99,7 +99,11 @@ let adduser = function () {
             func.chanLog(
               config.logChannel,
               msg.author,
-              `${msg.author.username}#${msg.author.discriminator} added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason}`,
+              `${msg.author.username}#${
+                msg.author.discriminator
+              } added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason.join(
+                ' '
+              )}`,
               0x008000
             );
           });
@@ -130,7 +134,11 @@ let adduser = function () {
               func.chanLog(
                 config.logChannel,
                 msg.author,
-                `${msg.author.username}#${msg.author.discriminator} added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason}`,
+                `${msg.author.username}#${
+                  msg.author.discriminator
+                } added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason.join(
+                  ' '
+                )}`,
                 0x008000
               );
             });

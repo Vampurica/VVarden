@@ -28,7 +28,11 @@ let upstatus = function () {
             func.chanLog(
               config.logChannel,
               msg.author,
-              `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`,
+              `${msg.author.username}#${
+                msg.author.discriminator
+              } updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason.join(
+                ' '
+              )}`,
               0x008000
             );
           });
@@ -55,7 +59,11 @@ let upstatus = function () {
               func.chanLog(
                 config.logChannel,
                 msg.author,
-                `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`,
+                `${msg.author.username}#${
+                  msg.author.discriminator
+                } updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason.join(
+                  ' '
+                )}`,
                 0x008000
               );
             });
