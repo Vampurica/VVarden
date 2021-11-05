@@ -9,10 +9,10 @@ let processState;
 const { createPool } = require('mysql2/promise');
 const pool = createPool({
   connectionLimit: 10,
-  host: config.host,
-  user: config.user,
-  password: config.password,
-  database: config.database,
+  host: process.env.DB_HOST ?? 'localhost',
+  user: process.env.DB_USERNAME ?? 'root',
+  password: process.env.DB_PASSWORD ?? '',
+  database: process.env.DB_NAME ?? 'warden',
   charset: 'utf8mb4_general_ci',
   namedPlaceholders: true,
   waitForConnections: true,
