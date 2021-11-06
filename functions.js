@@ -333,10 +333,10 @@ const func = {
         }
 
         const dir = fs.readdirSync(`./imports/${type}`);
-
         if (Array.isArray(dir) && dir.length > 0) {
           dir.forEach(async (filename, index) => {
-            const serverid = filename.slice(0, filename.length - 4);
+            let serverid = filename.split('-')
+            serverid = serverid[3].slice(0, serverid[3].length - 4);
 
             const rl = readline.createInterface({
               input: fs.createReadStream(`./imports/${type}/${filename}`),
