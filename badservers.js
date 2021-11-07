@@ -332,6 +332,7 @@ const badservers = {
   '891563322003054603': 'Danar Leaks',
   '875882592652640297': 'Underground Leaks',
   '734348535016849419': 'Tronix V Free Leaks / Free Cheats',
+  '895696748545200198': 'RR Leaks | Free & Paid',
   /* New Leaking Servers */
   '854205279125241887': 'Exclusive Leaks',
   '901188974771589130': 'S-Development|FiveM Leaks and Scripts',
