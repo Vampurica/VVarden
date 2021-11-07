@@ -27,12 +27,14 @@ let appeal = function () {
                     color: 0x008000,
                   },
                 });
-                func.chanLog(
-                  config.logChannel,
-                  msg.author,
-                  `${msg.author.username}#${msg.author.discriminator} appealed <@${userID}> ${userID}`,
-                  0x008000
-                );
+                if (ret !== ':shield: User not found in database') {
+                  func.chanLog(
+                    config.logChannel,
+                    msg.author,
+                    `${msg.author.username}#${msg.author.discriminator} appealed <@${userID}> ${userID}`,
+                    0x008000
+                  );
+                }
               }
             );
           } else {

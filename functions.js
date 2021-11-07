@@ -7,6 +7,7 @@ let processState;
 
 // MySQL
 const { createPool } = require('mysql2/promise');
+const { once } = require('events');
 const pool = createPool({
   connectionLimit: 10,
   host: process.env.DB_HOST ?? 'localhost',
@@ -98,30 +99,31 @@ const func = {
     return combArr;
   },
 
-  getUserFromDB: function (userID, callback) {
-    // Calls the database to get the row about the specified user.
-    execute('SELECT * FROM users WHERE userid = ?', [userID])
-      .then((results) => {
-        if (results && results[0]) return callback(results[0]);
-        else return callback();
-      })
-      .catch(console.error);
+  getUserFromDB: async function (userID) {
+    try {
+      return new Promise(async (resolve) => {
+        const [result] = await pool.execute('SELECT * FROM users WHERE userid = ?', [userID]);
+        resolve(result && result[0]);
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
 
-  addUserToDB: function (userID, avatar, status, usertype, lastuser, server, roles, filtertype, callback) {
+  addUserToDB: async function (userID, avatar, status, usertype, lastuser, server, roles, filtertype) {
     // Adds the user to the database. Expected to be used by the automated system primarily
-
-    // First check the database for the user
-    func.getUserFromDB(userID, function (oldUser) {
-      if (!oldUser) {
-        // Add New User
+    return new Promise(async (resolve) => {
+      // First check the database for the user
+      const oldUser = await func.getUserFromDB(userID);
+      if (!oldUser || Object.keys(oldUser).length === 0) {
+        //Add New User
         execute(
           'INSERT INTO users (userid, avatar, user_type, last_username, servers, roles) VALUES (?, ?, ?, ?, ?, ?)',
           [userID, avatar, usertype, lastuser, server, roles]
         )
-          .then((results) => {
+          .then(() => {
             func.globalFindAndCheck(userID);
-            return callback(usertype, lastuser, userID);
+            resolve(usertype, lastuser, userID);
           })
           .catch(console.error);
       } else {
@@ -138,12 +140,13 @@ const func = {
               'permblacklisted',
               userID,
             ])
-              .then((results) => {
+              .then(() => {
                 func.globalFindAndCheck(userID);
-                return callback(usertype, lastuser, userID);
+                resolve(usertype, lastuser, userID);
               })
               .catch(console.error);
-          } else return callback();
+          }
+          resolve();
         } else {
           // New Server
           spServers.push(server);
@@ -156,9 +159,9 @@ const func = {
               'permblacklisted',
               userID,
             ])
-              .then((results) => {
+              .then(() => {
                 func.globalFindAndCheck(userID);
-                return callback(usertype, lastuser, userID, true);
+                resolve(usertype, lastuser, userID, true);
               })
               .catch(console.error);
           } else {
@@ -168,9 +171,9 @@ const func = {
               newRoles,
               userID,
             ])
-              .then((results) => {
+              .then(() => {
                 func.globalFindAndCheck(userID);
-                return callback(usertype, lastuser, userID, false);
+                resolve(usertype, lastuser, userID, false);
               })
               .catch(console.error);
           }
@@ -179,115 +182,110 @@ const func = {
     });
   },
 
-  addUserToDBMan: function (userID, status, usertype, server, reason, callback) {
+  addUserToDBMan: async function (userID, status, usertype, server, reason, callback) {
     // Function for an admin to manually add a user to the database
 
-    func.getUserFromDB(userID, function (oldUser) {
-      if (!oldUser) {
-        // User Does not exist, so add user
-        bot
-          .getRESTUser(userID)
-          .then((rUser) => {
-            // Good REST
-            execute(
-              'INSERT INTO USERS (avatar, last_username, userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-              [
-                rUser.avatarURL,
-                `${rUser.username}#${rUser.discriminator}`,
-                userID,
-                status,
-                usertype,
-                server,
-                reason,
-                'Manual',
-              ]
-            )
-              .then((results) => {
-                func.globalFindAndCheck(userID);
-                return callback(`Added <@${userID}> / ${userID} to database as ${status} with REST`);
-              })
-              .catch(console.error);
-          })
-          .catch((err) => {
-            // Bad REST
-            console.log(userID, status, usertype, server, reason);
-            execute(
-              'INSERT INTO users (userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?)',
-              [userID, status, usertype, server, reason, 'Manual']
-            )
-              .then((results) => {
-                func.globalFindAndCheck(userID);
-                return callback(`Added <@${userID}> / ${userID} to database as ${status}`);
-              })
-              .catch(console.error);
-          });
-      } else {
-        // User Already in Database
-        return callback(
-          `:shield: User is already in database.\nChange status if necessary using ${config.spc} upstatus`
-        );
-      }
-    });
+    const oldUser = await func.getUserFromDB(userID);
+    if (!oldUser) {
+      // User Does not exist, so add user
+      bot
+        .getRESTUser(userID)
+        .then((rUser) => {
+          // Good REST
+          execute(
+            'INSERT INTO USERS (avatar, last_username, userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+              rUser.avatarURL,
+              `${rUser.username}#${rUser.discriminator}`,
+              userID,
+              status,
+              usertype,
+              server,
+              reason,
+              'Manual',
+            ]
+          )
+            .then((results) => {
+              func.globalFindAndCheck(userID);
+              return callback(`Added <@${userID}> / ${userID} to database as ${status} with REST`);
+            })
+            .catch(console.error);
+        })
+        .catch((err) => {
+          // Bad REST
+          console.log(userID, status, usertype, server, reason);
+          execute(
+            'INSERT INTO users (userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?)',
+            [userID, status, usertype, server, reason, 'Manual']
+          )
+            .then((results) => {
+              func.globalFindAndCheck(userID);
+              return callback(`Added <@${userID}> / ${userID} to database as ${status}`);
+            })
+            .catch(console.error);
+        });
+    } else {
+      // User Already in Database
+      return callback(`:shield: User is already in database.\nChange status if necessary using ${config.spc} upstatus`);
+    }
   },
 
-  updateUserStatus: function (userID, newStatus, newType, newReason, callback) {
+  updateUserStatus: async function (userID, newStatus, newType, newReason, callback) {
     // Update the status of a user in the database
 
     // First check the database for the user
-    func.getUserFromDB(userID, function (oldUser) {
-      if (!oldUser) {
-        return callback(':shield: User not found in database');
-      } else {
-        // Existing User
-        if (newType === undefined) {
-          newType = oldUser.user_type;
-        }
-        execute('UPDATE users SET status = ?, user_type = ?, reason = ? WHERE userid = ?', [
-          newStatus,
-          newType,
-          newReason,
-          userID,
-        ])
-          .then((results) => {
-            return callback(
-              `Updated ${oldUser.last_username} <@${userID}> to status \`${newStatus}\`, type \`${newType}\` with reason: \`${newReason}\``
-            );
-          })
-          .catch(console.error);
+    const oldUser = await func.getUserFromDB(userID);
+    if (!oldUser) {
+      return callback(':shield: User not found in database');
+    } else {
+      // Existing User
+      if (newType === undefined) {
+        newType = oldUser.user_type;
       }
-    });
+      execute('UPDATE users SET status = ?, user_type = ?, reason = ? WHERE userid = ?', [
+        newStatus,
+        newType,
+        newReason,
+        userID,
+      ])
+        .then((results) => {
+          return callback(
+            `Updated ${oldUser.last_username} <@${userID}> to status \`${newStatus}\`, type \`${newType}\` with reason: \`${newReason}\``
+          );
+        })
+        .catch(console.error);
+    }
   },
 
-  anonymizeUser: function (userID, callback) {
+  anonymizeUser: async function (userID, callback) {
     // Anonymize a user in the database
 
     // Check user exists
-    func.getUserFromDB(userID, function (oldUser) {
-      if (!oldUser) {
-        // Return Nothing
-        return callback(':shield: User not found in database');
-      } else {
-        // Existing User
-        // Set Default Values
+    const oldUser = await func.getUserFromDB(userID);
+    if (!oldUser) {
+      // Return Nothing
+      return callback(':shield: User not found in database');
+    } else {
+      // Existing User
+      // Set Default Values
 
-        let avatar = 'https://discord.com/assets/6debd47ed13483642cf09e832ed0bc1b.png';
-        let username = 'unknown#0000';
-        let servers = '860760302227161118';
-        let roles = '';
+      let avatar = 'https://discord.com/assets/6debd47ed13483642cf09e832ed0bc1b.png';
+      let username = 'unknown#0000';
+      let servers = '860760302227161118';
+      let roles = '';
 
-        execute('UPDATE users SET avatar = ?, last_username = ?, servers = ?, roles = ? WHERE userid = ?', [
-          avatar,
-          username,
-          servers,
-          roles,
-          userID,
-        ])
-          .then((results) => {
-            return callback(`Anonymized ${oldUser.last_username} <@${userID}>`);
-          })
-          .catch(console.error);
-      }
-    });
+      execute('UPDATE users SET avatar = ?, last_username = ?, servers = ?, roles = ? WHERE userid = ?', [
+        avatar,
+        username,
+        servers,
+        roles,
+        userID,
+      ])
+        .then((results) => {
+          return callback(`Anonymized ${oldUser.last_username} <@${userID}>`);
+        })
+        .catch(console.error);
+    }
   },
 
   CSVtoArray: function (text) {
@@ -317,75 +315,59 @@ const func = {
     return a;
   },
 
-  processCSVImport: async function (msg) {
+  processCSVImport: function (msg) {
     let total = { count: 0, blacklisted: 0, permblacklisted: 0 };
 
     async function processFiles(type) {
-      return new Promise((resolve) => {
-        if (processState === undefined) {
-          processState = 'import';
-          func.chanLog(
-            config.logChannel,
-            msg.author,
-            `${msg.author.username}#${msg.author.discriminator} has started processing imports.`,
-            0x008000
-          );
-        }
-
+      try {
         const dir = fs.readdirSync(`./imports/${type}`);
         if (Array.isArray(dir) && dir.length > 0) {
-          dir.forEach(async (filename, index) => {
-            let serverid = filename.split('-')
+          for (const filename of dir) {
+            let serverid = filename.split('-');
             serverid = serverid[3].slice(0, serverid[3].length - 4);
 
             const rl = readline.createInterface({
               input: fs.createReadStream(`./imports/${type}/${filename}`),
               crlfDelay: Infinity,
             });
-            // Note: we use the crlfDelay option to recognize all instances of CR LF
-            // ('\r\n') in input.txt as a single line break.
 
             let blacklisted = 0;
             let permblacklisted = 0;
             total.count++;
 
             for await (const line of rl) {
-              // Each line in input.txt will be successively available here as `line`.
               let lineArr = func.CSVtoArray(line);
-              if (lineArr != null) {
-                if (lineArr[0] != 'username') {
-                  await new Promise((r) => {
-                    func.addUserToDB(
-                      lineArr[7], // UserID
-                      lineArr[2], // Avatar
-                      'blacklisted', // Status
-                      type, // User Type
-                      lineArr[0] + `#${lineArr[1]}`, // Username
-                      serverid, // Server ID
-                      lineArr[3], // Roles
-                      'Semi-Auto', // Filter Type
-                      function (usertype, lastuser, userID, newServer) {
-                        if (usertype) {
-                          blacklisted++;
-                          if (usertype === 'permblacklisted') {
-                            permblacklisted++;
-                            if (newServer) {
-                              bot.createMessage(config.logChannel, {
-                                embed: {
-                                  description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
-                                  color: 0x800000,
-                                },
-                              });
-                            }
-                          }
+              if (lineArr != null && lineArr[0] != 'username') {
+                await func
+                  .addUserToDB(
+                    lineArr[7], // UserID
+                    lineArr[2], // Avatar
+                    'blacklisted', // Status
+                    type, // User Type
+                    lineArr[0] + `#${lineArr[1]}`, // Username
+                    serverid, // Server ID
+                    lineArr[3], // Roles
+                    'Semi-Auto' // Filter Type
+                  )
+                  .then((usertype, lastuser, userID, newServer) => {
+                    if (usertype) {
+                      blacklisted++;
+                      if (usertype === 'permblacklisted') {
+                        permblacklisted++;
+                        if (newServer) {
+                          bot.createMessage(config.logChannel, {
+                            embed: {
+                              description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
+                              color: 0x800000,
+                            },
+                          });
                         }
-                        r();
                       }
-                    );
+                    }
                   });
-                }
               }
             }
+
             total.blacklisted += blacklisted;
             total.permblacklisted += permblacklisted;
 
@@ -399,24 +381,34 @@ const func = {
             fs.unlink(`./imports/${type}/${filename}`, (err) => {
               if (err) throw err;
             });
-
-            if (index + 1 === dir.length) resolve();
-          });
-        } else resolve();
-      });
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
     try {
-      await Promise.all([processFiles('leaker'), processFiles('cheater')]);
+      processState = 'import';
+      func.chanLog(
+        config.logChannel,
+        msg.author,
+        `${msg.author.username}#${msg.author.discriminator} has started processing imports.`,
+        0x008000
+      );
 
-      bot.createMessage(msg.channel.id, {
-        embed: {
-          description: `:shield: Sucessfully completed imports for ${total.count} servers.\n+ ${total.blacklisted} users have been added.\n+ ${total.permblacklisted} users were permanently blacklisted.`,
-          author: {
-            name: `${msg.author.username}#${msg.author.discriminator}`,
-            icon_url: msg.author.avatarURL,
-          },
-          color: 0x008000,
-        },
+      processFiles('leaker').then(() => {
+        processFiles('cheater').then(() => {
+          bot.createMessage(msg.channel.id, {
+            embed: {
+              description: `:shield: Sucessfully completed imports for ${total.count} servers.\n+ ${total.blacklisted} users have been added.\n+ ${total.permblacklisted} users were permanently blacklisted.`,
+              author: {
+                name: `${msg.author.username}#${msg.author.discriminator}`,
+                icon_url: msg.author.avatarURL,
+              },
+              color: 0x008000,
+            },
+          });
+        });
       });
     } catch (e) {
       console.log(e);
@@ -593,7 +585,7 @@ const func = {
               ? member[guildInfo[types[type]]](0, `Warden - User Type ${type}`)
               : member[guildInfo[types[type]]](`Warden - User Type ${type}`);
           action
-            .then((any) => {
+            .then(() => {
               bot
                 .createMessage(guildInfo.logchan, {
                   embed: {
@@ -609,7 +601,9 @@ const func = {
                     color: 0x008000,
                   },
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                  console.log(err);
+                });
             })
             .catch((err) => {
               bot
@@ -625,7 +619,9 @@ const func = {
                     color: 0x008000,
                   },
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                  console.log(err);
+                });
             });
         }
       }
@@ -643,30 +639,31 @@ const func = {
               color: 0x008000,
             },
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log;
+          });
       }
     }
   },
 
-  globalFindAndCheck: function (userID) {
-    func.getUserFromDB(userID, function (oldUser) {
-      if (oldUser) {
-        // User Exists, Process
-        let block = ['blacklisted', 'permblacklisted'];
-        if (block.includes(oldUser.status)) {
-          // User is Blacklisted
-          bot.guilds.forEach((_, guildID) => {
-            const guild = bot.guilds.get(guildID.toString());
-            const member = guild.members.get(userID);
-            if (typeof member !== 'undefined') {
-              func.getGuildSettings(guildID.toString(), function (guildInfo) {
-                func.punishUser(member, guildInfo, oldUser, false);
-              });
-            }
-          });
-        }
+  globalFindAndCheck: async function (userID) {
+    const oldUser = await func.getUserFromDB(userID);
+    if (oldUser) {
+      // User Exists, Process
+      let block = ['blacklisted', 'permblacklisted'];
+      if (block.includes(oldUser.status)) {
+        // User is Blacklisted
+        bot.guilds.forEach((_, guildID) => {
+          const guild = bot.guilds.get(guildID.toString());
+          const member = guild.members.get(userID);
+          if (typeof member !== 'undefined') {
+            func.getGuildSettings(guildID.toString(), function (guildInfo) {
+              func.punishUser(member, guildInfo, oldUser, false);
+            });
+          }
+        });
       }
-    });
+    }
   },
 };
 
