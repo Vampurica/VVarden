@@ -23,7 +23,7 @@ const badservers = {
   '804513784571363328': 'Ape Army 2.0',
   '876840692524146739': 'BlackOut Services',
   '859800960204931072': "caramex's Hub",
-  '885523485970010112': 'Esx Global (cheating)',
+  '885523485970010112': 'ESX GLOBAL (cheating)',
   '885846744095686656': 'fliegende gespräche',
   '879743361454587924': 'ML | HUB',
   '842338944736559104': 'Official XplicitCZ',
@@ -84,6 +84,10 @@ const badservers = {
   '882206499605188618': 'NARCISSIST HUB',
   '900857195586027550': 'Project Spicy (DDoS)',
   '867137581032800307': 'FiveM SHOP',
+  '902307061835104266': 'BD CHEATS',
+  '738504273591271434': 'Owner Shop',
+  '882652147718705173': 'corsair (cheating)',
+  '868624683380129843': 'Icarus xd',
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
@@ -388,6 +392,13 @@ const badservers = {
   '769975344970989578': 'Viskas apie FiveM',
   '718847729941348464': "HunnyB's World",
   '735099100260728857': 'FiveM Bulgaria Official',
+  '904100720167510016': 'SkyLeaks',
+  '896035347929133156': 'AtomiX Community V2',
+  '867823313219616789': 'BLC Leaks',
+  '828557197537312778': "FiveM Car's search",
+  '904330369338322944': 'Galaxy Leaks',
+  '827167161788137493': 'Jxys Shop/Leaks',
+  '776847546282672139': 'CITY LEAKS',
 };
 
 module.exports = badservers;
