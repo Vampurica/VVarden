@@ -399,6 +399,7 @@ const badservers = {
   '904330369338322944': 'Galaxy Leaks',
   '827167161788137493': 'Jxys Shop/Leaks',
   '776847546282672139': 'CITY LEAKS',
+  '853592972150964244': 'EmirLeaks',
 };
 
 module.exports = badservers;
