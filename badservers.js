@@ -89,6 +89,7 @@ const badservers = {
   '882652147718705173': 'corsair (cheating)',
   '868624683380129843': 'Icarus xd',
   '907691336629633114': 'Support (Woofer)',
+  '856656176007872553': 'ERROR 404',
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
