@@ -101,9 +101,7 @@ let adduser = function () {
               msg.author,
               `${msg.author.username}#${
                 msg.author.discriminator
-              } added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason.join(
-                ' '
-              )}`,
+              } added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason}`,
               0x008000
             );
           });
@@ -136,9 +134,7 @@ let adduser = function () {
                 msg.author,
                 `${msg.author.username}#${
                   msg.author.discriminator
-                } added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason.join(
-                  ' '
-                )}`,
+                } added <@${userID}> ${userID} to the database manually.\nUser Status: ${status}\nUser Type: ${type}\nReason: ${reason}`,
                 0x008000
               );
             });
