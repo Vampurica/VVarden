@@ -58,7 +58,6 @@ const badservers = {
   '680001818239041542': 'XVisionMods',
   '699461576402665532': 'Cfx Stiler | Community',
   '721100727325294632': 'Explore Shop',
-  /* New Cheating Discords */
   '715253114948812891': 'Unex Products Premium',
   '758809504493469706': 'EC Community',
   '829222617356566549': 'redENGINE (RE Customers Only)',
@@ -85,11 +84,17 @@ const badservers = {
   '900857195586027550': 'Project Spicy (DDoS)',
   '867137581032800307': 'FiveM SHOP',
   '902307061835104266': 'BD CHEATS',
+  /* New Cheating Discords */
   '738504273591271434': 'Owner Shop',
   '882652147718705173': 'corsair (cheating)',
   '868624683380129843': 'Icarus xd',
   '907691336629633114': 'Support (Woofer)',
   '856656176007872553': 'ERROR 404',
+  '880174344368713738': 'FiveSense',
+  '880176800339222550': 'CK GANG FiveM is boring',
+  '866110287529508894': 'D$D',
+  '887084815122321409': 'O.G.S fandove',
+  '815953429260140614': 'ENG : HACKS',
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
