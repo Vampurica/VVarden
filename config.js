@@ -14,7 +14,7 @@ global.admin = [
 ],
 
 module.exports = {
-  logChannel: '',
-  addUsersChan: '',
+  logChannel: process.env.CHANNEL_LOG,
+  addUsersChan: process.env.CHANNEL_ADDUSERS,
   spc: 'war ',
 };
