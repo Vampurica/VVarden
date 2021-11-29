@@ -84,7 +84,6 @@ const badservers = {
   '900857195586027550': 'Project Spicy (DDoS)',
   '867137581032800307': 'FiveM SHOP',
   '902307061835104266': 'BD CHEATS',
-  /* New Cheating Discords */
   '738504273591271434': 'Owner Shop',
   '882652147718705173': 'corsair (cheating)',
   '868624683380129843': 'Icarus xd',
@@ -95,6 +94,12 @@ const badservers = {
   '866110287529508894': 'D$D',
   '887084815122321409': 'O.G.S fandove',
   '815953429260140614': 'ENG : HACKS',
+  /* New Cheating Discords */
+  '409442462441013248': 'SlomoService',
+  '904824760553316365': 'SponProject Main',
+  '746608252397158451': 'BiCEPS Community',
+  '899785629523660881': 'Skript',
+  '791352812339462155': "FnatPat's Supermarket (cheating)",
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
@@ -344,7 +349,6 @@ const badservers = {
   '875882592652640297': 'Underground Leaks',
   '734348535016849419': 'Tronix V Free Leaks / Free Cheats',
   '895696748545200198': 'RR Leaks | Free & Paid',
-  /* New Leaking Servers */
   '854205279125241887': 'Exclusive Leaks',
   '901188974771589130': 'S-Development|FiveM Leaks and Scripts',
   '838718532702306354': 'FIVEM LEAKS FREE DE/EN',
@@ -428,6 +432,24 @@ const badservers = {
   '883162421890539520': 'OJOS COMMUNITY',
   '899879147969585152': 'FiveM Bulgaria Leaks',
   '883534677007269919': 'Synx Leaks Lynx',
+  /* New Leaking Servers */
+  '687326967661330538': 'Family Développement',
+  '909173151940890666': 'Fivem Scripts',
+  '910862312896868412': 'DropKicks Leaks',
+  '649385394319917077': 'Leaks | Fivem',
+  '911333741559959553': 'Prime Leaks',
+  '852936028342714398': 'GoldAge Leaks',
+  '777187920624222219': 'Luxus Leaks',
+  '900464009617227829': '5M.Leaking [NL/ENG]',
+  '849369715666845706': 'Isla Leaks / Shop',
+  '793045445609783298': 'Développment & Leaks',
+  '850148344596398120': 'FiveShop | Shop & Leaks',
+  '760836288927629373': 'LaZoneDEV',
+  '842487865862651955': 'V Leak | Développement',
+  '876860861443104819': 'Kynoza-Développement',
+  '907366300584652860': 'Money Leaks',
+  '864193118236049438': 'FIVEM SCRIPTS MARKET (Reseller)',
+  '813202876792963102': 'POPEY - Développement',
 };
 
 module.exports = badservers;
