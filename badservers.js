@@ -269,7 +269,7 @@ const badservers = {
   '842273533497311242': 'Sky Leaks',
   '842417982042013766': 'Cloud Leaks',
   '781812709695553546': 'DALT COMMUNITY BACKUP',
-  '701831836900524062': '[Quarex]Leaks #1',
+  '701831836900524062': '[Quarex]Leaks #1 (Closed)',
   '784400748326682624': 'Xenon Scripts',
   '859902481562730496': '|Zeta Leaks|',
   '867806671467839538': 'VENOM Leaks',
@@ -480,6 +480,7 @@ const badservers = {
   '878379225357369404': 'Mercy - Collective',
   '905092654029742100': 'SML Développement',
   '904328905287151617': 'Nulled Trading',
+  '904869953570762782': '</BroPixel>',
 };
 
 module.exports = badservers;
