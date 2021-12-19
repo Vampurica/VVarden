@@ -2,7 +2,6 @@ global.dev = [process.env.DEV],
 
 global.admin = [
   '282199104996507650', // Vampire
-  '695800069701632071', // Siege
   '160347445711077376', // Linden
   '440311310530510868', // Technetium
   '104783629586083840', // Rio
@@ -12,6 +11,9 @@ global.admin = [
   '215806999005364226', // DokaDoka
   '588473874644074517', // Kawan
   '114090291203407875', // Synthetics
+  '534432113613864970', // Linus
+  '142145605592940544', // BerkieB
+  '273852112767680523' // ChatDisabled
 ],
 
 module.exports = {
