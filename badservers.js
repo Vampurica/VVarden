@@ -81,7 +81,7 @@ const badservers = {
   '700186002504941591': 'instant-modz.com',
   '815743783769079808': '\\ BlackMarket.lol',
   '882206499605188618': 'NARCISSIST HUB',
-  '900857195586027550': 'Project Spicy (DDoS)',
+  '900857195586027550': 'Chill Shop (form. Project Spicy DDoS)',
   '867137581032800307': 'FiveM SHOP',
   '902307061835104266': 'BD CHEATS',
   '738504273591271434': 'Owner Shop',
@@ -104,7 +104,7 @@ const badservers = {
   '791352812339462155': "FnatPat's Supermarket (cheating)",
   '907636443474722848': 'Cheese Empire',
   '908798737739022347': 'E Community',
-  '900537567479472160': 'FiveMOP',
+  '900537567479472160': 'FiveX - Public Lounge',
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
@@ -481,6 +481,13 @@ const badservers = {
   '905092654029742100': 'SML Développement',
   '904328905287151617': 'Nulled Trading',
   '904869953570762782': '</BroPixel>',
+  '829103130368671744': 'Zone Developments',
+  '896786999426564106': "fooky's Leaks V2",
+  '917295622472749117': '</dojwun>',
+  '897143527727841322': '5M SERVERS (Reseller)',
+  '706038093769343006': 'Extreme Leaks',
+  '798896145530486815': 'TheFiveMGuy',
+  '904842228210495508': 'Unknown Leak',
 };
 
 module.exports = badservers;
