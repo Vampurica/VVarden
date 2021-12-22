@@ -13,7 +13,9 @@ global.admin = [
   '114090291203407875', // Synthetics
   '534432113613864970', // Linus
   '142145605592940544', // BerkieB
-  '273852112767680523' // ChatDisabled
+  '273852112767680523', // ChatDisabled
+  '189388404461535232', // Holiday
+  '464660411237793804', // BigBear
 ],
 
 module.exports = {
