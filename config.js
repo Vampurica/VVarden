@@ -16,6 +16,7 @@ global.admin = [
   '273852112767680523', // ChatDisabled
   '189388404461535232', // Holiday
   '464660411237793804', // BigBear
+  '793608661863628820', // ActuallyStrez
 ],
 
 module.exports = {
