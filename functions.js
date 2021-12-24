@@ -123,7 +123,7 @@ const func = {
         )
           .then(() => {
             func.globalFindAndCheck(userID);
-            resolve(usertype, lastuser, userID);
+            resolve(true);
           })
           .catch(console.error);
       } else {
@@ -142,11 +142,10 @@ const func = {
             ])
               .then(() => {
                 func.globalFindAndCheck(userID);
-                resolve(usertype, lastuser, userID);
+                resolve([lastuser, userID]);
               })
               .catch(console.error);
-          }
-          resolve();
+          } else resolve();
         } else {
           // New Server
           spServers.push(server);
@@ -161,7 +160,7 @@ const func = {
             ])
               .then(() => {
                 func.globalFindAndCheck(userID);
-                resolve(usertype, lastuser, userID, true);
+                resolve([lastuser, userID]);
               })
               .catch(console.error);
           } else {
@@ -173,7 +172,7 @@ const func = {
             ])
               .then(() => {
                 func.globalFindAndCheck(userID);
-                resolve(usertype, lastuser, userID, false);
+                resolve(true);
               })
               .catch(console.error);
           }
@@ -349,20 +348,17 @@ const func = {
                     lineArr[3], // Roles
                     'Semi-Auto' // Filter Type
                   )
-                  .then((usertype, lastuser, userID, newServer) => {
-                    if (usertype) {
-                      blacklisted++;
-                      if (usertype === 'permblacklisted') {
+                  .then((result) => {
+                    if (result) {
+                      if (Array.isArray(result)) {
                         permblacklisted++;
-                        if (newServer) {
-                          bot.createMessage(config.logChannel, {
-                            embed: {
-                              description: `:shield: Updated status for ${lastuser} ${userID} to type "${usertype}".`,
-                              color: 0x800000,
-                            },
-                          });
-                        }
-                      }
+                        bot.createMessage(config.logChannel, {
+                          embed: {
+                            description: `:shield: Updated status for ${result[0]} <@${result[1]}>.\nUser has been permanently blacklisted.`,
+                            color: 0x800000,
+                          },
+                        });
+                      } else blacklisted++;
                     }
                   });
               }
