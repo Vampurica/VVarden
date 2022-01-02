@@ -2,6 +2,6 @@
 botinfo.log
 .idea
 .env
-/imports/**/*.csv
+/imports
 package-lock.json
 yarn.lock
