@@ -43,7 +43,7 @@ const badservers = {
   '689260037163450461': "GodJustin999's MINECRAFT PALACE (cheating)",
   '845941975236214824': 'Grape Community',
   '846940761400016917': "Henmeister's Discord Community",
-  '786099854019526716': "Honorks's Store",
+  '786099854019526716': "Anubis's Store (form. HonerK)",
   '896094299786203156': 'Kodak X Modz',
   '877675659072254003': 'OGS Company v2',
   '765178910610030592': 'private server',
@@ -104,14 +104,16 @@ const badservers = {
   '907636443474722848': 'Cheese Empire',
   '908798737739022347': 'E Community',
   '900537567479472160': 'FiveX - Public Lounge',
-  /* New Cheating Discords */
   '797973891220766781': 'Metrix Developer Market',
   '751103637669019759': 'QAZMODZ',
   '822376819864109066': 'The3Cheatai',
   '895734330352107572': 'Obiqu Resell',
   '919728131865202728': 'Rokis.xyz',
   '850048873783230524': 'Metro Official Store',
-
+  /* New Cheating Discords */
+  '899447344842563584': 'ZeyroxGEN',
+  '922804817208954891': 'FiveF Community',
+  '922540166030172210': 'Gaming server',
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
