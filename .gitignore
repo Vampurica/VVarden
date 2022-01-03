@@ -1,3 +1,7 @@
 /node_modules
 botinfo.log
-*.csv
+.idea
+.env
+/imports
+package-lock.json
+yarn.lock

@@ -2,6 +2,8 @@
     5 Warden Discord Bot by Vampire#8144 (VVarden)
     Using ERIS for Discord
 */
+// Inject environment variables
+require('dotenv').config()
 
 // INCLUDES AND CONFIGS
 const config = require('./config.js');
@@ -59,7 +61,7 @@ global.logMaster = function (logMess) {
 
 // MAIN CODE BODY
 global.bot = new Eris.CommandClient(
-  config.token,
+  process.env.BOT_TOKEN,
   {
     getAllUsers: true,
     rateLimitPerUser: 2,

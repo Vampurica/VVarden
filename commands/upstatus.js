@@ -6,37 +6,11 @@ let upstatus = function () {
   bot.registerCommand(
     'upstatus',
     (msg, args) => {
-      if (args.length >= 4) {
-        if (msg.mentions.length == 1) {
-          // Has a mention, no need to verify userID
-          let userID = msg.mentions[0].id;
-          let status = args[1];
-          let usertype = args[2];
-          let reason = args;
-          let _ = reason.splice(0, 3);
-          func.updateUserStatus(userID, status, usertype, reason.join(' '), function (ret) {
-            bot.createMessage(msg.channel.id, {
-              embed: {
-                description: ret,
-                author: {
-                  name: `${msg.author.username}#${msg.author.discriminator}`,
-                  icon_url: msg.author.avatarURL,
-                },
-                color: 0x008000,
-              },
-            });
-            func.chanLog(
-              config.logChannel,
-              msg.author,
-              `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`,
-              0x008000
-            );
-          });
-        } else {
-          // No Mention, try and validate an ID
-          let userID = args[0];
-          if (!isNaN(userID)) {
-            // Valid number, run it
+      if (func.processStatus() === undefined) {
+        if (args.length >= 4) {
+          if (msg.mentions.length == 1) {
+            // Has a mention, no need to verify userID
+            let userID = msg.mentions[0].id;
             let status = args[1];
             let usertype = args[2];
             let reason = args;
@@ -55,17 +29,60 @@ let upstatus = function () {
               func.chanLog(
                 config.logChannel,
                 msg.author,
-                `${msg.author.username}#${msg.author.discriminator} updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason}`,
+                `${msg.author.username}#${
+                  msg.author.discriminator
+                } updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason.join(
+                  ' '
+                )}`,
                 0x008000
               );
             });
           } else {
-            // Isn't a number, shouldn't be an ID
-            bot.createMessage(msg.channel.id, 'Invalid UserID or Mention.');
+            // No Mention, try and validate an ID
+            let userID = args[0];
+            if (!isNaN(userID)) {
+              // Valid number, run it
+              let status = args[1];
+              let usertype = args[2];
+              let reason = args;
+              let _ = reason.splice(0, 3);
+              func.updateUserStatus(userID, status, usertype, reason.join(' '), function (ret) {
+                bot.createMessage(msg.channel.id, {
+                  embed: {
+                    description: ret,
+                    author: {
+                      name: `${msg.author.username}#${msg.author.discriminator}`,
+                      icon_url: msg.author.avatarURL,
+                    },
+                    color: 0x008000,
+                  },
+                });
+                func.chanLog(
+                  config.logChannel,
+                  msg.author,
+                  `${msg.author.username}#${
+                    msg.author.discriminator
+                  } updated status for <@${userID}> ${userID}\nUser Status: ${status}\nUser Type: ${usertype}\nReason: ${reason.join(
+                    ' '
+                  )}`,
+                  0x008000
+                );
+              });
+            } else {
+              // Isn't a number, shouldn't be an ID
+              bot.createMessage(msg.channel.id, 'Invalid UserID or Mention.');
+            }
           }
+        } else {
+          bot.createMessage(msg.channel.id, 'Invalid Argument Length.');
         }
       } else {
-        bot.createMessage(msg.channel.id, 'Invalid Argument Length.');
+        bot.createMessage(msg.channel.id, {
+          embed: {
+            description: 'Appeals are currently disabled while VVarden processes new information.',
+            color: 0xffff00,
+          },
+        });
       }
     },
     {

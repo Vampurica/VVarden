@@ -1,6 +1,6 @@
 // About
 
-let about = function () {
+module.exports = () => {
   bot.registerCommand(
     'about',
     (msg, args) => {
@@ -24,5 +24,3 @@ let about = function () {
     }
   );
 };
-
-module.exports = about;

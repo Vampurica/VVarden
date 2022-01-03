@@ -33,21 +33,20 @@ let scanusers = function () {
               if (!guildInfo) {
                 logMaster(`Bot is in an unknown guild?\n${msg.guildID} Save me Vampire!!!`)
               } else {
-                bot.guilds.get(msg.guildID).members.forEach((value, key) => {
+                bot.guilds.get(msg.guildID).members.forEach(async(value, key) => {
                   let member = bot.guilds.get(msg.guildID).members.get(key);
                   // Now Get Member Info
-                  func.getUserFromDB(member.id, function (oldUser) {
-                    if (!oldUser) {
-                      // User Does not exist, so do nothing I guess?
-                      // Maybe in the future give a clean log
-                    } else {
-                      // User Exists, Process
-                      let block = ['blacklisted', 'permblacklisted'];
-                      if (block.includes(oldUser.status)) {
-                        func.punishUser(member, guildInfo, oldUser.user_type, false);
-                      }
+                  const oldUser = await func.getUserFromDB(member.id)
+                  if (!oldUser) {
+                    // User Does not exist, so do nothing I guess?
+                    // Maybe in the future give a clean log
+                  } else {
+                    // User Exists, Process
+                    let block = ['blacklisted', 'permblacklisted'];
+                    if (block.includes(oldUser.status)) {
+                      func.punishUser(member, guildInfo, oldUser, false);
                     }
-                  });
+                  }
                 });
               }
             });
