@@ -11,7 +11,7 @@ let status = function (interaction, load) {
       options: [],
     });
   } else {
-    interaction.defer()
+    interaction.defer();
 
     execute("SELECT COUNT(*) FROM users WHERE status LIKE '%blacklisted%'").then((results) => {
       if (Object.values(results[0])[0] == 0) {
