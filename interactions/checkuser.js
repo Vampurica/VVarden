@@ -11,32 +11,31 @@ let checkuser = async (interaction, load) => {
       description: 'Checks a users database status.',
       options: [
         {
-            name: "userid",
-            description: "UserID of the Member to Check",
-            required: false,
-            type: 3,
+          name: 'userid',
+          description: 'UserID of the Member to Check',
+          required: false,
+          type: 3,
         },
         {
-            name: "user",
-            description: "Member to Check",
-            required: false,
-            type: 6,
+          name: 'user',
+          description: 'Member to Check',
+          required: false,
+          type: 6,
         },
         {
-            name: "hidden",
-            description: "Hide the bot response?",
-            required: false,
-            type: 5,
+          name: 'hidden',
+          description: 'Hide the bot response?',
+          required: false,
+          type: 5,
         },
       ],
     });
   } else {
-
     if (interaction.data.options.length > 0) {
       // Requires Args
       let args = {};
 
-      interaction.data.options.forEach(el => {
+      interaction.data.options.forEach((el) => {
         args[el.name] = el.value;
       });
 
@@ -50,15 +49,17 @@ let checkuser = async (interaction, load) => {
           let resp = {
             embeds: [
               {
-                description: ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
+                description:
+                  ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
                 color: 0xffff00,
               },
             ],
           };
 
-          if (args.hidden) { resp['flags'] = 64; }
+          if (args.hidden) {
+            resp['flags'] = 64;
+          }
           interaction.createMessage(resp);
-
         } else {
           // In Database
           let badType = ['blacklisted', 'permblacklisted'];
@@ -98,25 +99,29 @@ let checkuser = async (interaction, load) => {
                     // Footer text
                     text: 'VVarden by Vampire#8144',
                   },
-                }
+                },
               ],
+            };
+
+            if (args.hidden) {
+              resp['flags'] = 64;
             }
-
-            if (args.hidden) { resp['flags'] = 64; }
             interaction.createMessage(resp);
-
           } else {
             // User is Good, so fake it
             let resp = {
               embeds: [
                 {
-                  description: ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
+                  description:
+                    ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
                   color: 0xffff00,
                 },
               ],
             };
 
-            if (args.hidden) { resp['flags'] = 64; }
+            if (args.hidden) {
+              resp['flags'] = 64;
+            }
             interaction.createMessage(resp);
           }
         }
@@ -132,15 +137,17 @@ let checkuser = async (interaction, load) => {
             let resp = {
               embeds: [
                 {
-                  description: ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
+                  description:
+                    ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
                   color: 0xffff00,
                 },
               ],
             };
 
-            if (args.hidden) { resp['flags'] = 64; }
+            if (args.hidden) {
+              resp['flags'] = 64;
+            }
             interaction.createMessage(resp);
-
           } else {
             // In Database
             let badType = ['blacklisted', 'permblacklisted'];
@@ -180,25 +187,29 @@ let checkuser = async (interaction, load) => {
                       // Footer text
                       text: 'VVarden by Vampire#8144',
                     },
-                  }
+                  },
                 ],
+              };
+
+              if (args.hidden) {
+                resp['flags'] = 64;
               }
-
-              if (args.hidden) { resp['flags'] = 64; }
               interaction.createMessage(resp);
-
             } else {
               // User is Good, so fake it
               let resp = {
                 embeds: [
                   {
-                    description: ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
+                    description:
+                      ':white_check_mark: UserID not found in Database.\nThey are either fine or not yet listed.',
                     color: 0xffff00,
                   },
                 ],
               };
 
-              if (args.hidden) { resp['flags'] = 64; }
+              if (args.hidden) {
+                resp['flags'] = 64;
+              }
               interaction.createMessage(resp);
             }
           }
