@@ -33,7 +33,7 @@ let checkuser = async (interaction, load) => {
     });
   } else {
     if (admin.includes(interaction.member.id)) {
-      if (interaction.data.options.length > 0) {
+      if ('options' in interaction.data) {
         // Requires Args
         let args = {};
 
@@ -230,7 +230,7 @@ let checkuser = async (interaction, load) => {
             interaction.createMessage({
               embeds: [
                 {
-                  description: 'CheckUser Requires a valid User or UserID.',
+                  description: 'CheckUserAdmin Requires a valid User or UserID.',
                   color: 0x800000,
                 },
               ],
@@ -242,7 +242,7 @@ let checkuser = async (interaction, load) => {
         interaction.createMessage({
           embeds: [
             {
-              description: 'CheckUser Requires a User or UserID.',
+              description: 'CheckUserAdmin Requires a User or UserID.',
               color: 0x800000,
             },
           ],

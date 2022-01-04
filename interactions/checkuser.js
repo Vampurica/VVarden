@@ -31,7 +31,7 @@ let checkuser = async (interaction, load) => {
       ],
     });
   } else {
-    if (interaction.data.options.length > 0) {
+    if ('options' in interaction.data) {
       // Requires Args
       let args = {};
 
