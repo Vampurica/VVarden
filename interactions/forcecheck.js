@@ -28,7 +28,7 @@ let forcecheck = function (interaction, load) {
     //let str = JSON.stringify(interaction.data, null, 4);
     //console.log(str);
 
-    if (interaction.data.options.length > 0) {
+    if ('options' in interaction.data) {
       // Requires Args
       let args = {};
 
