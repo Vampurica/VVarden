@@ -72,7 +72,7 @@ global.bot = new Eris.CommandClient(
       'guilds',
     ],
     restMode: true,
-    maxShards: 4,
+    maxShards: process.env.DEVELOPMENT || 4,
   },
   {
     description: 'A discord bot that cross-references people in bad discords',
