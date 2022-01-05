@@ -34,7 +34,8 @@ so that you can get the ids of discord channels to put them in and your user id 
 * Inside the repository folder open up the terminal of your choice
 * Type `npm i`, this will download the node modules
 * Import the `structure.sql` file into your database
-* To start the bot type `node index.js`
+* To start the bot and watch for changes in the files type `npm run watch` which will also turn on development mode
+* To start the bot without watching for changes in files type `node index.js`
 
 You can now use the invite link you generated when creating your bot and invite your bot to the server.
 
