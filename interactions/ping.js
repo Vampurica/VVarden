@@ -12,7 +12,6 @@ let ping = async (interaction, load) => {
   } else {
     await interaction.acknowledge();
 
-    let now = Date.now();
     let message = await interaction.createFollowup({
       embeds: [
         {
@@ -22,13 +21,13 @@ let ping = async (interaction, load) => {
       ],
     });
 
-    let pong = now - message.timestamp;
+    let pong = message.timestamp - interaction.createdAt;
     let ws = await bot.shards.filter((shard) => shard.id === bot.guildShardMap[interaction.guildID])[0].latency;
 
     interaction.editMessage(message.id, {
       embeds: [
         {
-          description: `:chart_with_upwards_trend: Pong!\n${pong}ms Message Latency\n${ws}ms Shard Latency`,
+          description: `:chart_with_upwards_trend: Pong!\n${pong}ms RTT Latency\n${ws}ms Shard Heartbeat`,
           color: 0x008000,
         },
       ],
