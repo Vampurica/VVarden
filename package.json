@@ -2,9 +2,10 @@
   "name": "warden",
   "description": "",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "watch": "SET DEVELOPMENT=1 && nodemon"
+    "start": "node --es-module-specifier-resolution=node src/index.js",
+    "watch": "SET DEVELOPMENT=1 && nodemon --es-module-specifier-resolution=node src/index.js"
   },
   "repository": {},
   "keywords": [],

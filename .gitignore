@@ -3,5 +3,3 @@ botinfo.log
 .idea
 .env
 /imports
-package-lock.json
-yarn.lock
