@@ -17,6 +17,7 @@ global.admin = [
   '189388404461535232', // Holiday
   '464660411237793804', // BigBear
   '793608661863628820', // ActuallyStrez
+  '755635619035611158', // Bombay
 ],
 
 module.exports = {
