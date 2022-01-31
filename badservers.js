@@ -117,9 +117,12 @@ const badservers = {
   '710631949810532422': 'Los Menta (DDoS)',
   '594901284742496276': 'Anxious Goons (DDoS)',
   '923700647772164137': 'Social Club Kingdom (Cheats)',
-  '929822346833965096': 'Rockstar Guild (Cheats)',
-  '853812971497848863': 'AV : CH3ATS FR/ENG',
+  '929822346833965096': 'Fivesucker (form. Rockstar Guild)(Cheats)',
+  '853812971497848863': "Mowgli'Middleman Service (form. AV : CH3ATS FR/ENG)",
   '920829188078993429': 'ModEmpire',
+  '879780167327834123': 'CIPHER CORPORATION',
+  '913811811168563251': 'Official GCC Piskorc',
+  '922925974599909407': 'dareku`s gen',
   /* Leaking Discords */
   '794977495518019604': 'Arena Leaks',
   '807213432860180480': 'Lewix FiveM Leaks',
@@ -249,7 +252,7 @@ const badservers = {
   '880517119224188928': 'FiveM Moleaks [EN/FR]',
   '842304819402375179': 'GermanTradeAndSellLeaks',
   '833802610900598825': 'Leaking Hubs Leaking Discord',
-  '818873007853797436': 'LHub',
+  '818873007853797436': 'SV Leaks (form. LHub)',
   '868247965079322644': 'LOL LEAKS',
   '694661273564086342': 'Script Hub (5M Scripts Store) (Reseller)',
   '854089672279195699': 'Skyline Leaks| Free & Paid',
@@ -559,6 +562,13 @@ const badservers = {
   '661688072563589132': 'VNC Shop - FiveM',
   '899561889103745044': 'Gorilla Leaks',
   '922243885663666266': 'QE Leaks',
+  '841661376811892747': 'SuomiLeaks',
+  '697194817427472505': 'XD Development (Reseller)',
+  '561635026991710270': 'FiveM.Network (Reseller)',
+  '888944602038546482': 'Fivem Market Place (Reseller)',
+  '715275213553795202': 'Gacha Leaks',
+  '754653299780616254': 'Neon Arena (Leaks)',
+  '892848421201915974': 'FiveM Leaks',
 };
 
 module.exports = badservers;
