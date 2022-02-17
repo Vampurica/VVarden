@@ -174,7 +174,7 @@ const badservers = {
   '841502721272971285': 'Master Leaks | Official Discord Server',
   '816775372573769728': 'Straight Leaks',
   '829064046753874012': 'XENON (Closed)',
-  '799644577010024449': 'InnerPeace Leaks | 2021',
+  '799644577010024449': 'FiveM World Leaks (Form. InnerPeace Leaks)',
   '769280664448270348': 'GTA V & FIVEM OFFICIAL TELUGU',
   '827396427059036170': 'VAG WORLD V7',
   '805900301893632000': 'VAG WORLD V8',
@@ -569,6 +569,11 @@ const badservers = {
   '715275213553795202': 'Gacha Leaks',
   '754653299780616254': 'Neon Arena (Leaks)',
   '892848421201915974': 'FiveM Leaks',
+  /* New Leaked Servers 14/02/2022 */
+  '888289662177775626': 'Gabbar Framework (Leaks)',
+  '932383248653357128': 'Finnish Textures (Leaks)',
+  '791874960268197888': 'QBUS Modifications (Leaks)',
+  '877538979157774456': 'QbCore Scripts (Leaks)',
 };
 
 module.exports = badservers;
