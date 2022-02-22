@@ -192,7 +192,7 @@ const func = {
         .then((rUser) => {
           // Good REST
           execute(
-            'INSERT INTO USERS (avatar, last_username, userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO users (avatar, last_username, userid, status, user_type, servers, reason, filter_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [
               rUser.avatarURL,
               `${rUser.username}#${rUser.discriminator}`,
