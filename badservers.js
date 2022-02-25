@@ -559,7 +559,7 @@ const badservers = {
   '893864416972517377': 'Sunny Solutions',
   '896740627616792596': 'OMAR STORE',
   '769123872082886678': 'FiveM | SaltyLeaks',
-  '661688072563589132': 'VNC Shop - FiveM',
+  '661688072563589132': 'VNC Shop - FiveM (No Longer Blacklisted)',
   '899561889103745044': 'Gorilla Leaks',
   '922243885663666266': 'QE Leaks',
   '841661376811892747': 'SuomiLeaks',
