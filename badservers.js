@@ -583,7 +583,7 @@ const badservers = {
   '933770797175173190': 'BIG LEAKS - FiveM 2022 -ALL IN ONE DE/EN',
   '944349751942475887': 'FiveX Project',
   '794168875062263828': 'FiveM Search',
-  '890953710728011776': 'Veny Development | FiveM',
+  '890953710728011776': 'Veny Development | FiveM (No Longer Blacklisted)',
   '919675973572640850': 'Best Community',
   '919205760943157269': 'Asuna Development (Reseller)',
   '942213291638394880': 'FIVEM_SHOP(Reseller)',
