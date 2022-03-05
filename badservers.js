@@ -599,7 +599,7 @@ const badservers = {
   '687086685833396304': 'FiveM Market (Reseller)',
   '931411833716375612': 'Qbus Team (Reseller)',
   '913501916959473735': 'Smocks.cor',
-  '941293448424730634': 'Astro Framework Store (Reseller)',
+  '941293448424730634': 'Astro Framework Store (No Longer Blacklisted)',
   '945979812701429801': 'Modz Community',
   '886219169769586729': 'Real | FiveM Scripts',
   '817149515647156224': 'Fivem Qbus Framework (Reseller)',
