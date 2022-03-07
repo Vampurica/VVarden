@@ -609,6 +609,7 @@ const badservers = {
   '939143514229473331': 'Royal Dev (Reseller)',
   '395520326831702027': 'RibSosay FiveM (Reseller)',
   '784860976448929803': 'zLeak Development',
+  '732300641451638896': 'MenanAk47',
 };
 
 module.exports = badservers;
