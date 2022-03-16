@@ -587,7 +587,7 @@ const badservers = {
   '919675973572640850': 'Best Community',
   '919205760943157269': 'Asuna Development (Reseller)',
   '942213291638394880': 'FIVEM_SHOP(Reseller)',
-  '585604305440997399': 'Lunny Developments 1.5 (No Longer Blacklisted)',
+  '585604305440997399': 'Lunny Developments 1.5',
   '745454838984343582': 'Shop FiveM',
   '290438115385016320': 'Babylon Gamplays (Leaks)',
   '850350328816730112': 'XaVi Shop',
