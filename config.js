@@ -26,4 +26,6 @@ module.exports = {
   logChannel: process.env.CHANNEL_LOG,
   addUsersChan: process.env.CHANNEL_ADDUSERS,
   spc: 'war ',
+  apiPort: 3000, // This should be a port setup likely with NGINX, or some other way to call after it is synced to a domain to accept handled requests.
+  apiSecret: "wardenCfxSecurity" // The API token to stop random users from being able to make unwanted API calls.
 };

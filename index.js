@@ -11,6 +11,8 @@ const { func, execute } = require('./functions.js');
 const Eris = require('eris');
 const fs = require('fs');
 const winston = require('winston');
+const express = require('express')
+const app = express()
 
 const logger = winston.createLogger({
   transports: [
@@ -107,6 +109,35 @@ bot.on('ready', () => {
       });
     })
     .catch(console.error);
+    
+    // API Setup (https://firewall.hyperz.net)
+    app.listen(config.port || 3000)
+    app.get('/firewallgg/checkuser/:userid', async function(req, res) {
+        if(req?.headers?.wardenauth !== config.apiSecret) return res.send("Invalid authorization code in API header request.");
+        if(!req?.params?.userid) return res.redirect('/');
+        req.params.userid == req.params.userid.replaceAll('`', '').replaceAll('"', '');
+        execute(`SELECT * FROM users WHERE userid="${req?.params?.userid}"`)
+        .then((users) => {
+            if(err) throw err;
+            if(!users[0]) {
+                // If the user is not in the database
+                let json_ = {
+                    "active": false, // This means that the user is not banned
+                }
+                return res.type('json').send(JSON.stringify(json_, null, 4) + '\n');
+            } else {
+                // If the user is in the database
+                let json_ = {
+                    "active": true,
+                    "userid": users[0].userid,
+                    "reason": users[0].reason,
+                    "proof": 'None provided...',
+                    "time": users[0].added_date
+                }
+                return res.type('json').send(JSON.stringify(json_, null, 4) + '\n');
+            };
+        });
+    }).catch(console.error);
 });
 
 bot.on('shardReady', (id) => {
