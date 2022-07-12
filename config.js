@@ -26,5 +26,6 @@ module.exports = {
   logChannel: process.env.CHANNEL_LOG,
   addUsersChan: process.env.CHANNEL_ADDUSERS,
   spc: 'war ',
-  apiPort: 3000
+  apiPort: 3000,
+  apiSecret: "wardenCfxSecurity"
 };
